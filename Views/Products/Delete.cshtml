@@ -1,0 +1,57 @@
+﻿@model MobileWeb.Models.Product
+
+@{
+	ViewData["Title"] = "Delete";
+	Layout = "_Admin";
+}
+
+<h1>Xóa sản phẩm</h1>
+
+<h3>Bạn chắc chắc muốn xóa sản phảm này?</h3>
+<div>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Name)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Description)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Description)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Price)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Price)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.ImgUrl)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.ImgUrl)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Quantity)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Quantity)
+		</dd>
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Category)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Category!.Id)
+		</dd>
+	</dl>
+
+	<form class="mb-3" asp-action="Delete">
+		<input type="hidden" asp-for="Id" />
+		<input type="submit" value="Xóa" class="btn btn-outline-danger" /> |
+		<a asp-action="Index">Quay lại danh sách</a>
+	</form>
+</div>

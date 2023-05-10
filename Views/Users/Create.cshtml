@@ -1,0 +1,67 @@
+﻿@model MobileWeb.Models.User
+
+@{
+	ViewData["Title"] = "Thêm khách hàng";
+	Layout = "_Admin";
+}
+
+<h1>@ViewData["Title"]</h1>
+<hr />
+<div class="row">
+	<div class="col-md-12">
+		<form asp-action="Create">
+			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label asp-for="Name" class="control-label">Tên khách hàng</label>
+					<input asp-for="Name" class="form-control" />
+					<span asp-validation-for="Name" class="text-danger"></span>
+				</div>
+				<div class="form-group col-md-6">
+					<label asp-for="Email" class="control-label"></label>
+					<input asp-for="Email" class="form-control" />
+					<span asp-validation-for="Email" class="text-danger"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label asp-for="Password" class="control-label">Mật khẩu</label>
+					<input asp-for="Password" class="form-control" />
+					<span asp-validation-for="Password" class="text-danger"></span>
+				</div>
+				<div class="form-group col-md-6">
+					<label asp-for="Address" class="control-label">Địa chỉ</label>
+					<input asp-for="Address" class="form-control" />
+					<span asp-validation-for="Address" class="text-danger"></span>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="form-group col-md-6">
+					<label asp-for="AvatarUrl" class="control-label">Ảnh đại diện</label>
+					<input asp-for="AvatarUrl" class="form-control" />
+					<span asp-validation-for="AvatarUrl" class="text-danger"></span>
+				</div>
+				<div class="form-group col-md-6">
+					<label asp-for="Role" class="control-label"></label>
+					<input asp-for="Role" class="form-control" value="user"/>
+					<span asp-validation-for="Role" class="text-danger"></span>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="submit" value="Thêm khách hàng" class="btn btn-primary" />
+			</div>
+		</form>
+	</div>
+</div>
+
+<div>
+	<a asp-action="Index">Quay lại</a>
+</div>
+
+@section Scripts {
+	@{
+		await Html.RenderPartialAsync("_ValidationScriptsPartial");
+	}
+	}

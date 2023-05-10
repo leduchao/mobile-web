@@ -1,0 +1,58 @@
+﻿@model MobileWeb.Models.User
+
+@{
+	ViewData["Title"] = "Thông tin khách hàng";
+	Layout = "_Admin";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<div>
+	<hr />
+	<dl class="row">
+		<dt class="col-sm-2">
+			Tên khách hàng
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Name)
+		</dd>
+
+		<dt class="col-sm-2">
+			Email
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Email)
+		</dd>
+
+		<dt class="col-sm-2">
+			Mật khẩu
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Password)
+		</dd>
+
+		<dt class="col-sm-2">
+			Địa chỉ
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Address)
+		</dd>
+		@*<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.AvatarUrl)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.AvatarUrl)
+		</dd>*@
+
+		<dt class="col-sm-2">
+			@Html.DisplayNameFor(model => model.Role)
+		</dt>
+		<dd class="col-sm-10">
+			@Html.DisplayFor(model => model.Role)
+		</dd>
+	</dl>
+</div>
+<div>
+	<a class="btn btn-primary" asp-action="Edit" asp-route-id="@Model?.Id">Chỉnh sửa</a> |
+	<a asp-action="Index">Quay lại</a>
+</div>

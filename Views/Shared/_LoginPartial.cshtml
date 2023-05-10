@@ -1,0 +1,58 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using MobileWeb.Areas.Identity.Data
+
+@inject SignInManager<MobileWebUser> SignInManager
+@inject UserManager<MobileWebUser> UserManager
+
+<ul class="navbar-nav">
+	@if (SignInManager.IsSignedIn(User))
+	{
+		@*<li class="nav-item">
+			<a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
+		</li>
+		<li class="nav-item">
+			<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+				<button id="logout" type="submit" class="nav-link btn btn-link text-dark">Đăng xuất</button>
+			</form>
+		</li>*@
+
+		<li class="nav-item">
+			<a class="nav-icon position-relative text-decoration-none" asp-controller="Shop" asp-action="ShowCart" asp-route-id="">
+				<i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+				<span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">7</span>
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<a asp-controller="Users" asp-action="ShowProfile" asp-route-username="@UserManager.GetUserId(User)" class="nav-icon position-relative text-decoration-none">
+				Hi, @UserManager.GetUserName(User)!
+				<i class="fa fa-fw fa-user text-dark mr-3"></i>
+				<span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark">+99</span>
+			</a>
+		</li>
+
+		<li class="nav-item">
+			<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+				<button id="logout" type="submit" class="nav-link btn btn-link text-dark">Đăng xuất</button>
+			</form>
+		</li>
+
+	}
+	else
+	{
+		@*<li class="nav-item">
+			<a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
+		</li>*@
+
+		<li class="nav-item">
+			<a asp-controller="Users" asp-action="Login" type="button" class="btn btn-outline-success fw-bold">Đăng nhập</a>
+		</li>
+
+		<li class="nav-item">
+			<a asp-controller="Users" asp-action="Signup" type="button" class="btn btn-outline-primary ms-2 fw-bold">Đăng ký</a>
+		</li>
+	}
+</ul>

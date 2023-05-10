@@ -1,0 +1,62 @@
+﻿@{
+  ViewData["title"] = "Đăng Nhập";
+  Layout = null;
+}
+
+@model MobileWeb.Models.User;
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>@ViewData["title"]</title>
+
+  <!-- Font Icon -->
+  @*<link rel="stylesheet" href="~/signup_login/fonts/material-icon/css/material-design-iconic-font.min.css">*@
+
+  <!-- Main css -->
+  <link rel="stylesheet" href="~/assets/css/bootstrap.min.css">
+</head>
+<body>
+
+  <div class="main">
+
+    <section class="signup">
+      <!-- <img src="images/signup-bg.jpg" alt=""> -->
+      <div class="container">
+        <div class="signup-content">
+          <form method="post" asp-controller="Users" asp-action="Login">
+            <div class="mb-3">
+              <label asp-for="Name" class="form-label">User name</label>
+              <input asp-for="Name" type="text" class="form-control" name="username" aria-describedby="emailHelp">
+              <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+              <label asp-for="Password" class="form-label">Password</label>
+              <input asp-for="Password" type="password" name="password" class="form-control" id="exampleInputPassword1">
+              <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+            @*<div class="mb-3 form-check">
+              <input type="checkbox" class="form-check-input" id="exampleCheck1">
+              <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>*@
+            <button type="submit" class="btn btn-primary">Submit</button>
+          </form>
+
+          <p class="loginhere">
+            Bạn chưa có tài khoản? <a asp-controller="Users" asp-action="Signup" class="loginhere-link">Đăng ký ngay</a>
+          </p>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- JS -->
+  @*<script src="~/signup_login/vendor/jquery/jquery.min.js"></script>
+  <script src="~/signup_login/js/main.js"></script>*@
+  <script src="~/assets/js/bootstrap.bundle.min.js"></script>
+</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+</html>
