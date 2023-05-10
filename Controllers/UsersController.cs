@@ -82,7 +82,7 @@ namespace MobileWeb.Controllers
     {
       HttpContext.SignOutAsync();
       //return RedirectToAction("Index", "Home");
-      return View("Login");
+      return View(nameof(Login));
     }
 
     public IActionResult Signup()
