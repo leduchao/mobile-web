@@ -129,9 +129,9 @@
 						</ul>
 
 						<form action="" method="GET">
-							<input asp-for="Name" type="hidden" name="name" value="@Model.Name?.Replace(" ", "-")">
-							<input asp-for="Price" type="hidden" name="price" value="@Model.Price">
-							<input asp-for="Id" type="hidden" name="id" value="@Model.Id">
+							@*<input asp-for="Name" type="hidden" name="name" value="@Model.Name?.Replace(" ", "-")">
+							<input asp-for="Price" type="hidden" name="price" value="@Model.Price">*@
+							<input asp-for="Id" type="hidden" name="productId" value="@Model.Id">
 							<div class="row">
 								<div class="col-auto">
 									<ul class="list-inline">
@@ -142,7 +142,7 @@
 											string[] colors = Model.Color!.Split(',');
 										}
 										<li class="list-inline-item">
-											<select asp-for="Color" class="form-control" name="color">
+											<select class="form-control"> @*name="color">*@ @*asp-for="Color"*@
 												@foreach (string color in colors)
 												{
 													<option>@color</option>
@@ -155,7 +155,7 @@
 									<ul class="list-inline pb-3">
 										<li class="list-inline-item text-right">
 											<h6>Số lượng</h6>
-											<input type="hidden" name="quanity" id="quanity" value="1">
+											@*<input type="hidden" name="quanity" id="quanity" value="1">*@
 										</li>
 										<li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
 										<li class="list-inline-item"><span class="badge bg-secondary" id="var-value">1</span></li>
@@ -169,7 +169,7 @@
 								</div>
 								<div class="col d-grid">
 									@*<a asp-controller="Shop" asp-action="AddToCart">Thêm vào giỏ</a>*@
-									<button asp-controller="Shop" asp-action="AddToCart" asp-route-id="@Model.Id" type="submit" class="btn btn-success btn-lg" name="submit" value="addtocard">Thêm vào giỏ hàng</button>
+									<button asp-controller="Products" asp-action="AddToCart" asp-route-productId="@Model.Id" type="submit" class="btn btn-success btn-lg">Thêm vào giỏ hàng</button>
 								</div>
 							</div>
 						</form>

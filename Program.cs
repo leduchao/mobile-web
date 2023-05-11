@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using MobileWeb.Data;
 using Microsoft.AspNetCore.Identity;
 using MobileWeb.Areas.Identity.Data;
+using MobileWeb.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<MobileWebContext>(options =>
@@ -22,7 +23,7 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 
-//builder.Services.AddIdentity();
+builder.Services.AddTransient<CartService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

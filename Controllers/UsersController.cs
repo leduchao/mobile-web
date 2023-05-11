@@ -104,21 +104,21 @@ namespace MobileWeb.Controllers
       return View(nameof(Signup));
     }
 
-    public IActionResult Cart()
-    {
-      /*if (id == null || _context.User == null)
-      {
-        return NotFound();
-      }
+    //public IActionResult Cart()
+    //{
+    //  /*if (id == null || _context.User == null)
+    //  {
+    //    return NotFound();
+    //  }
 
-      var user = _context.User.FirstOrDefault(m => m.Id == id);
-      if (user == null)
-      {
-        return View("UserInvalid");
-      }
-      return View(user);*/
-      return View();
-    }
+    //  var user = _context.User.FirstOrDefault(m => m.Id == id);
+    //  if (user == null)
+    //  {
+    //    return View("UserInvalid");
+    //  }
+    //  return View(user);*/
+    //  return View();
+    //}
 
     public IActionResult ShowProfile(string username)
     {
