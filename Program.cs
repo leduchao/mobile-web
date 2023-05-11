@@ -21,7 +21,12 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
                 .AddCookie();
 
 builder.Services.AddDistributedMemoryCache();
-builder.Services.AddSession();
+builder.Services.AddSession(options =>
+{
+  options.IdleTimeout = TimeSpan.FromMinutes(20);
+  options.Cookie.HttpOnly = true;
+  options.Cookie.IsEssential = true;
+});
 
 builder.Services.AddTransient<CartService>();
 

@@ -36,7 +36,7 @@
               <input asp-for="Email" type="email" class="form-input" id="email" placeholder="Email" />
             </div>
             <div class="form-group">
-              <input asp-for="Password" type="password" class="form-input" id="password" placeholder="Mật khẩu" />
+              <input asp-for="Password" type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" />
               <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
             </div>
             <div class="form-group">
@@ -54,14 +54,16 @@
             Bạn đã có tài khoản? <a asp-controller="Users" asp-action="Login" class="loginhere-link">Đăng nhập ngay</a>
           </p>
         </div>
+
+        <p class="alert alert-danger">@ViewBag.Error</p>
       </div>
     </section>
 
   </div>
 
   <!-- JS -->
-  <script src="~/signup/vendor/jquery/jquery.min.js"></script>
-  <script src="~/signup/js/main.js"></script>
+  <script src="~/signup-login/vendor/jquery/jquery.min.js"></script>
+  <script src="~/signup-login/js/main.js"></script>
 
   @section Scripts {
     @{

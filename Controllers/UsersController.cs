@@ -12,16 +12,19 @@ using MobileWeb.Data;
 using MobileWeb.Models;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System.Security.Cryptography;
+using MobileWeb.Services;
 
 namespace MobileWeb.Controllers
 {
   public class UsersController : Controller
   {
     private readonly MobileWebContext _context;
+    private readonly CartService _cartService;
 
-    public UsersController(MobileWebContext context)
+    public UsersController(MobileWebContext context, CartService cartService)
     {
       _context = context;
+      _cartService = cartService;
     }
 
     // GET: Users
@@ -68,7 +71,7 @@ namespace MobileWeb.Controllers
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity));
 
-        var session = HttpContext.Session.Id;
+        
 
         return RedirectToAction("Index", "Home");
       }
@@ -81,7 +84,7 @@ namespace MobileWeb.Controllers
     public IActionResult Logout()
     {
       HttpContext.SignOutAsync();
-      //return RedirectToAction("Index", "Home");
+      _cartService.ClearCart();
       return View(nameof(Login));
     }
 
@@ -96,10 +99,18 @@ namespace MobileWeb.Controllers
     {
       if (ModelState.IsValid)
       {
-        //user.Password = GetMD5(user.Password);
-        _context.Add(user);
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(Login));
+        var checkEmail = _context.User?.FirstOrDefault(u => u.Email == user.Email || u.Name == user.Name);
+        if(checkEmail == null)
+        {
+          _context.Add(user);
+          await _context.SaveChangesAsync();
+          return RedirectToAction(nameof(Login));
+        }
+        else
+        {
+          ViewBag.Error = "Email hoặc tên người dùng đã tồn tại!";
+          return View(nameof(Signup));
+        }
       }
       return View(nameof(Signup));
     }
