@@ -8,7 +8,6 @@ namespace MobileWeb.Models
     public int Id { get; set; }
 
     [Required(ErrorMessage = "Không được bỏ trống trường này!")]
-
     public string? Name { get; set; }
 
     [Required(ErrorMessage = "Không được bỏ trống trường này!")]

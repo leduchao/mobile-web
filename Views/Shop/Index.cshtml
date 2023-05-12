@@ -1,11 +1,6 @@
 ﻿@{
 	ViewData["title"] = "Cửa Hàng";
-	//Dictionary<string, string> list = new Dictionary<string, string>();
-	//list.Add("all", "Tất cả");
-	//list.Add("min-to-max", "Thấp - cao");
-	//list.Add("max-to-min", "Cao - thấp");
-	//string[] listFilter = { "all", "min-to-max", "max-to-min" };
-	//IEnumerable<Product> products = ViewData["products"] as IEnumerable<Product>;
+	//Layout = "_Product";
 }
 
 @model IEnumerable<MobileWeb.Models.Product>
@@ -37,18 +32,18 @@
 				</div>
 				<div class="col-md-6 pb-4">
 					<div class="d-flex">
-						<form asp-controller="Shop" asp-action="Index" method="get">
+						<form class="d-flex w-100" asp-controller="Shop" asp-action="SortProductsByPrice" method="get">
 							<select class="form-control" id="choice" name="price">
-								<option>Tất cả</option>
+								<option value="all">Tất cả</option>
 								<option value="min-to-max">Thấp - cao</option>
 								<option value="max-to-min">Cao - thấp</option>
 							</select>
+								 @*asp-controller="Shop" asp-action="Index" asp-route-condition=""*@
+							<button id="filter" type="submit" class="btn btn-outline-success ms-3 w-50">
+								Lọc
+							</button>
 						</form>
 						@*<select class="form-control" asp-items="@(new SelectList(list, "keys", "values"))"></select>*@
-						<a id="filter" type="submit" class="btn btn-outline-success ms-3 w-25"
-							 asp-controller="Shop" asp-action="Index" asp-route-condition="">
-							<strong>Lọc</strong>
-						</a>
 
 						@*<script>
 						var e = document.getElementById("choice");
@@ -125,10 +120,8 @@
 						</div>
 					}
 				}
-				@*@await Component.InvokeAsync("FilterProducts", "")*@
+				@*await Component.InvokeAsync("FilterProducts", "")*@
 			</div>
-
-			@*phân trang*@
 			<div div="row">
 				<ul class="pagination pagination-lg justify-content-end">
 					<li class="page-item disabled">
@@ -195,38 +188,19 @@
 								<div class="carousel-item">
 									<div class="row">
 										<div class="col-3 p-md-5">
-											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/nokia/logo.png" alt="Brand Logo"></a>
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/samsung/samsung-logo-1000.png" alt="Brand Logo"></a>
 										</div>
 										<div class="col-3 p-md-5">
-											<a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/apple/apple-logo.png" alt="Brand Logo"></a>
 										</div>
 										<div class="col-3 p-md-5">
-											<a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/oppo/logo (1).png" alt="Brand Logo"></a>
 										</div>
 										<div class="col-3 p-md-5">
-											<a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+											<a href="#"><img class="img-fluid brand-img" src="~/assets/img/xiaomi/logo-1000.png" alt="Brand Logo"></a>
 										</div>
 									</div>
 								</div>
-								<!--End Second slide-->
-								<!--Third slide-->
-								@*<div class="carousel-item">
-								<div class="row">
-								<div class="col-3 p-md-5">
-								<a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
-								</div>
-								<div class="col-3 p-md-5">
-								<a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
-								</div>
-								<div class="col-3 p-md-5">
-								<a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
-								</div>
-								<div class="col-3 p-md-5">
-								<a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
-								</div>
-								</div>
-								</div>*@
-								<!--End Third slide-->
 
 							</div>
 							<!--End Slides-->

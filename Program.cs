@@ -11,14 +11,23 @@ builder.Services.AddDbContext<MobileWebContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("MobileWebContext") ?? throw new InvalidOperationException("Connection string 'MobileWebContext' not found.")));
 
 builder.Services.AddDefaultIdentity<MobileWebUser>(options => options.SignIn.RequireConfirmedAccount = true)
-    .AddEntityFrameworkStores<MobileWebContext>()
-    .AddDefaultTokenProviders();
+                .AddEntityFrameworkStores<MobileWebContext>()
+                .AddDefaultTokenProviders();
 
 //builder.Services.AddIdentity<MobileWebUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = true)
 //    .AddEntityFrameworkStores<MobileWebContext>();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                 .AddCookie();
+
+builder.Services.AddAuthorization(option =>
+{
+  option.AddPolicy("AllowAddToCartAndBuyProduct", policyBuilder =>
+  {
+    policyBuilder.RequireAuthenticatedUser();
+    policyBuilder.RequireRole("user");
+  });
+});
 
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession(options =>

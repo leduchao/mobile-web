@@ -47,8 +47,8 @@ namespace MobileWeb.Controllers
       if (ModelState.IsValid)
       {
 
-          var user = _context.User?.Where(u => u.Name == username && u.Password == password)
-                                 .FirstOrDefault();
+        var user = _context.User?.Where(u => u.Name == username && u.Password == password)
+                               .FirstOrDefault();
         if (user == null || _context.User == null)
         {
           return View();
@@ -71,7 +71,7 @@ namespace MobileWeb.Controllers
             CookieAuthenticationDefaults.AuthenticationScheme,
             new ClaimsPrincipal(claimsIdentity));
 
-        
+
 
         return RedirectToAction("Index", "Home");
       }
@@ -100,7 +100,7 @@ namespace MobileWeb.Controllers
       if (ModelState.IsValid)
       {
         var checkEmail = _context.User?.FirstOrDefault(u => u.Email == user.Email || u.Name == user.Name);
-        if(checkEmail == null)
+        if (checkEmail == null)
         {
           _context.Add(user);
           await _context.SaveChangesAsync();
@@ -140,6 +140,39 @@ namespace MobileWeb.Controllers
       return View(user);
     }
 
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditProfile([FromQuery] string username, [Bind("Id,Name,Email,Address,Firstname,Lastname,Birthday,Phone")] User user)
+    {
+
+      if (username != user.Name)
+      {
+        return NotFound();
+      }
+
+      if (ModelState.IsValid)
+      {
+        try
+        {
+          _context.Update(user);
+          await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+          if (!UserExists(user.Id))
+          {
+            return NotFound();
+          }
+          else
+          {
+            throw;
+          }
+        }
+        return RedirectToAction("Index", "Shop");
+      }
+      return View("ShowProfile", user);
+    }
+
     // GET: Users/Details/5
     public async Task<IActionResult> Details(int? id)
     {
@@ -169,7 +202,7 @@ namespace MobileWeb.Controllers
     // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Id","Name","Email","Password","Address","AvatarUrl","Role")] User user)
+    public async Task<IActionResult> Create([Bind("Id", "Name", "Email", "Password", "Address", "AvatarUrl", "Role")] User user)
     {
       if (ModelState.IsValid)
       {

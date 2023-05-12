@@ -1,10 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MobileWeb.Data;
 using MobileWeb.Models;
 
 namespace MobileWeb.Views.Shared.Components.FilterProducts
 {
-  [ViewComponent]
+  //[ViewComponent]
   public class FilterProducts : ViewComponent
   {
     private readonly MobileWebContext _context;
@@ -14,17 +15,9 @@ namespace MobileWeb.Views.Shared.Components.FilterProducts
       _context = context;
     }
 
-    public IViewComponentResult Invoke(string condition)
+    public IViewComponentResult Invoke()
     {
-      var listProducts = _context.Product?.ToList();
-      if (condition == "min-to-max")
-      {
-        listProducts = _context?.Product?.OrderBy(p => p.Price).ToList();
-      }
-      else if (condition == "max-to-min")
-      {
-        listProducts = _context?.Product?.OrderByDescending(p => p.Price).ToList();
-      }
+      var listProducts = _context.Product!.Include(p => p.Category).ToList();
       return View(listProducts);
     }
   }

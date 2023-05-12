@@ -28,7 +28,10 @@
       <div class="container">
         <div class="signup-content">
           <form asp-controller="Users" asp-action="Login" method="POST" id="login-form" class="login-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <h2 class="form-title">ĐĂNG NHẬP</h2>
+
             <div class="form-group">
               <input asp-for="Name" type="text" class="form-input" name="username" placeholder="Tên người dùng" />
               <span asp-validation-for="Name" class="text-danger"></span>
@@ -53,15 +56,15 @@
 
   </div>
 
-  <!-- JS -->
-  <script src="~/signup_login/vendor/jquery/jquery.min.js"></script>
-  <script src="~/signup_login/js/main.js"></script>
-
   @section Scripts {
     @{
       await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
   }
+
+  <!-- JS -->
+  <script src="~/signup_login/vendor/jquery/jquery.min.js"></script>
+  <script src="~/signup_login/js/main.js"></script>
 
 </body><!-- This templates was made by Colorlib (https://colorlib.com) -->
 </html>

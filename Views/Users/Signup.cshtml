@@ -28,26 +28,32 @@
       <div class="container">
         <div class="signup-content">
           <form asp-controller="Users" asp-action="SignupAccount" method="POST" id="signup-form" class="signup-form">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <h2 class="form-title">ĐĂNG KÝ TÀI KHOẢN</h2>
+
             <div class="form-group">
               <input asp-for="Name" type="text" class="form-input" id="name" placeholder="Tên người dùng" />
+              <span asp-validation-for="Name" class="text-danger"></span>
             </div>
+
             <div class="form-group">
               <input asp-for="Email" type="email" class="form-input" id="email" placeholder="Email" />
+              <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
             <div class="form-group">
               <input asp-for="Password" type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" />
               <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+              <span asp-validation-for="Password" class="text-danger"></span>
             </div>
+
             <div class="form-group">
               <input asp-for="Role" type="hidden" class="form-input" value="user" />
             </div>
-            @*<div class="form-group">
-              <input type="checkbox" name="agree-term" id="agree-term" class="agree-term" />
-              <label for="agree-term" class="label-agree-term"><span><span></span></span>I agree all statements in  <a href="#" class="term-service">Terms of service</a></label>
-            </div>*@
+           
             <div class="form-group">
-              <input type="submit" name="submit" id="submit" class="form-submit" value="ĐĂNG KÝ" />
+              <input type="submit" class="form-submit" value="ĐĂNG KÝ" />
             </div>
           </form>
           <p class="loginhere">
@@ -61,15 +67,15 @@
 
   </div>
 
-  <!-- JS -->
-  <script src="~/signup-login/vendor/jquery/jquery.min.js"></script>
-  <script src="~/signup-login/js/main.js"></script>
-
   @section Scripts {
     @{
       await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
   }
 
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+  <!-- JS -->
+  <script src="~/signup-login/vendor/jquery/jquery.min.js"></script>
+  <script src="~/signup-login/js/main.js"></script>
+
+</body>
 </html>

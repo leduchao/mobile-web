@@ -32,7 +32,7 @@ namespace MobileWeb.Controllers
     }
 
     [HttpGet]
-    public IActionResult Index(string keyword)
+    public IActionResult Index([FromQuery] string keyword)
     {
       var listProducts = _context.Product?.Include(p => p.Category);
       if (keyword != null)
@@ -149,15 +149,15 @@ namespace MobileWeb.Controllers
     }
 
     //giá từ thấp -> cao
-    public IActionResult SortProductsByPrice(string? condition)
+    public IActionResult SortProductsByPrice(string? price)
     {
       var listProduct = new List<Product>();
 
-      if (condition == "min-to-max")
+      if (price == "min-to-max")
       {
         listProduct = _context?.Product?.OrderBy(p => p.Price).ToList();
       }
-      else if (condition == "max-to-min")
+      else if (price == "max-to-min")
       {
         listProduct = _context?.Product?.OrderByDescending(p => p.Price).ToList();
       }
@@ -166,8 +166,8 @@ namespace MobileWeb.Controllers
         listProduct = _context?.Product?.ToList();
       }
 
-      ViewData["ListProducts"] = listProduct;
-      return View();
+      //ViewData["ListProducts"] = listProduct;
+      return View("Index", listProduct);
     }
 
     //giá từ cao -> thấp

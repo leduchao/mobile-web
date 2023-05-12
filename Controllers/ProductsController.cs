@@ -180,12 +180,12 @@ namespace MobileWeb.Controllers
     //[Route("/cart/{product-id:int}",  Name = "AddCart")]
     public IActionResult AddToCart(int productId)
     {
-      if(!User.Identity!.IsAuthenticated)
+      if (!User.Identity!.IsAuthenticated)
         return RedirectToAction("Login", "Users");
 
       var product = _context.Product?.Where(p => p.Id == productId)
                                     .FirstOrDefault();
-      if(product == null)
+      if (product == null)
       {
         return NotFound();
       }
