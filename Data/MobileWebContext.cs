@@ -10,22 +10,22 @@ using MobileWeb.Areas.Identity.Data;
 
 namespace MobileWeb.Data
 {
-  public class MobileWebContext : IdentityDbContext
+  public class MobileWebContext : DbContext
   {
     public MobileWebContext(DbContextOptions<MobileWebContext> options)
         : base(options)
     {
     }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder builder)
-    {
-      base.OnConfiguring(builder);
-    }
+    //protected override void OnConfiguring(DbContextOptionsBuilder builder)
+    //{
+    //  base.OnConfiguring(builder);
+    //}
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
-      base.OnModelCreating(modelBuilder);
-    }
+    //protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //{
+    //  base.OnModelCreating(modelBuilder);
+    //}
 
     public DbSet<MobileWeb.Models.Category> Category { get; set; } = default!;
 

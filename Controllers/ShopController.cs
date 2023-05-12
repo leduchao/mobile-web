@@ -169,11 +169,5 @@ namespace MobileWeb.Controllers
       //ViewData["ListProducts"] = listProduct;
       return View("Index", listProduct);
     }
-
-    //giá từ cao -> thấp
-    public IActionResult FromMaxToMinPrice()
-    {
-      return View();
-    }
   }
 }
