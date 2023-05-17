@@ -11,7 +11,7 @@ namespace MobileWeb.Areas.Identity.Data;
 // Add profile data for application users by adding properties to the MobileWebUser class
 public class MobileWebUser : IdentityUser
 {
-  [Column(TypeName = "nvarchar(max)")]
-  public string? Address { get; set; }
+    [Column(TypeName = "nvarchar(max)")]
+    public string? Address { get; set; }
 }
 

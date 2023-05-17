@@ -31,12 +31,8 @@ namespace MobileWeb.Areas.Identity.Pages.Account
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
-        public RegisterModel(
-            UserManager<MobileWebUser> userManager,
-            IUserStore<MobileWebUser> userStore,
-            SignInManager<MobileWebUser> signInManager,
-            ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+        public RegisterModel(UserManager<MobileWebUser> userManager, IUserStore<MobileWebUser> userStore, 
+                             SignInManager<MobileWebUser> signInManager, ILogger<RegisterModel> logger, IEmailSender emailSender)
         {
             _userManager = userManager;
             _userStore = userStore;

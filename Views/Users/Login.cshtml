@@ -1,6 +1,6 @@
 ﻿@{
-  ViewData["title"] = "Đăng Nhập";
-  Layout = null;
+	ViewData["title"] = "Đăng Nhập";
+	Layout = null;
 }
 
 @model MobileWeb.Models.User;
@@ -8,63 +8,63 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>@ViewData["title"]</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>@ViewData["title"]</title>
 
-  <!-- Font Icon -->
-  <link rel="stylesheet" href="~/signup_login/fonts/material-icon/css/material-design-iconic-font.min.css">
+	<!-- Font Icon -->
+	<link rel="stylesheet" href="~/signup_login/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-  <!-- Main css -->
-  <link rel="stylesheet" href="~/signup_login/css/style.css">
+	<!-- Main css -->
+	<link rel="stylesheet" href="~/signup_login/css/style.css">
 </head>
 <body>
 
-  <div class="main">
+	<div class="main">
 
-    <section class="signup">
-      <!-- <img src="images/signup-bg.jpg" alt=""> -->
-      <div class="container">
-        <div class="signup-content">
-          <form asp-controller="Users" asp-action="Login" method="POST" id="login-form" class="login-form">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<section class="signup">
+			<!-- <img src="images/signup-bg.jpg" alt=""> -->
+			<div class="container">
+				<div class="signup-content">
+					<form asp-controller="Users" asp-action="Login" method="POST" id="login-form" class="login-form">
+						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <h2 class="form-title">ĐĂNG NHẬP</h2>
+						<h2 class="form-title">ĐĂNG NHẬP</h2>
 
-            <div class="form-group">
-              <input asp-for="Name" type="text" class="form-input" name="username" placeholder="Tên người dùng" />
-              <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-           
-            <div class="form-group">
-              <input asp-for="Password" type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" />
-              <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
-              <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-          
-            <div class="form-group">
-              <input type="submit" class="form-submit" value="ĐĂNG NHẬP" />
-            </div>
-          </form>
-          <p class="loginhere">
-            Bạn chưa có tài khoản? <a asp-controller="Users" asp-action="Signup" class="loginhere-link">Đăng ký ngay</a>
-          </p>
-        </div>
-      </div>
-    </section>
+						<div class="form-group">
+							<input asp-for="Name" type="text" class="form-input" name="username" placeholder="Tên người dùng" />
+							<span asp-validation-for="Name" class="text-danger"></span>
+						</div>
 
-  </div>
+						<div class="form-group">
+							<input asp-for="Password" type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" />
+							<span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</div>
 
-  @section Scripts {
-    @{
-      await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-  }
+						<div class="form-group">
+							<input type="submit" class="form-submit" value="ĐĂNG NHẬP" />
+						</div>
+					</form>
+					<p class="loginhere">
+						Bạn chưa có tài khoản? <a asp-controller="Users" asp-action="Signup" class="loginhere-link">Đăng ký ngay</a>
+					</p>
+				</div>
+			</div>
+		</section>
 
-  <!-- JS -->
-  <script src="~/signup_login/vendor/jquery/jquery.min.js"></script>
-  <script src="~/signup_login/js/main.js"></script>
+	</div>
 
-</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
-</html>
+	@section Scripts {
+		@{
+			await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		}
+	}
+
+		<!-- JS -->
+		<script src="~/signup_login/vendor/jquery/jquery.min.js"></script>
+		<script src="~/signup_login/js/main.js"></script>
+
+	</body><!-- This templates was made by Colorlib (https://colorlib.com) -->
+	</html>

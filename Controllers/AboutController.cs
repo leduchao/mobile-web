@@ -2,11 +2,11 @@
 
 namespace MobileWeb.Controllers
 {
-  public class AboutController : Controller
-  {
-    public IActionResult Index()
+    public class AboutController : Controller
     {
-      return View();
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
-  }
 }

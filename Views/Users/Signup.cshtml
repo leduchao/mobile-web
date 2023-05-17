@@ -1,6 +1,6 @@
 ﻿@{
-  ViewData["title"] = "Đăng Ký";
-  Layout = null;
+	ViewData["title"] = "Đăng Ký";
+	Layout = null;
 }
 
 @model MobileWeb.Models.User;
@@ -8,74 +8,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>@ViewData["title"]</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>@ViewData["title"]</title>
 
-  <!-- Font Icon -->
-  <link rel="stylesheet" href="~/signup_login/fonts/material-icon/css/material-design-iconic-font.min.css">
+	<!-- Font Icon -->
+	<link rel="stylesheet" href="~/signup_login/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-  <!-- Main css -->
-  <link rel="stylesheet" href="~/signup_login/css/style.css">
+	<!-- Main css -->
+	<link rel="stylesheet" href="~/signup_login/css/style.css">
 </head>
 <body>
 
-  <div class="main">
+	<div class="main">
 
-    <section class="signup">
-      <!-- <img src="images/signup-bg.jpg" alt=""> -->
-      <div class="container">
-        <div class="signup-content">
-          <form asp-controller="Users" asp-action="SignupAccount" method="POST" id="signup-form" class="signup-form">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+		<section class="signup">
+			<!-- <img src="images/signup-bg.jpg" alt=""> -->
+			<div class="container">
+				<div class="signup-content">
+					<form asp-controller="Users" asp-action="SignupAccount" method="POST" id="signup-form" class="signup-form">
+						<div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <h2 class="form-title">ĐĂNG KÝ TÀI KHOẢN</h2>
+						<h2 class="form-title">ĐĂNG KÝ TÀI KHOẢN</h2>
 
-            <div class="form-group">
-              <input asp-for="Name" type="text" class="form-input" id="name" placeholder="Tên người dùng" />
-              <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
+						<div class="form-group">
+							<input asp-for="Name" type="text" class="form-input" id="name" placeholder="Tên người dùng" />
+							<span asp-validation-for="Name" class="text-danger"></span>
+						</div>
 
-            <div class="form-group">
-              <input asp-for="Email" type="email" class="form-input" id="email" placeholder="Email" />
-              <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
+						<div class="form-group">
+							<input asp-for="Email" type="email" class="form-input" id="email" placeholder="Email" />
+							<span asp-validation-for="Email" class="text-danger"></span>
+						</div>
 
-            <div class="form-group">
-              <input asp-for="Password" type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" />
-              <span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
-              <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
+						<div class="form-group">
+							<input asp-for="Password" type="password" class="form-input" name="password" id="password" placeholder="Mật khẩu" />
+							<span toggle="#password" class="zmdi zmdi-eye field-icon toggle-password"></span>
+							<span asp-validation-for="Password" class="text-danger"></span>
+						</div>
 
-            <div class="form-group">
-              <input asp-for="Role" type="hidden" class="form-input" value="user" />
-            </div>
-           
-            <div class="form-group">
-              <input type="submit" class="form-submit" value="ĐĂNG KÝ" />
-            </div>
-          </form>
-          <p class="loginhere">
-            Bạn đã có tài khoản? <a asp-controller="Users" asp-action="Login" class="loginhere-link">Đăng nhập ngay</a>
-          </p>
-        </div>
+						<div class="form-group">
+							<input asp-for="Role" type="hidden" class="form-input" value="user" />
+						</div>
 
-        <p class="alert alert-danger">@ViewBag.Error</p>
-      </div>
-    </section>
+						<div class="form-group">
+							<input type="submit" class="form-submit" value="ĐĂNG KÝ" />
+						</div>
+					</form>
+					<p class="loginhere">
+						Bạn đã có tài khoản? <a asp-controller="Users" asp-action="Login" class="loginhere-link">Đăng nhập ngay</a>
+					</p>
+				</div>
 
-  </div>
+				<p class="alert alert-danger">@ViewBag.Error</p>
+			</div>
+		</section>
 
-  @section Scripts {
-    @{
-      await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
-  }
+	</div>
 
-  <!-- JS -->
-  <script src="~/signup-login/vendor/jquery/jquery.min.js"></script>
-  <script src="~/signup-login/js/main.js"></script>
+	@section Scripts {
+		@{
+			await Html.RenderPartialAsync("_ValidationScriptsPartial");
+		}
+	}
 
-</body>
-</html>
+		<!-- JS -->
+		<script src="~/signup-login/vendor/jquery/jquery.min.js"></script>
+		<script src="~/signup-login/js/main.js"></script>
+
+	</body>
+	</html>

@@ -35,11 +35,11 @@
 					<td>@(thanhtien?.ToString("n0"))</td>
 					<td>
 						<button class="btn btn-success updatecartitem"
-								data-productid="@cartitem.Product?.Id">
+						data-productid="@cartitem.Product?.Id">
 							Cập nhật
 						</button>
 						<a asp-route="removecart" asp-route-productid="@cartitem.Product?.Id"
-					 class="btn btn-danger">Xóa</a>
+				   class="btn btn-danger">Xóa</a>
 					</td>
 				</tr>
 			}
@@ -53,29 +53,29 @@
 		<a asp-controller="Products" asp-action="Checkout" class="btn btn-success">Gửi đơn hàng</a>
 
 		@section Scripts {
-		<script>
-			$(document).ready(function () {
+			<script>
+				$(document).ready(function () {
 					$(".updatecartitem").click(function (event) {
-							event.preventDefault();
-							var productid = $(this).attr("data-productid");
-							var quantity = $("#quantity-" + productid).val();
-							$.ajax({
-									type: "POST",
-									url: "@Url.RouteUrl("updatecart")",
-									data: {
-											productid: productid,
-											quantity: quantity
-									},
-									success: function (result) {
-											window.location.href = "@Url.RouteUrl("cart")";
-									}
-							});
+						event.preventDefault();
+						var productid = $(this).attr("data-productid");
+						var quantity = $("#quantity-" + productid).val();
+						$.ajax({
+							type: "POST",
+							url: "@Url.RouteUrl("updatecart")",
+							data: {
+								productid: productid,
+								quantity: quantity
+							},
+							success: function (result) {
+								window.location.href = "@Url.RouteUrl("cart")";
+							}
+						});
 					});
-			});
-		</script>
+				});
+			</script>
+		}
 	}
 
-	}
 	else
 	{
 		<p class="alert alert-danger">Giỏ hàng trống</p>
