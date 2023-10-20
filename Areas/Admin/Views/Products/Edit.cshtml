@@ -1,4 +1,4 @@
-﻿@model MobileWeb.Areas.Admin.Models.Product
+﻿@model MobileWeb.Models.DTOs.ProductDTO
 
 @{
 	ViewData["Title"] = "Chỉnh sửa Thông tin sản phẩm";
@@ -13,47 +13,55 @@
 	<div class="col-md-4">
 		<form asp-action="Edit">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			<input type="hidden" asp-for="Id" />
+			@*<input type="hidden" asp-for="Id" />*@
 			<div class="form-group">
 				<label asp-for="Name" class="control-label"></label>
 				<input asp-for="Name" class="form-control" />
 				<span asp-validation-for="Name" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="Description" class="control-label"></label>
 				<input asp-for="Description" class="form-control" />
 				<span asp-validation-for="Description" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="ImgUrl" class="control-label"></label>
 				<input asp-for="ImgUrl" class="form-control" />
 				<span asp-validation-for="ImgUrl" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="Price" class="control-label"></label>
 				<input asp-for="Price" class="form-control" />
 				<span asp-validation-for="Price" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="Quantity" class="control-label"></label>
 				<input asp-for="Quantity" class="form-control" />
 				<span asp-validation-for="Quantity" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="CategoryId" class="control-label"></label>
 				<select asp-for="CategoryId" class="form-control" asp-items="ViewBag.CategoryId"></select>
 				<span asp-validation-for="CategoryId" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="Color" class="control-label"></label>
 				<input asp-for="Color" class="form-control" />
 				<span asp-validation-for="Color" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<label asp-for="Specifications" class="control-label"></label>
 				<input asp-for="Specifications" class="form-control" />
 				<span asp-validation-for="Specifications" class="text-danger"></span>
 			</div>
+
 			<div class="form-group">
 				<input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
 			</div>

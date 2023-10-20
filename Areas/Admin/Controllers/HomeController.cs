@@ -3,15 +3,11 @@
 namespace MobileWeb.Areas.Admin.Controllers
 {
 	[Area("Admin")]
-	//[Route("admin/[controller]/[action]/[id?]")]
+	[Route("admin")]
 	public class HomeController : Controller
 	{
+		//[Route("index")]
 		public IActionResult Index()
-		{
-			return View();
-		}
-
-		public IActionResult ShowProduct()
 		{
 			return View();
 		}

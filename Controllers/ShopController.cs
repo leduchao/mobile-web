@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
 using MobileWeb.Data;
-using MobileWeb.Models;
+using MobileWeb.Models.Entities;
 using Newtonsoft.Json;
 using System.Globalization;
 
@@ -12,50 +12,49 @@ namespace MobileWeb.Controllers
 {
     public class ShopController : Controller
     {
-        private readonly MobileWebContext _context;
+        private readonly WebDbContext _context;
         //public const string CARTKEY = "cart";
 
-        public ShopController(MobileWebContext context)
+        public ShopController(WebDbContext context)
         {
             _context = context;
         }
 
-        public MobileWebContext GetContext()
+        public WebDbContext GetContext()
         {
             return _context;
         }
 
         public IActionResult Index()
         {
-            var listProducts = _context.Product?.Include(p => p.Category).ToList();
+            var listProducts = _context.Products?.Include(p => p.Category).ToList();
             return View(listProducts);
         }
 
         [HttpGet]
         public IActionResult Index([FromQuery] string keyword)
         {
-            var listProducts = _context.Product?.Include(p => p.Category);
+            var listProducts = _context.Products?.Include(p => p.Category);
+
             if (keyword != null)
             {
-                var listSearch = _context.Product?.Include(p => p.Category)
-                                  .Where(p => p.Name!.Contains(keyword))// || p.Description.Contains(keyword))
+                var listSearch = _context.Products?.Include(p => p.Category)
+                                  .Where(p => p.Name!.Contains(keyword))
                                   .ToList();
-
-                //ViewData["products"] = listSearch;
 
                 return View(listSearch);
             }
-            //ViewBag.Products = listSearch;
+            
             return View(listProducts);
         }
 
         public async Task<IActionResult> ProductDetails(int? id)
         {
-            if (id == null || _context.Product == null)
+            if (id == null || _context.Products == null)
             {
                 return NotFound();
             }
-            var product = await _context.Product
+            var product = await _context.Products
                 .Include(p => p.Category)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (product == null)
@@ -155,18 +154,17 @@ namespace MobileWeb.Controllers
 
             if (price == "min-to-max")
             {
-                listProduct = _context?.Product?.OrderBy(p => p.Price).ToList();
+                listProduct = _context?.Products?.OrderBy(p => p.Price).ToList();
             }
             else if (price == "max-to-min")
             {
-                listProduct = _context?.Product?.OrderByDescending(p => p.Price).ToList();
+                listProduct = _context?.Products?.OrderByDescending(p => p.Price).ToList();
             }
             else
             {
-                listProduct = _context?.Product?.ToList();
+                listProduct = _context?.Products?.ToList();
             }
 
-            //ViewData["ListProducts"] = listProduct;
             return View("Index", listProduct);
         }
     }

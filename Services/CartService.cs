@@ -1,4 +1,4 @@
-﻿using MobileWeb.Models;
+﻿using MobileWeb.Models.Entities;
 using Newtonsoft.Json;
 
 namespace MobileWeb.Services

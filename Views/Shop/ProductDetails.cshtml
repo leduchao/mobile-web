@@ -1,5 +1,4 @@
-﻿
-@model MobileWeb.Models.Product
+﻿@model MobileWeb.Models.Entities.Product
 
 @{
 	ViewData["Title"] = Model.Name;
@@ -118,7 +117,7 @@
 						@*color*@
 
 						<h6>Thông số kỹ thuật:</h6>
-						@{
+						@*@{
 							string[] specifications = Model.Specifications!.Split(',');
 						}
 						<ul class="pb-3">
@@ -126,7 +125,7 @@
 							{
 								<li>@item</li>
 							}
-						</ul>
+						</ul>*@
 
 						<form action="" method="GET">
 							@*<input asp-for="Name" type="hidden" name="name" value="@Model.Name?.Replace(" ", "-")">

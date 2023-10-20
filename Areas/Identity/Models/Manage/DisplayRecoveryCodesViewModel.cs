@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace App.Areas.Identity.Models.ManageViewModels
+namespace MobileWeb.Areas.Identity.Models.ManageViewModels
 {
     public class DisplayRecoveryCodesViewModel
     {

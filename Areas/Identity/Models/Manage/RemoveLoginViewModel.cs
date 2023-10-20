@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace App.Areas.Identity.Models.ManageViewModels
+namespace MobileWeb.Areas.Identity.Models.ManageViewModels
 {
     public class RemoveLoginViewModel
     {

@@ -1,8 +1,8 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using MobileWeb.Areas.Identity.Data
+@using MobileWeb.Models.Entities
 
-@inject SignInManager<MobileWebUser> SignInManager
-@inject UserManager<MobileWebUser> UserManager
+@inject SignInManager<User> SignInManager
+@inject UserManager<User> UserManager
 
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))

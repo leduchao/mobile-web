@@ -3,7 +3,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace App.Areas.Identity.Models.AccountViewModels
+namespace MobileWeb.Areas.Identity.Models.AccountViewModels
 {
     public class VerifyCodeViewModel
     {

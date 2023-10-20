@@ -18,5 +18,9 @@
     <_SelectedScaffolderCategoryPath>root/Identity</_SelectedScaffolderCategoryPath>
     <WebStackScaffolding_DependencyDialogWidth>650.4</WebStackScaffolding_DependencyDialogWidth>
     <WebStackScaffolding_IdentityDialogWidth>650.4</WebStackScaffolding_IdentityDialogWidth>
+    <ActiveDebugProfile>MobileWeb</ActiveDebugProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>
   </PropertyGroup>
 </Project>

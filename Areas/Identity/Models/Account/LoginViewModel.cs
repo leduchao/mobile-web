@@ -7,7 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace App.Areas.Identity.Models.AccountViewModels
+namespace MobileWeb.Areas.Identity.Models.AccountViewModels
 {
     public class LoginViewModel
     {

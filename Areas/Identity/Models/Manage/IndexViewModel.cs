@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
-namespace App.Areas.Identity.Models.ManageViewModels
+namespace MobileWeb.Areas.Identity.Models.ManageViewModels
 {
     public class IndexViewModel
     {

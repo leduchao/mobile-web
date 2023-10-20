@@ -1,4 +1,4 @@
-﻿@model MobileWeb.Areas.Admin.Models.Product
+﻿@model MobileWeb.Models.Entities.Product
 
 @{
 	ViewData["Title"] = "Chi tiết sản phẩm";
@@ -62,6 +62,6 @@
 	</dl>
 </div>
 <div>
-	<a asp-action="Edit" asp-route-id="@Model?.Id">Cập nhất</a> |
+	<a asp-action="Edit" asp-route-id="@Model.Id">Cập nhật</a> |
 	<a asp-action="Index">Quay lại danh sách</a>
 </div>

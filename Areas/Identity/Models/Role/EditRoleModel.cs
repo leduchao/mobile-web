@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Identity;
 
-namespace App.Areas.Identity.Models.RoleViewModels
+namespace MobileWeb.Areas.Identity.Models.RoleViewModels
 {
   public class EditRoleModel
     {
