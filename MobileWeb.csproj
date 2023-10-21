@@ -27,8 +27,6 @@
 
   <ItemGroup>
     <None Include="Areas\Admin\Views\Categories\Create.cshtml" />
-    <None Include="Areas\Admin\Views\Categories\Delete.cshtml" />
-    <None Include="Areas\Admin\Views\Categories\Details.cshtml" />
     <None Include="Areas\Admin\Views\Categories\Edit.cshtml" />
     <None Include="Areas\Admin\Views\Categories\Index.cshtml" />
     <None Include="Areas\Admin\Views\Home\Index.cshtml" />

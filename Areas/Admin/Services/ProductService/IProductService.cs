@@ -5,16 +5,20 @@ namespace MobileWeb.Areas.Admin.Services.ProductService
 {
 	public interface IProductService
 	{
-		Task<List<Product>?> GetAll();
+		Task<List<Product>> GetAllAsync();
 
-		Task<Product?> GetById(int id);
+		Task<Product?> GetByIdAsync(int id);
 
-		Task<Product?> GetByName(string productName);
+		Task<Product?> GetByNameAsync(string productName);
 
-		Task Create(Product product);
+		Task CreateAsync(ProductDTO request);
 
-		Task<bool> Update(int id, ProductDTO productDTO);
+		Task UpdateAsync(int id, ProductDTO request);
 
-		Task Delete(int id);
+		Task DeleteAsync(int id);
+
+		Task<List<Category>> GetAllCategoriesAsync();
+
+		Task<Specifications?> GetSpecificationsAsync(int id);
 	}
 }

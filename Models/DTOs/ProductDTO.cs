@@ -15,7 +15,7 @@ namespace MobileWeb.Models.DTOs
         [Display(Name = "Mô tả sản phẩm")]
         public string? Description { get; set; }
 
-        //[Required(ErrorMessage = "Không được bỏ trống trường này!")]
+        [Display(Name = "Chọn hình ảnh sản phẩm")]
         public string? ImgUrl { get; set; }
 
         [Required(ErrorMessage = "Phải nhập giá tiền!")]
@@ -37,11 +37,23 @@ namespace MobileWeb.Models.DTOs
         [Required(ErrorMessage = "Nhập ít nhất 1 màu!")]
         [Display(Name = "Màu sắc")]
         public string? Color { get; set; }
+        
+        // thong so ky thuat
+        [Required(ErrorMessage = "Hãy nhập dung lượng RAM!")]
+        public int RAM { get; set; }
 
-        [Required(ErrorMessage = "Hãy nhập thông số kỹ thuật!")]
-        [Display(Name = "Thông số kỹ thuật")]
-        public int SpecificationsId { get; set; }
+        [Required(ErrorMessage = "Hãy nhập dung lượng ROM!")]
+        public int ROM { get; set; }
 
-        public Specifications? Specifications { get; set; } // thong so chi tiet
+        [Required(ErrorMessage = "Hãy nhập thông số kỹ thuật số camera sau!")]
+        [Display(Name = "Số lượng camera sau")]
+        public int NumberOfBehindCamera { get; set; }
+
+        [Required(ErrorMessage = "Hãy nhập model sản phẩm!")]
+        public string? Model { get; set; }
+
+        [Required(ErrorMessage = "Hãy nhập hệ điều hành!")]
+        [Display(Name = "Hệ điều hành")]
+        public string? OperatingSystemVersion { get; set; }
     }
 }

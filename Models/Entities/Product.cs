@@ -25,9 +25,6 @@ namespace MobileWeb.Models.Entities
 
         public string? Color { get; set; }
 
-        [ForeignKey("Specifications")]
-        public int SpecificationsId { get; set; }
-
         public Specifications? Specifications { get; set; } // thong so chi tiet
     }
 }

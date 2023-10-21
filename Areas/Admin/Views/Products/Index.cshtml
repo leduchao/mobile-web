@@ -5,6 +5,7 @@
 }
 
 <h1>Danh sách sản phẩm</h1>
+<hr />
 
 <p>
 	<a asp-action="Create" class="btn btn-primary">Tạo sản phẩm mới</a>
@@ -23,28 +24,21 @@
 		@foreach (var item in Model)
 		{
 			<tr>
-				<td>
-					@Html.DisplayFor(modelItem => item.ImgUrl)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Name)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Price)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Quantity)
-				</td>
-				<td>
-					@Html.DisplayFor(modelItem => item.Category!.Name)
-				</td>
+				<td>@item.ImgUrl</td>
+				<td>@item.Name</td>
+				<td>@item.Price</td>
+				<td>@item.Quantity</td>
+				<td>@item.Category?.Name</td>
 
 				<td>
 					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> 
 					<span class="m-2">|</span>
 					<a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
 					<span class="m-2">|</span>
-					<a asp-action="Delete" asp-route-id="@item.Id">Xóa</a>
+					<a asp-action="Delete" asp-route-id="@item.Id" 
+						onclick="confirm('Bạn muốn xóa sản phẩm này?')">
+						Xóa
+					</a>
 				</td>
 			</tr>
 		}

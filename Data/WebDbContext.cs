@@ -12,9 +12,9 @@ public class WebDbContext : DbContext
 
     public DbSet<Category> Categories { get; set; }
 
-    public DbSet<Product>? Products { get; set; }
+    public DbSet<Product> Products { get; set; }
 
-    public DbSet<Specifications>? Specifications { get; set; }
+    public DbSet<Specifications> Specifications { get; set; }
 
     //public DbSet<Order>? Orders { get; set; }
 }

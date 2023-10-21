@@ -14,7 +14,7 @@ namespace MobileWeb.Models.Entities
 
         public int NumberOfFrontCamera { get; set; } // so luong camera truoc
 
-        public int NumberOfBehindtCamera { get; set; } // so luong camera sau
+        public int NumberOfBehindCamera { get; set; } // so luong camera sau
 
         public string? OperatingSystem { get; set; }
 
@@ -22,8 +22,8 @@ namespace MobileWeb.Models.Entities
 
         public string? Model { get; set; }
 
-        //[ForeignKey("Product")]
-        //public int ProductId { get; set; }
+        [ForeignKey("Product")]
+        public int ProductId { get; set; }
 
         public Product? Product { get; set; }
     }

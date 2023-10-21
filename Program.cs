@@ -4,6 +4,8 @@ using MobileWeb.Data;
 using Microsoft.AspNetCore.Identity;
 using MobileWeb.Services;
 using MobileWeb.Models.Entities;
+using MobileWeb.Areas.Admin.Services.CategoryService;
+using MobileWeb.Areas.Admin.Services.ProductService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -45,6 +47,8 @@ builder.Services.AddSession(options =>
 
 // dang ky dich vu thao tac voi gio hang
 builder.Services.AddTransient<CartService>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
+builder.Services.AddScoped<IProductService, ProductService>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

@@ -5,6 +5,7 @@
 }
 
 <h1 class="text-dark">Danh sách danh mục</h1>
+<hr />
 
 <p>
 	<a asp-controller="Categories" asp-action="Create" class="btn btn-outline-primary">Tạo danh mục mới</a>
@@ -21,16 +22,15 @@
 		@foreach (var item in Model)
 		{
 			<tr>
-				<td class="text-dark">
-					@Html.DisplayFor(modelItem => item.Name)
-				</td>
+				<td class="text-dark">@item.Name</td>
 
 				<td>
 					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a>
 					<span class="m-2">|</span>
-					<a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
-					<span class="m-2">|</span>
-					<a asp-action="Delete" asp-route-id="@item.Id">Xóa danh mục</a>
+					<a asp-action="Delete" asp-route-id="@item.Id" 
+						onclick="confirm('Bạn chắc chắn muốn xóa danh mục này?')">
+						Xóa danh mục
+					</a>
 				</td>
 			</tr>
 		}

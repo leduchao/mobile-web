@@ -1,67 +1,71 @@
-﻿@model MobileWeb.Models.Entities.Product
+﻿@model MobileWeb.Models.DTOs.ProductDTO
 
 @{
 	ViewData["Title"] = "Chi tiết sản phẩm";
 	Layout = "_Admin";
 }
 
-<h1>Chi tiết</h1>
+<h1>Chi tiết Sản phẩm</h1>
+<hr />
 
 <div>
-	<h4>Sản phẩm</h4>
-	<hr />
 	<dl class="row">
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Name)
-		</dt>
-		<dd class="col-sm-10">
+		<dt class="col-sm-3">Tên sản phẩm:</dt>
+		<dd class="col-sm-9">
 			@Html.DisplayFor(model => model.Name)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Description)
-		</dt>
-		<dd class="col-sm-10">
+
+		<dt class="col-sm-3">Mô tả:</dt>
+		<dd class="col-sm-9">
 			@Html.DisplayFor(model => model.Description)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.ImgUrl)
-		</dt>
-		<dd class="col-sm-10">
+
+		<dt class="col-sm-3">Hình ảnh:</dt>
+		<dd class="col-sm-9">
 			@Html.DisplayFor(model => model.ImgUrl)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Price)
-		</dt>
-		<dd class="col-sm-10">
+
+		<dt class="col-sm-3">Giá:</dt>
+		<dd class="col-sm-9">
 			@Html.DisplayFor(model => model.Price)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Quantity)
-		</dt>
-		<dd class="col-sm-10">
+
+		<dt class="col-sm-3">Số lượng trong kho:</dt>
+		<dd class="col-sm-9">
 			@Html.DisplayFor(model => model.Quantity)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Category)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Category!.Id)
+
+		<dt class="col-sm-3">Hãng:</dt>
+		<dd class="col-sm-9">
+			@Html.DisplayFor(model => model.Category!.Name)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Color)
-		</dt>
-		<dd class="col-sm-10">
+
+		<dt class="col-sm-3">Màu sắc:</dt>
+		<dd class="col-sm-9">
 			@Html.DisplayFor(model => model.Color)
 		</dd>
-		<dt class="col-sm-2">
-			@Html.DisplayNameFor(model => model.Specifications)
-		</dt>
-		<dd class="col-sm-10">
-			@Html.DisplayFor(model => model.Specifications)
-		</dd>
+
+		<dt class="col-sm-3">Thông số kỹ thuật:</dt>
+		<div class="col-sm-9 row">
+			<dt class="col-sm-3">RAM:</dt>
+			<dd class="col-sm-9">@Html.DisplayFor(model => model.RAM)</dd>
+
+			<dt class="col-sm-3">ROM:</dt>
+			<dd class="col-sm-9">@Html.DisplayFor(model => model.ROM)</dd>
+
+			<dt class="col-sm-3">Số cameara sau:</dt>
+			<dd class="col-sm-9">@Html.DisplayFor(model => model.NumberOfBehindCamera)</dd>
+
+			<dt class="col-sm-3">Model:</dt>
+			<dd class="col-sm-9">@Html.DisplayFor(model => model.Model)</dd>
+
+			<dt class="col-sm-3">Hệ diều hành</dt>
+			<dd class="col-sm-9">@Html.DisplayFor(model => model.OperatingSystemVersion)</dd>
+		</div>
 	</dl>
 </div>
 <div>
-	<a asp-action="Edit" asp-route-id="@Model.Id">Cập nhật</a> |
+	<a asp-action="Edit" asp-route-id="@ViewBag.ProductId">Cập nhật</a>
+	<span class="mx-2">|</span>
 	<a asp-action="Index">Quay lại danh sách</a>
 </div>

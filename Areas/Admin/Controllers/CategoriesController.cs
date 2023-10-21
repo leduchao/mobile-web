@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MobileWeb.Models.Entities;
 using MobileWeb.Data;
 using MobileWeb.Models.DTOs;
+using MobileWeb.Areas.Admin.Services.CategoryService;
 
 namespace MobileWeb.Areas.Admin.Controllers
 {
@@ -10,36 +11,18 @@ namespace MobileWeb.Areas.Admin.Controllers
 	[Route("admin/quan-ly-danh-muc")]
 	public class CategoriesController : Controller
 	{
-		private readonly WebDbContext _context;
+		private readonly ICategoryService _service;
 
-		public CategoriesController(WebDbContext context)
+		public CategoriesController(ICategoryService service)
 		{
-			_context = context;
+			_service = service;
 		}
 
 		// danh sach cac danh muc
 		[Route("danh-sach-danh-muc")]
 		public async Task<IActionResult> Index()
 		{
-			return _context.Categories != null ?
-						View(await _context.Categories.ToListAsync()) :
-						Problem("Entity set 'MobileWebContext.Category_1'  is null.");
-		}
-
-		[HttpGet]
-		[Route("chi-tiet-danh-muc")]
-		public async Task<IActionResult> Details(int? id)
-		{
-			if (id == null || _context.Categories == null)
-				return NotFound();
-
-			var category = await _context.Categories
-				.FirstOrDefaultAsync(m => m.Id == id);
-
-			if (category == null)
-				return NotFound();
-
-			return View(category);
+			return View(await _service.GetAllAsync());
 		}
 
 		[Route("tao-danh-muc-moi")]
@@ -51,7 +34,7 @@ namespace MobileWeb.Areas.Admin.Controllers
 		[HttpPost]
 		[Route("tao-danh-muc-moi")]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("Name")] CategoryDTO categoryDTO)
+		public async Task<IActionResult> Create(CategoryDTO categoryDTO)
 		{
 			if (ModelState.IsValid)
 			{
@@ -60,8 +43,7 @@ namespace MobileWeb.Areas.Admin.Controllers
 					Name = categoryDTO.Name
 				};
 
-				_context.Add(category);
-				await _context.SaveChangesAsync();
+				await _service.CreateAsync(category);
 				return RedirectToAction(nameof(Index));
 			}
 
@@ -69,12 +51,9 @@ namespace MobileWeb.Areas.Admin.Controllers
 		}
 
 		[Route("chinh-sua-danh-muc")]
-		public async Task<IActionResult> Edit(int? id)
+		public async Task<IActionResult> Edit(int id)
 		{
-			if (id == null || _context.Categories == null)
-				return NotFound();
-
-			var category = await _context.Categories.FindAsync(id);
+			var category = await _service.GetByIdAsync(id);
 
 			if (category == null)
 				return NotFound();
@@ -87,33 +66,27 @@ namespace MobileWeb.Areas.Admin.Controllers
 		[HttpPost]
         [Route("chinh-sua-danh-muc")]
         [ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Name")] CategoryDTO categoryDTO)
+		public async Task<IActionResult> Edit(int id, CategoryDTO categoryDTO)
 		{
 			if (ModelState.IsValid)
 			{
 				try
 				{
-					var existCategory = await _context.Categories.FindAsync(id);
+					var existCategory = await _service.GetByIdAsync(id);
 
 					if (existCategory != null)
 					{
 						existCategory.Name = categoryDTO.Name;
 
-						_context.Categories.Update(existCategory);
-						await _context.SaveChangesAsync();
+						await _service.UpdateAsync(existCategory);
 					}
 					else
-					{
 						return NotFound();
-					}
 
 				}
 				catch (DbUpdateConcurrencyException)
 				{
-					if (!CategoryExists(id))
-						return NotFound();
-					else
-						throw;
+					throw;
 				}
 
 				return RedirectToAction(nameof(Index));
@@ -122,43 +95,17 @@ namespace MobileWeb.Areas.Admin.Controllers
 			return View(categoryDTO);
 		}
 
+		[HttpGet]
 		[Route("xoa-danh-muc")]
-		public async Task<IActionResult> Delete(int? id)
+		public async Task<IActionResult> Delete(int id)
 		{
-			if (id == null || _context.Categories == null)
-				return NotFound();
-
-			var category = await _context.Categories
-				.FirstOrDefaultAsync(m => m.Id == id);
+			var category = await _service.GetByIdAsync(id);
 
 			if (category == null)
 				return NotFound();
 
-			ViewData["CategoryId"] = category.Id;
-
-			return View(new CategoryDTO { Name = category.Name });
-		}
-
-        [Route("xoa-danh-muc")]
-        [HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int id)
-		{
-			if (_context.Categories == null)
-				return Problem("Entity set 'MobileWebContext.Categories' is null.");
-
-			var category = await _context.Categories.FindAsync(id);
-
-			if (category != null)
-				_context.Categories.Remove(category);
-
-			await _context.SaveChangesAsync();
+			await _service.DeleteAsync(category);
 			return RedirectToAction(nameof(Index));
-		}
-
-		private bool CategoryExists(int id)
-		{
-			return (_context.Categories?.Any(e => e.Id == id)).GetValueOrDefault();
-		}
+        }
 	}
 }

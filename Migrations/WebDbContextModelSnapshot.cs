@@ -66,15 +66,9 @@ namespace MobileWeb.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.Property<int>("SpecificationsId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
-
-                    b.HasIndex("SpecificationsId")
-                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -102,6 +96,9 @@ namespace MobileWeb.Migrations
                     b.Property<string>("OperatingSystem")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<int>("RAM")
                         .HasColumnType("int");
 
@@ -109,6 +106,9 @@ namespace MobileWeb.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("Specifications");
                 });
@@ -121,15 +121,18 @@ namespace MobileWeb.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MobileWeb.Models.Entities.Specifications", "Specifications")
-                        .WithOne("Product")
-                        .HasForeignKey("MobileWeb.Models.Entities.Product", "SpecificationsId")
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("MobileWeb.Models.Entities.Specifications", b =>
+                {
+                    b.HasOne("MobileWeb.Models.Entities.Product", "Product")
+                        .WithOne("Specifications")
+                        .HasForeignKey("MobileWeb.Models.Entities.Specifications", "ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Category");
-
-                    b.Navigation("Specifications");
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("MobileWeb.Models.Entities.Category", b =>
@@ -137,9 +140,9 @@ namespace MobileWeb.Migrations
                     b.Navigation("Products");
                 });
 
-            modelBuilder.Entity("MobileWeb.Models.Entities.Specifications", b =>
+            modelBuilder.Entity("MobileWeb.Models.Entities.Product", b =>
                 {
-                    b.Navigation("Product");
+                    b.Navigation("Specifications");
                 });
 #pragma warning restore 612, 618
         }

@@ -5,15 +5,13 @@
 	Layout = "_Admin";
 }
 
-<h1>Chỉnh sửa</h1>
-
-<h4>Sản phẩm</h4>
+<h1>Chỉnh sửa Sản phẩm</h1>
 <hr />
-<div class="row">
-	<div class="col-md-4">
-		<form asp-action="Edit">
+		<form asp-action="Edit" class="w-75">
 			<div asp-validation-summary="ModelOnly" class="text-danger"></div>
-			@*<input type="hidden" asp-for="Id" />*@
+
+			<input type="hidden" name="id" value="@ViewBag.ProductId" />
+
 			<div class="form-group">
 				<label asp-for="Name" class="control-label"></label>
 				<input asp-for="Name" class="form-control" />
@@ -57,19 +55,43 @@
 			</div>
 
 			<div class="form-group">
-				<label asp-for="Specifications" class="control-label"></label>
-				<input asp-for="Specifications" class="form-control" />
-				<span asp-validation-for="Specifications" class="text-danger"></span>
+				<label asp-for="OperatingSystemVersion" class="control-label"></label>
+				<input asp-for="OperatingSystemVersion" class="form-control" />
+				<span asp-validation-for="OperatingSystemVersion" class="text-danger"></span>
+			</div>
+
+			<div class="row">
+				<div class="col-6">
+					<div class="form-group">
+						<label asp-for="RAM" class="control-label"></label>
+						<input asp-for="RAM" class="form-control" />
+						<span asp-validation-for="RAM" class="text-danger"></span>
+					</div>
+					<div class="form-group">
+						<label asp-for="NumberOfBehindCamera" class="control-label"></label>
+						<input asp-for="NumberOfBehindCamera" class="form-control" />
+						<span asp-validation-for="NumberOfBehindCamera" class="text-danger"></span>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="form-group">
+						<label asp-for="ROM" class="control-label"></label>
+						<input asp-for="ROM" class="form-control" />
+						<span asp-validation-for="ROM" class="text-danger"></span>
+					</div>
+
+					<div class="form-group">
+						<label asp-for="Model" class="control-label"></label>
+						<input asp-for="Model" class="form-control" />
+						<span asp-validation-for="Model" class="text-danger"></span>
+					</div>
+				</div>
 			</div>
 
 			<div class="form-group">
 				<input type="submit" value="Lưu thay đổi" class="btn btn-primary" />
+				<span class="mx-2">|</span>
+				<a asp-action="Index">Quay lại danh sách</a>
 			</div>
 		</form>
-	</div>
-</div>
-
-<div>
-	<a asp-action="Index">Quay lại danh sách</a>
-</div>
 

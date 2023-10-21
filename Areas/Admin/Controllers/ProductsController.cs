@@ -2,163 +2,172 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MobileWeb.Models.Entities;
-using MobileWeb.Data;
+using MobileWeb.Areas.Admin.Services.ProductService;
+using MobileWeb.Models.DTOs;
 
 namespace MobileWeb.Areas.Admin.Controllers
 {
-	[Area("Admin")]
-	[Route("admin/products")]
-	public class ProductsController : Controller
-	{
-		private readonly WebDbContext _context;
+    [Area("Admin")]
+    [Route("admin/products")]
+    public class ProductsController : Controller
+    {
+        private readonly IProductService _service;
 
-		public ProductsController(WebDbContext context)
-		{
-			_context = context;
-		}
+        public ProductsController(IProductService service)
+        {
+            _service = service;
+        }
 
-		[Route("danh-sach-san-pham")]
-		public async Task<IActionResult> Index()
-		{
-			var listProducts = _context.Products?.Include(p => p.Category);
-			return View(await listProducts!.ToListAsync());
-		}
+        [Route("danh-sach-san-pham")]
+        public async Task<IActionResult> Index()
+        {
+            return View(await _service.GetAllAsync());
+        }
 
-		[Route("chi-tiet-san-pham")]
-		public async Task<IActionResult> Details(int? id)
-		{
-			if (id == null || _context.Products == null)
-			{
-				return NotFound();
-			}
+        [HttpGet]
+        [Route("chi-tiet-san-pham")]
+        public async Task<IActionResult> Details(int id)
+        {
 
-			var product = await _context.Products
-				.Include(p => p.Category)
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (product == null)
-			{
-				return NotFound();
-			}
+            var product = await _service.GetByIdAsync(id);
 
-			return View(product);
-		}
+            if (product == null)
+            {
+                return NotFound();
+            }
 
-		// GET: Admin/Products/Create
-		public IActionResult Create()
-		{
-			ViewData["CategoryId"] = new SelectList(_context.Products, "Id", "Id");
-			return View();
-		}
+            var specifications = await _service.GetSpecificationsAsync(product.Id);
 
-		// POST: Admin/Products/Create
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create(
-			[Bind("Name,Description,ImgUrl,Price," +
-			"Quantity,CategoryId,Color,Specifications")] Product product)
-		{
-			if (ModelState.IsValid)
-			{
-				_context.Add(product);
-				await _context.SaveChangesAsync();
-				return RedirectToAction(nameof(Index));
-			}
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-			return View(product);
-		}
+            if (specifications == null)
+            {
+                return NotFound();
+            }
 
-		// GET: Admin/Products/Edit/5
-		public async Task<IActionResult> Edit(int? id)
-		{
-			if (id == null || _context.Products == null)
-			{
-				return NotFound();
-			}
+            var productDTO = new ProductDTO
+            {
+                Name = product.Name,
+                Description = product.Description,
+                ImgUrl = product.ImgUrl,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                //CategoryId = product.CategoryId,
+                Category = product.Category,
+                Color = product.Color,
+                RAM = specifications!.RAM,
+                ROM = specifications.ROM,
+                NumberOfBehindCamera = specifications.NumberOfBehindCamera,
+                Model = specifications.Model,
+                OperatingSystemVersion = specifications.OperatingSystem
+            };
 
-			var product = await _context.Products.FindAsync(id);
-			if (product == null)
-			{
-				return NotFound();
-			}
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
-			return View(product);
-		}
+            ViewBag.ProductId = product.Id;
 
-		// POST: Admin/Products/Edit/5
-		[HttpPost]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Description,ImgUrl,Price,Quantity,CategoryId,Color,Specifications")] Product product)
-		{
-			if (id != product.Id)
-			{
-				return NotFound();
-			}
+            return View(productDTO);
+        }
 
-			if (ModelState.IsValid)
-			{
-				try
-				{
-					_context.Update(product);
-					await _context.SaveChangesAsync();
-				}
-				catch (DbUpdateConcurrencyException)
-				{
-					if (!ProductExists(product.Id))
-					{
-						return NotFound();
-					}
-					else
-					{
-						throw;
-					}
-				}
-				return RedirectToAction(nameof(Index));
-			}
-			ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", product.CategoryId);
-			return View(product);
-		}
+        // GET: Admin/Products/Create
+        [Route("tao-moi-san-pham")]
+        public async Task<IActionResult> Create()
+        {
+            ViewBag.CategoryId = new SelectList(
+                await _service.GetAllCategoriesAsync(), "Id", "Name");
 
-		// GET: Admin/Products/Delete/5
-		public async Task<IActionResult> Delete(int? id)
-		{
-			if (id == null || _context.Products == null)
-			{
-				return NotFound();
-			}
+            return View();
+        }
 
-			var product = await _context.Products
-				.Include(p => p.Category)
-				.FirstOrDefaultAsync(m => m.Id == id);
-			if (product == null)
-			{
-				return NotFound();
-			}
+        // POST: Admin/Products/Create
+        [HttpPost]
+        [Route("tao-moi-san-pham")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create(ProductDTO request)
+        {
+            if (ModelState.IsValid)
+            {
+                await _service.CreateAsync(request);
+                return RedirectToAction(nameof(Index));
+            }
 
-			return View(product);
-		}
+            ViewBag.CategoryId = new SelectList(
+                await _service.GetAllCategoriesAsync(), "Id", "Name");
 
-		// POST: Admin/Products/Delete/5
-		[HttpPost, ActionName("Delete")]
-		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> DeleteConfirmed(int id)
-		{
-			if (_context.Products == null)
-			{
-				return Problem("Entity set 'MobileWebContext.Product_1'  is null.");
-			}
-			var product = await _context.Products.FindAsync(id);
-			if (product != null)
-			{
-				_context.Products.Remove(product);
-			}
+            return View(request);
+        }
 
-			await _context.SaveChangesAsync();
-			return RedirectToAction(nameof(Index));
-		}
+        // GET: Admin/Products/Edit/5
+        [Route("chinh-sua-san-pham")]
+        public async Task<IActionResult> Edit(int id)
+        {
 
-		private bool ProductExists(int id)
-		{
-			return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
-		}
-	}
+            var product = await _service.GetByIdAsync(id);
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            var specifications = await _service.GetSpecificationsAsync(product.Id);
+
+            if (specifications == null)
+            {
+                return NotFound();
+            }
+
+            var productDTO = new ProductDTO
+            {
+                Name = product.Name,
+                Description = product.Description,
+                ImgUrl = product.ImgUrl,
+                Price = product.Price,
+                Quantity = product.Quantity,
+                CategoryId = product.CategoryId,
+                Color = product.Color,
+                RAM = specifications!.RAM,
+                ROM = specifications.ROM,
+                NumberOfBehindCamera = specifications.NumberOfBehindCamera,
+                Model = specifications.Model,
+                OperatingSystemVersion = specifications.OperatingSystem
+            };
+
+            ViewBag.ProductId = product.Id;
+            ViewBag.CategoryId = new SelectList(
+                await _service.GetAllCategoriesAsync(), "Id", "Name");
+
+            return View(productDTO);
+        }
+
+        // POST: Admin/Products/Edit/5
+        [HttpPost]
+        [Route("chinh-sua-san-pham")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, ProductDTO request)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    await _service.UpdateAsync(id, request);
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    throw;
+                }
+
+                return RedirectToAction(nameof(Index));
+            }
+
+            ViewData["CategoryId"] = new SelectList(
+                await _service.GetAllCategoriesAsync(), "Id", "Name");
+
+            return View(request);
+        }
+
+        // GET: Admin/Products/Delete/5
+        [HttpGet]
+        [Route("xoa-san-pham")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await _service.DeleteAsync(id);
+            return RedirectToAction(nameof(Index));
+        }
+    }
 }
