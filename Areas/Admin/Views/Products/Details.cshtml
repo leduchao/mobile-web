@@ -2,14 +2,13 @@
 
 @{
 	ViewData["Title"] = "Chi tiết sản phẩm";
-	Layout = "_Admin";
 }
 
-<h1>Chi tiết Sản phẩm</h1>
+<h2 class="text-black fst-italic fw-bold">Chi tiết sản phẩm</h2>
 <hr />
 
 <div>
-	<dl class="row">
+	<dl class="row text-black">
 		<dt class="col-sm-3">Tên sản phẩm:</dt>
 		<dd class="col-sm-9">
 			@Html.DisplayFor(model => model.Name)
@@ -64,8 +63,8 @@
 		</div>
 	</dl>
 </div>
-<div>
-	<a asp-action="Edit" asp-route-id="@ViewBag.ProductId">Cập nhật</a>
+<div class="mb-3">
+	<a asp-action="Edit" asp-route-id="@ViewBag.ProductId">Chỉnh sửa</a>
 	<span class="mx-2">|</span>
 	<a asp-action="Index">Quay lại danh sách</a>
 </div>

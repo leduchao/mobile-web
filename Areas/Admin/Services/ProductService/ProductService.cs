@@ -45,7 +45,6 @@ namespace MobileWeb.Areas.Admin.Services.ProductService
             specifications.Brand = cate?.Name;
 
             _context.Products.Add(newProduct);
-            _context.Specifications.Add(specifications);
             await _context.SaveChangesAsync();
         }
 

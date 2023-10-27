@@ -4,31 +4,33 @@
 	ViewData["Title"] = "Danh mục sản phẩm";
 }
 
-<h1 class="text-dark">Danh sách danh mục</h1>
-<hr />
+<div class="d-flex justify-content-between mb-3">
+	<h2 class="text-black fw-bold fst-italic">Danh sách danh mục</h2>
+	<div>
+		<a asp-controller="Categories" asp-action="Create" class="btn btn-success fw-bold">Tạo danh mục mới</a>
+	</div>
+</div>
 
-<p>
-	<a asp-controller="Categories" asp-action="Create" class="btn btn-outline-primary">Tạo danh mục mới</a>
-</p>
 
-<table class="table">
+<table class="table table-sm table-hover text-black">
 	<thead>
-		<tr>
-			<th class="text-dark">Tên danh mục</th>
+		<tr class="text-black">
+			<th>Tên danh mục</th>
+			<th></th>
 		</tr>
 	</thead>
 
 	<tbody>
 		@foreach (var item in Model)
 		{
-			<tr>
-				<td class="text-dark">@item.Name</td>
+			<tr class="text-black">
+				<td>@item.Name</td>
 
 				<td>
 					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a>
 					<span class="m-2">|</span>
-					<a asp-action="Delete" asp-route-id="@item.Id" 
-						onclick="confirm('Bạn chắc chắn muốn xóa danh mục này?')">
+					<a asp-action="Delete" asp-route-id="@item.Id" id="delete-button" 
+						onclick="return confirm('Bạn chắc chắn muốn xóa danh mục @item.Name?')">
 						Xóa danh mục
 					</a>
 				</td>
@@ -36,3 +38,9 @@
 		}
 	</tbody>
 </table>
+
+@section Scripts {
+	<script>
+		
+	</script>
+}

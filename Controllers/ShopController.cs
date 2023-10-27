@@ -32,15 +32,18 @@ namespace MobileWeb.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index([FromQuery] string keyword)
+        public async Task<IActionResult> Index(string keyword)
         {
-            var listProducts = _context.Products?.Include(p => p.Category);
+            var listProducts = await _context.Products
+                .Include(p => p.Category)
+                .ToListAsync();
 
             if (keyword != null)
             {
-                var listSearch = _context.Products?.Include(p => p.Category)
-                                  .Where(p => p.Name!.Contains(keyword))
-                                  .ToList();
+                var listSearch = await _context.Products
+                    .Include(p => p.Category)
+                    .Where(p => p.Name!.Contains(keyword) || p.Category!.Name!.Contains(keyword))
+                    .ToListAsync();
 
                 return View(listSearch);
             }

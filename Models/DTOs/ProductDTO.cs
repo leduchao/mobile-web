@@ -7,7 +7,7 @@ namespace MobileWeb.Models.DTOs
     public class ProductDTO
     {
         [Required(ErrorMessage = "Phải điền tên sản phẩm!")]
-        [StringLength(20, ErrorMessage = "{0} dài từ {2} đến {1} ký tự!", MinimumLength = 3)]
+        [StringLength(100, ErrorMessage = "{0} dài từ {2} đến {1} ký tự!", MinimumLength = 3)]
         [Display(Name = "Tên sản phẩm")]
         public string? Name { get; set; }
 

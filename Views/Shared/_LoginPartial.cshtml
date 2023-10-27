@@ -7,15 +7,14 @@
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))
 	{
-		@*<li class="nav-item">
-			<a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)!</a>
-		</li>
-		<li class="nav-item">
-			<form id="logoutForm" class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-				<button id="logout" type="submit" class="nav-link btn btn-link text-dark">Đăng xuất</button>
-			</form>
-		</li>*@
-
+		if (User.IsInRole("Admin"))
+		{
+			<li class="nav-item">
+				<a class="nav-link fw-bold" asp-controller="Home" asp-action="Index" asp-area="Admin">
+					Admin
+				</a>
+			</li>
+		}
 		<li class="nav-item">
 			<a class="nav-icon position-relative text-decoration-none" asp-controller="Shop" asp-action="ShowCart" asp-route-id="">
 				<i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
@@ -40,19 +39,12 @@
 	}
 	else
 	{
-		@*<li class="nav-item">
-			<a class="nav-link text-dark" id="register" asp-area="Identity" asp-page="/Account/Register">Đăng ký</a>
-		</li>
 		<li class="nav-item">
-			<a class="nav-link text-dark" id="login" asp-area="Identity" asp-page="/Account/Login">Đăng nhập</a>
-		</li>*@
-
-		<li class="nav-item">
-			<a asp-controller="Users" asp-action="Login" type="button" class="btn btn-outline-success fw-bold">Đăng nhập</a>
+			<a asp-controller="Users" asp-action="Login" type="button" class="nav-link fw-bold">Đăng nhập</a>
 		</li>
 
 		<li class="nav-item">
-			<a asp-controller="Users" asp-action="Signup" type="button" class="btn btn-outline-primary ms-2 fw-bold">Đăng ký</a>
+			<a asp-controller="Users" asp-action="Signup" type="button" class="nav-link ms-2 fw-bold">Đăng ký</a>
 		</li>
 	}
 </ul>

@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using MobileWeb.Models.Entities;
 using MobileWeb.Areas.Admin.Services.ProductService;
 using MobileWeb.Models.DTOs;
 
 namespace MobileWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("admin/products")]
+    [Route("admin/quan-ly-san-pham")]
     public class ProductsController : Controller
     {
         private readonly IProductService _service;
@@ -28,20 +27,15 @@ namespace MobileWeb.Areas.Admin.Controllers
         [Route("chi-tiet-san-pham")]
         public async Task<IActionResult> Details(int id)
         {
-
             var product = await _service.GetByIdAsync(id);
 
             if (product == null)
-            {
                 return NotFound();
-            }
 
             var specifications = await _service.GetSpecificationsAsync(product.Id);
 
             if (specifications == null)
-            {
                 return NotFound();
-            }
 
             var productDTO = new ProductDTO
             {
@@ -50,7 +44,6 @@ namespace MobileWeb.Areas.Admin.Controllers
                 ImgUrl = product.ImgUrl,
                 Price = product.Price,
                 Quantity = product.Quantity,
-                //CategoryId = product.CategoryId,
                 Category = product.Category,
                 Color = product.Color,
                 RAM = specifications!.RAM,

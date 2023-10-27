@@ -4,39 +4,41 @@
 	ViewData["Title"] = "Sản phẩm";
 }
 
-<h1>Danh sách sản phẩm</h1>
-<hr />
+<div class="d-flex justify-content-between mb-3">
+	<h2 class="text-black fst-italic fw-bold">Danh sách sản phẩm</h2>
+	<div>
+		<a asp-action="Create" class="btn btn-success fw-bold">Tạo sản phẩm mới</a>
+	</div>
+</div>
 
-<p>
-	<a asp-action="Create" class="btn btn-primary">Tạo sản phẩm mới</a>
-</p>
-<table class="table">
+<table class="table table-sm table-hover">
 	<thead>
-		<tr>
+		<tr class="text-black">
 			<th>Hình ảnh</th>
 			<th>Tên sản phẩm</th>
 			<th>Giá</th>
-			<th>Số lượng trong kho</th>
+			<th>Số lượng</th>
 			<th>Hãng</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
 		@foreach (var item in Model)
 		{
-			<tr>
+			<tr class="text-black">
 				<td>@item.ImgUrl</td>
 				<td>@item.Name</td>
-				<td>@item.Price</td>
+				<td>@item.Price$</td>
 				<td>@item.Quantity</td>
 				<td>@item.Category?.Name</td>
 
 				<td>
-					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a> 
+					<a asp-action="Edit" asp-route-id="@item.Id">Chỉnh sửa</a>
 					<span class="m-2">|</span>
 					<a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
 					<span class="m-2">|</span>
-					<a asp-action="Delete" asp-route-id="@item.Id" 
-						onclick="confirm('Bạn muốn xóa sản phẩm này?')">
+					<a asp-action="Delete" asp-route-id="@item.Id"
+						onclick="return confirm('Bạn muốn xóa @item.Name?')">
 						Xóa
 					</a>
 				</td>
