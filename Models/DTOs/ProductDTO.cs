@@ -15,8 +15,9 @@ namespace MobileWeb.Models.DTOs
         [Display(Name = "Mô tả sản phẩm")]
         public string? Description { get; set; }
 
+        [Required(ErrorMessage = "Hãy chọn 1 hình ảnh!")]
         [Display(Name = "Chọn hình ảnh sản phẩm")]
-        public string? ImgUrl { get; set; }
+        public IFormFile? ImgUrl { get; set; }
 
         [Required(ErrorMessage = "Phải nhập giá tiền!")]
         [Range(0, double.MaxValue, ErrorMessage = "{0} phải lớn hơn hoặc bằng 0!")]

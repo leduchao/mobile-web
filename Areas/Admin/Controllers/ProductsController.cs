@@ -37,11 +37,14 @@ namespace MobileWeb.Areas.Admin.Controllers
             if (specifications == null)
                 return NotFound();
 
+            //FileAccess.
+
             var productDTO = new ProductDTO
             {
                 Name = product.Name,
                 Description = product.Description,
-                ImgUrl = product.ImgUrl,
+                //ImgUrl = ,
+                
                 Price = product.Price,
                 Quantity = product.Quantity,
                 Category = product.Category,
@@ -109,7 +112,7 @@ namespace MobileWeb.Areas.Admin.Controllers
             {
                 Name = product.Name,
                 Description = product.Description,
-                ImgUrl = product.ImgUrl,
+                //ImgUrl = product.ImgUrl,
                 Price = product.Price,
                 Quantity = product.Quantity,
                 CategoryId = product.CategoryId,
