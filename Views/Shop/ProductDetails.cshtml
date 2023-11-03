@@ -2,8 +2,6 @@
 
 @{
 	ViewData["Title"] = Model.Name;
-	string imgPath = "~/assets/img/" + Model.ImgUrl;
-	//string path = "~/assets/img/apple/iphone-14-pro-max-yellow.jpg";
 }
 
 
@@ -13,7 +11,7 @@
 		<div class="row">
 			<div class="col-lg-5 mt-5">
 				<div class="card mb-3">
-					<img class="card-img img-fluid" src="@Url.Content(Model.ImgUrl)" alt="Card image cap" id="product-detail">
+					<img class="card-img img-fluid" src="~/img/products/@Model.ImgUrl" alt="Card image cap" id="product-detail">
 				</div>
 
 				<div class="row">
@@ -35,26 +33,27 @@
 								<div class="row">
 										<div class="col-4">
 											<a href="#">
-												<img class="card-img img-fluid" src="@Url.Content(Model.ImgUrl)" alt="Product Image 1">
+												<img class="card-img img-fluid" src="~/img/products/@Model.ImgUrl" alt="Product Image 1">
 											</a>
 										</div>
 
 									<div class="col-4">
 										<a href="#">
-											<img class="card-img img-fluid" src="@Url.Content(Model.ImgUrl)" alt="Product Image 2">
+											<img class="card-img img-fluid" src="~/img/products/@Model.ImgUrl" alt="Product Image 2">
 										</a>
 									</div>
 
 									<div class="col-4">
 										<a href="#">
-											<img class="card-img img-fluid" src="@Url.Content(Model.ImgUrl)" alt="Product Image 3">
+											<img class="card-img img-fluid" src="~/img/products/@Model.ImgUrl" alt="Product Image 3">
 										</a>
 									</div>
 								</div>
 							</div>
 							<!--/.First slide-->
+
 							<!--Second slide-->
-							<div class="carousel-item">
+							@*<div class="carousel-item">
 								<div class="row">
 										<div class="col-4">
 											<a href="#">
@@ -73,7 +72,7 @@
 										</a>
 									</div>
 								</div>
-							</div>
+							</div>*@
 							<!--/.Second slide-->
 						</div>
 						<!--End Slides-->
@@ -93,8 +92,8 @@
 			<div class="col-lg-7 mt-5">
 				<div class="card">
 					<div class="card-body">
-						<h3 class="">@Model.Name</h3>
-						<p class="h3 py-2 text-danger fw-bold">@Model.Price<span>($)</span></p>
+						<h3 class="fw-bold">@Model.Name</h3>
+						<p class="h3 py-2 text-danger">@Model.Price<span> ($)</span></p>
 						<p class="py-2">
 							<i class="fa fa-star text-warning"></i>
 							<i class="fa fa-star text-warning"></i>
@@ -103,29 +102,26 @@
 							<i class="fa fa-star text-secondary"></i>
 							@*<span class="list-inline-item text-dark">Đánh giá 4.8 | 36 Bình luận</span>*@
 						</p>
-						<ul class="list-inline">
+						<ul class="list-inline mb-0">
 							<li class="list-inline-item">
-								<h6>Thương hiệu:</h6>
+								<h6 class="fst-italic text-success">Thương hiệu:</h6>
 							</li>
 							<li class="list-inline-item">
-								<p class="text-muted"><strong>@Model.Category?.Name</strong></p>
+								<p class="text-black"><strong>@Model.Category?.Name</strong></p>
 							</li>
 						</ul>
 
-						<h6>Mô tả:</h6>
+						<h6 class="fst-italic text-success mb-0">Mô tả:</h6>
 						<p>@Model.Description</p>
 						@*color*@
 
-						<h6>Thông số kỹ thuật:</h6>
-						@*@{
-							string[] specifications = Model.Specifications!.Split(',');
-						}
-						<ul class="pb-3">
-							@foreach(string item in specifications)
-							{
-								<li>@item</li>
-							}
-						</ul>*@
+						<h6 class="fst-italic text-success mb-1">Thông số kỹ thuật:</h6>
+						<ul class="	">
+							<li>RAM: <b>@ViewBag.Specifications.RAM</b></li>
+							<li>ROM: <b>@ViewBag.Specifications.ROM</b></li>
+							<li>Số camera sau: <b>@ViewBag.Specifications.NumberOfBehindCamera</b></li>
+							<li>Hệ điều hành: <b>@ViewBag.Specifications.OperatingSystem</b></li>
+						</ul>
 
 						<form action="" method="GET">
 							@*<input asp-for="Name" type="hidden" name="name" value="@Model.Name?.Replace(" ", "-")">
@@ -135,14 +131,11 @@
 								<div class="col-auto">
 									<ul class="list-inline">
 										<li class="list-inline-item">
-											<h6>Màu sắc :</h6>
+											<h6 class="fst-italic text-success">Màu sắc :</h6>
 										</li>
-										@{
-											string[] colors = Model.Color!.Split(',');
-										}
 										<li class="list-inline-item">
 											<select class="form-control"> @*name="color">*@ @*asp-for="Color"*@
-												@foreach (string color in colors)
+												@foreach (string color in Model.Color!.Split(','))
 												{
 													<option>@color</option>
 												}
@@ -153,7 +146,7 @@
 								<div class="col-auto">
 									<ul class="list-inline pb-3">
 										<li class="list-inline-item text-right">
-											<h6>Số lượng</h6>
+											<h6 class="fst-italic text-success">Số lượng</h6>
 											@*<input type="hidden" name="quanity" id="quanity" value="1">*@
 										</li>
 										<li class="list-inline-item"><span class="btn btn-success" id="btn-minus">-</span></li>
@@ -179,6 +172,7 @@
 	</div>
 </section>
 <!-- Close Content -->
+
 <!-- Start Article -->
 @*<section class="py-5">
 	<div class="container">

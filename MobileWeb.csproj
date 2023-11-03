@@ -61,7 +61,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Admin\Models\" />
-    <Folder Include="Areas\Identity\Data\" />
     <Folder Include="wwwroot\img\products\" />
   </ItemGroup>
 

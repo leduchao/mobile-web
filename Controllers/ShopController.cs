@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http.Connections;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Razor.TagHelpers;
 using Microsoft.EntityFrameworkCore;
+using MobileWeb.Areas.Admin.Services.ProductService;
 using MobileWeb.Data;
 using MobileWeb.Models.Entities;
 using Newtonsoft.Json;
@@ -13,57 +14,52 @@ namespace MobileWeb.Controllers
     public class ShopController : Controller
     {
         private readonly WebDbContext _context;
+        private readonly IProductService _service;
+
         //public const string CARTKEY = "cart";
 
-        public ShopController(WebDbContext context)
+        public ShopController(WebDbContext context, IProductService service)
         {
             _context = context;
+            _service = service;
         }
 
-        public WebDbContext GetContext()
+        public async Task<IActionResult> Index()
         {
-            return _context;
-        }
-
-        public IActionResult Index()
-        {
-            var listProducts = _context.Products?.Include(p => p.Category).ToList();
+            var listProducts = await _service.GetAllAsync();
             return View(listProducts);
         }
 
         [HttpGet]
         public async Task<IActionResult> Index(string keyword)
         {
-            var listProducts = await _context.Products
-                .Include(p => p.Category)
-                .ToListAsync();
+            var listProducts = await _service.GetAllAsync();
 
-            if (keyword != null)
+            if (!string.IsNullOrEmpty(keyword))
             {
-                var listSearch = await _context.Products
-                    .Include(p => p.Category)
-                    .Where(p => p.Name!.Contains(keyword) || p.Category!.Name!.Contains(keyword))
-                    .ToListAsync();
+                var listSearch = listProducts
+                    .Where(p => 
+                        p.Name!.ToLower().Contains(keyword.ToLower()) || 
+                        p.Category!.Name!.ToLower().Contains(keyword.ToLower()))
+                    .ToList();
 
                 return View(listSearch);
             }
-            
+
             return View(listProducts);
         }
 
-        public async Task<IActionResult> ProductDetails(int? id)
+        public async Task<IActionResult> ProductDetails(int id)
         {
-            if (id == null || _context.Products == null)
-            {
-                return NotFound();
-            }
-            var product = await _context.Products
-                .Include(p => p.Category)
-                .FirstOrDefaultAsync(m => m.Id == id);
+
+            var product = await _service.GetByIdAsync(id);
+
             if (product == null)
             {
                 return NotFound();
             }
+
+            ViewBag.Specifications = await _service.GetSpecificationsAsync(product.Id);
             return View(product);
         }
 
@@ -150,25 +146,20 @@ namespace MobileWeb.Controllers
             return View();
         }
 
-        //giá từ thấp -> cao
-        public IActionResult SortProductsByPrice(string? price)
+        //sap xep theo gia
+        public async Task<IActionResult> SortProductsByPrice(string price)
         {
-            var listProduct = new List<Product>();
+            var listProduct = await _service.GetAllAsync();
+            IEnumerable<Product> listSorted;
 
             if (price == "min-to-max")
-            {
-                listProduct = _context?.Products?.OrderBy(p => p.Price).ToList();
-            }
+                listSorted = listProduct.OrderBy(p => p.Price);
             else if (price == "max-to-min")
-            {
-                listProduct = _context?.Products?.OrderByDescending(p => p.Price).ToList();
-            }
-            else
-            {
-                listProduct = _context?.Products?.ToList();
-            }
+                listSorted = listProduct.OrderByDescending(p => p.Price);
+            else 
+                return RedirectToAction(nameof(Index));
 
-            return View("Index", listProduct);
+            return View(nameof(Index), listSorted);
         }
     }
 }
