@@ -12,7 +12,6 @@
 			@await Component.InvokeAsync("Sidebar")
 		</div>
 
-		@*lọc sản phẩm*@
 		<div class="col-lg-10">
 			<div class="row">
 				<div class="col-md-6">
@@ -32,6 +31,8 @@
 						</li>
 					</ul>
 				</div>
+
+				@*lọc sản phẩm*@
 				<div class="col-md-6 pb-4">
 					<div class="d-flex">
 						<form class="d-flex w-100" asp-controller="Shop" asp-action="SortProductsByPrice" method="get">
@@ -69,12 +70,12 @@
 													<i class="far fa-eye"></i>
 												</a>
 											</li>
-											<li>
+											@*<li>
 												<a class="btn btn-success text-white mt-2"
 												 asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id">
 													<i class="fas fa-cart-plus"></i>
 												</a>
-											</li>
+											</li>*@
 										</ul>
 									</div>
 								</div>

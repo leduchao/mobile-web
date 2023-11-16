@@ -1,4 +1,4 @@
-﻿@model List<MobileWeb.Models.Entities.CartItems>
+﻿@model List<MobileWeb.Models.Entities.CartItem>
 @{
 	ViewData["Title"] = "Giỏ hàng";
 }
@@ -34,12 +34,11 @@
 					<td><input asp-for="@cartitem.Quantity" id="@($"quantity-{cartitem.Product?.Id}")" /></td>
 					<td>@(thanhtien?.ToString("n0"))</td>
 					<td>
-						<button class="btn btn-success updatecartitem"
-						data-productid="@cartitem.Product?.Id">
+						<button class="btn btn-success updatecartitem" data-productid="@cartitem.Product?.Id">
 							Cập nhật
 						</button>
-						<a asp-route="removecart" asp-route-productid="@cartitem.Product?.Id"
-				   class="btn btn-danger">Xóa</a>
+
+						<a asp-route="removecart" asp-route-productid="@cartitem.Product?.Id" class="btn btn-danger">Xóa</a>
 					</td>
 				</tr>
 			}

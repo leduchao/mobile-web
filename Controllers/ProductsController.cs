@@ -3,16 +3,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MobileWeb.Data;
 using MobileWeb.Models.Entities;
-using MobileWeb.Services;
+using MobileWeb.Services.CartService;
 
 namespace MobileWeb.Controllers
 {
     public class ProductsController : Controller
     {
         private readonly WebDbContext _context;
-        private readonly CartService _cartService;
+        private readonly ICartService _cartService;
 
-        public ProductsController(WebDbContext context, CartService cartService)
+        public ProductsController(WebDbContext context, ICartService cartService)
         {
             _context = context;
             _cartService = cartService;
@@ -54,14 +54,14 @@ namespace MobileWeb.Controllers
             return (_context.Products?.Any(e => e.Id == id)).GetValueOrDefault();
         }
 
-        [Route("/cart", Name = "cart")]
+        [Route("/cartt", Name = "cartt")]
         public IActionResult Cart()
         {
-            return View(_cartService.GetCartItems());
+            return View(_cartService.GetAllItems());
         }
 
         [Authorize(Roles = "user")]
-        [Route("/cart/{product-id:int}", Name = "AddCart")]
+        [Route("/cartt/{product-id:int}", Name = "AddCart")]
         public IActionResult AddToCart(int productId)
         {
             if (!User.Identity!.IsAuthenticated)
@@ -73,7 +73,7 @@ namespace MobileWeb.Controllers
             {
                 return NotFound();
             }
-            var cart = _cartService.GetCartItems();
+            var cart = _cartService.GetAllItems();
             var cartitem = cart?.Find(p => p.Product?.Id == productId);
             if (cartitem != null)
             {
@@ -83,7 +83,7 @@ namespace MobileWeb.Controllers
             else
             {
                 //  Thêm mới
-                cart?.Add(new CartItems() { Quantity = 1, Product = product });
+                cart?.Add(new CartItem() { Quantity = 1, Product = product });
             }
 
             // Lưu cart vào Session
@@ -97,7 +97,7 @@ namespace MobileWeb.Controllers
         public IActionResult UpdateCart([FromForm] int productid, [FromForm] int quantity)
         {
             // Cập nhật Cart thay đổi số lượng quantity ...
-            var cart = _cartService.GetCartItems();
+            var cart = _cartService.GetAllItems();
             var cartitem = cart?.Find(p => p.Product?.Id == productid);
             if (cartitem != null)
             {
@@ -113,7 +113,7 @@ namespace MobileWeb.Controllers
         [Route("/removecart/{productid:int}", Name = "removecart")]
         public IActionResult RemoveCart([FromRoute] int productid)
         {
-            var cart = _cartService.GetCartItems();
+            var cart = _cartService.GetAllItems();
             var cartitem = cart?.Find(p => p.Product?.Id == productid);
             if (cartitem != null)
             {

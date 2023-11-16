@@ -1,7 +1,11 @@
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MobileWeb.Areas.Identity.Models.Account;
 using MobileWeb.Areas.Identity.Services;
+using MobileWeb.Models.Entities;
+using MobileWeb.Services.EmailService;
+using NuGet.Common;
 
 namespace App.Areas.Identity.Controllers;
 
@@ -9,32 +13,34 @@ namespace App.Areas.Identity.Controllers;
 [Route("identity/account")]
 public class AccountController : Controller
 {
-	private readonly IAccountService _service;
+	private readonly IAccountService _accountService;
+	private readonly IEmailService _emailService;
 	private readonly ILogger<AccountController> _logger;
 
-	public AccountController(IAccountService service,
-		ILogger<AccountController> logger)
+	public AccountController(IAccountService accountService, IEmailService emailService,
+
+        ILogger<AccountController> logger)
 	{
-		_service = service;
+		_accountService = accountService;
+		_emailService = emailService;
 		_logger = logger;
 	}
 
 	[Route("login")]
 	public async Task<IActionResult> Login()
 	{
-		await _service.LogoutAsync();
+		await _accountService.LogoutAsync();
 		return View();
 	}
 
-   // POST: identity/account/login
-   [HttpPost]
-   [Route("login")]
-   [ValidateAntiForgeryToken]
+	// POST: identity/account/login
+	[HttpPost]
+	[Route("login")]
 	public async Task<IActionResult> Login(LoginViewModel model)
 	{
 		if (ModelState.IsValid)
 		{
-			var result = await _service.LoginAsync(model);
+			var result = await _accountService.LoginAsync(model);
 
 			if (result)
 			{
@@ -50,21 +56,21 @@ public class AccountController : Controller
 
 		return View(model);
 	}
-	
+
 	[Route("logout")]
 	public async Task<IActionResult> Logout()
 	{
-		await _service.LogoutAsync();
+		await _accountService.LogoutAsync();
 		_logger.LogInformation("User has logged out!");
 
 		return RedirectToAction("Index", "Home", new { area = "" });
 	}
-	//
+	
 	// GET: /Account/Register
 	[Route("register")]
 	public async Task<IActionResult> Register()
 	{
-		await _service.LogoutAsync();
+		await _accountService.LogoutAsync();
 		return View();
 	}
 
@@ -75,35 +81,40 @@ public class AccountController : Controller
 	{
 		if (ModelState.IsValid)
 		{
-			var result = await _service.RegisterAsync(model);
-			var user = await _service.GetUserByEmail(model.Email!);
+			var result = await _accountService.RegisterAsync(model);
+			var user = await _accountService.GetUserByEmail(model.Email!);
 
 			if (result && user is not null)
 			{
 				_logger.LogInformation("User has registed!");
 
-				var token = await _service.GenerateEmailConfirmTokenAsync(user);
+				var token = await _accountService.GenerateEmailConfirmTokenAsync(user);
 				var callbackUrl = Url.Action("ConfirmEmail", "Account", new { uid = user.Id, token }, Request.Scheme);
 
 				if (callbackUrl is not null)
 				{
-					await _service.SendEmailAsync(model.Email!, callbackUrl);
+					string subject = "Xác thực email";
+					string body = $"Hãy <a href='{callbackUrl}'>click vào đây</a> để xác thực email!";
+
+					await _emailService.SendMailAsync(model.Email!, subject, body);
+
 					return RedirectToAction(nameof(ConfirmEmail));
 				}
-				else 
-					await _service.DeleteUserByEmailAsync(model.Email!);
+				else
+					await _accountService.DeleteUserByEmailAsync(model.Email!);
 			}
 			else
 			{
 				ModelState.AddModelError("", "Không thể đăng ký tài khoản!");
-                await _service.DeleteUserByEmailAsync(model.Email!);
-            }
+				await _accountService.DeleteUserByEmailAsync(model.Email!);
+			}
 
 		}
 
 		return View(model);
 	}
 
+	// verify email
 	[Route("confirm-email")]
 	public IActionResult ConfirmEmail()
 	{
@@ -114,10 +125,83 @@ public class AccountController : Controller
 	[Route("confirm-email")]
 	public async Task<IActionResult> ConfirmEmail(string uid, string token)
 	{
-		var result = await _service.ConfirmEmailAsync(uid, token);
+		var result = await _accountService.ConfirmEmailAsync(uid, token);
 
 		if (result)
 			return RedirectToAction(nameof(Login));
+
+		return View();
+	}
+
+	// forgot password
+	[Route("forgot-password")]
+	public IActionResult ForgotPassword()
+	{
+		return View();
+	}
+
+	[HttpPost]
+	[Route("forgot-password")]
+	public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
+	{
+		var user = await _accountService.GetUserByEmail(model.Email!);
+
+		if (user != null)
+		{
+			var callbackUrl = Url.Action("ResetPassword", "Account", new { uid = user.Id }, Request.Scheme);
+
+			string subject = "Đặt lại mật khẩu";
+			string body = $"Hãy <a href='{callbackUrl}'>click vào đây</a> để đặt lại mật khẩu!";
+
+			await _emailService.SendMailAsync(model.Email!, subject, body);
+			_logger.LogInformation("Email has been sended!");
+
+			return RedirectToAction(nameof(ConfirmResetPassword));
+		}
+
+        ModelState.AddModelError("", "Email không chính xác!");
+        return View();
+	}
+
+	// confirm reset pass
+	[Route("confirm-reset-password")]
+	public IActionResult ConfirmResetPassword()
+	{
+		return View();
+	}
+
+	// reset pass
+	[HttpGet]
+	[Route("reset-password")]
+	public IActionResult ResetPassword(string uid)
+	{
+		ViewBag.UserId = uid;
+		return View();
+	}
+
+	[HttpPost]
+	[Route("reset-password")]
+	public async Task<IActionResult> ResetPassword(string uid, ResetPasswordViewModel model)
+	{
+		var user = await _accountService.GetUserById(uid);
+
+		if (user != null)
+		{
+			var token = await _accountService.GenerateForgotPaswordTokenAsync(user);
+
+			if (string.IsNullOrEmpty(model.Password))
+				model.Password = "passwordnull";
+			else
+			{
+				var result = await _accountService.ResetPasswordAsync(uid, token, model.Password);
+
+				if (result)
+				{
+					_logger.LogInformation("Password changed successfully!");
+					return RedirectToAction(nameof(Login));
+				}
+			}
+		}
 
 		return View();
 	}

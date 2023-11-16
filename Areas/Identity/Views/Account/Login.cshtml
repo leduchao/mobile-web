@@ -23,9 +23,13 @@
 			<span asp-validation-for="Password" class="text-danger"></span>
 		</div>
 
-		<div class="mb-3 form-check">
-			<input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
-			<label class="form-check-label" asp-for="RememberMe">Ghi nhớ tài khoản</label>
+		<div class="mb-3 form-check d-flex justify-content-between">
+			<div>
+				<input asp-for="RememberMe" type="checkbox" class="form-check-input" id="exampleCheck1">
+				<label class="form-check-label" asp-for="RememberMe">Ghi nhớ tài khoản</label>
+			</div>
+
+			<a asp-controller="Account" asp-action="ForgotPassword">Quên mật khẩu</a>
 		</div>
 
 		<button type="submit" class="btn btn-success w-100 mt-1 mb-3 fw-bold">Đăng nhập</button>

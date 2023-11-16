@@ -1,16 +1,27 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.AspNetCore.Identity;
+using MobileWeb.Models.DTOs;
+using System.ComponentModel.DataAnnotations;
 
-namespace MobileWeb.Models.Entities
+namespace MobileWeb.Models.Entities;
+
+public class Order
 {
-	public class Order
-	{
-		[Key]
-		public int ProductId { get; set; }
-		public int CategoryId { get; set; }
-		public int Quantity { get; set; }
-		public double TotalPrice { get; set; }
-		public double Price { get; set; }
-		public string? Name { get; set; }
-	}
+	[Key]
+	public int Id { get; set; }
+
+	public List<OrderItem> OrderItems { get; set; } = new();
+
+	public Status Status { get; set; }
+
+	public string? UserId { get; set; }
+
+	public virtual User? User { get; set; }
+
+    public virtual PaymentMethods PaymentMethod { get; set; }
+
+    public DateTime OrderAt { get; set; }
+
+    public DateTime DeliveryAt { get; set; }
+
+	//public double TotalPayment { get; set; }
 }

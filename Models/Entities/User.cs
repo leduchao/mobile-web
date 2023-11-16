@@ -10,6 +10,8 @@ namespace MobileWeb.Models.Entities
         public string? Address { get; set; }
         public DateTime? Birthday { get; set; }
         public DateTime? CreatedAt { get; set; } // ngay tao tai khoan
-        public string? Avatar { get; set; } // ten file lam avatar
+        public string? Avatar { get; set; }
+
+        //public virtual List<Order> Orders { get; set; } = new();
     }
 }

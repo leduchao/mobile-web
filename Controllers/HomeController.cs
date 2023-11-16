@@ -1,18 +1,16 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using MobileWeb.Areas.Identity.Services;
+﻿using Microsoft.AspNetCore.Mvc;
 using MobileWeb.Models;
+using MobileWeb.Services.EmailService;
 using System.Diagnostics;
-using System.Runtime.CompilerServices;
 
 namespace MobileWeb.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IAccountService _service;
+        private readonly IEmailService _service;
 
-        public HomeController(ILogger<HomeController> logger, IAccountService service)
+        public HomeController(ILogger<HomeController> logger, IEmailService service)
         {
             _logger = logger;
             _service = service;
@@ -37,11 +35,12 @@ namespace MobileWeb.Controllers
         //public async Task<IActionResult> SendMail()
         //{
         //    string to = "doantrihung4444@gmail.com";
-        //    int code = 123456;
+        //    string subject = "TEST";
+        //    string body = "<h1>Xin chào</h1>";
 
-        //    await _service.SendEmailAsync(to, code.ToString());
+        //    await _service.SendMailAsync(to, subject, body);
 
-        //    _logger.LogInformation("Mail has been sended!");
+        //    _logger.LogInformation("Email sended!");
 
         //    return NoContent();
         //}

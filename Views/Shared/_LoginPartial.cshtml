@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using MobileWeb.Models.Entities
+@using MobileWeb.Services.CartService
 
 @inject SignInManager<User> SignInManager
 @inject UserManager<User> UserManager
+@inject ICartService CartService
 
 <ul class="navbar-nav">
 	@if (SignInManager.IsSignedIn(User))
@@ -17,6 +19,15 @@
 		}
 		else 
 		{
+			var cart = CartService.GetAllItems();
+
+			@if (cart != null)
+			{
+				<a asp-controller="Shop" asp-action="ShowCart" class="nav-link position-relative text-decoration-none">
+					<i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
+					<span class="position-absolute top-10 left-100 translate-middle badge rounded-pill bg-light text-dark">@cart.Count()</span>
+				</a>
+			}
 			<li class="nav-item">
 				<a asp-controller="Users" asp-action="ShowProfile" asp-route-username="@UserManager.GetUserId(User)" class="nav-link fw-bold">
 					@UserManager.GetUserName(User)

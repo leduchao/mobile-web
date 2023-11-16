@@ -1,18 +1,12 @@
-﻿// Licensed to the .NET Foundation under one or more agreements.
-// The .NET Foundation licenses this file to you under the MIT license.
-
-using System;
-using System.Collections.Generic;
+﻿
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
 
-namespace MobileWeb.Areas.Identity.Models.AccountViewModels
+namespace MobileWeb.Areas.Identity.Models.Account;
+
+public class ForgotPasswordViewModel
 {
-    public class ForgotPasswordViewModel
-    {
-        [Required]
-        [EmailAddress]
-        public string Email { get; set; }
-    }
+    [Required(ErrorMessage = "Hãy nhập email đã đăng ký!")]
+    [EmailAddress(ErrorMessage = "Không đúng định dạng email!")]
+    [StringLength(100, ErrorMessage = "{0} phải có ít nhất {2} ký tự!", MinimumLength = 3)]
+    public string? Email { get; set; }
 }

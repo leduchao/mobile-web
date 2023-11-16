@@ -1,8 +1,10 @@
 ﻿@using Microsoft.AspNetCore.Http
+@using MobileWeb.Services.CartService
 @using Newtonsoft.Json
-@inject MobileWeb.Services.CartService _cartService
+@inject CartService _cartService
+
 @{
-	var cart = _cartService.GetCartItems();
+	var cart = _cartService.GetAllItems();
 	if (cart != null)
 	{
 		<a class="nav-icon position-relative text-decoration-none" asp-route="cart">

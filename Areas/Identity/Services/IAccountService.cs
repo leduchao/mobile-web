@@ -1,27 +1,27 @@
 ﻿using MobileWeb.Areas.Identity.Models.Account;
 using MobileWeb.Models.Entities;
 
-namespace MobileWeb.Areas.Identity.Services
+namespace MobileWeb.Areas.Identity.Services;
+
+public interface IAccountService
 {
-    public interface IAccountService
-    {
-        Task<bool> LoginAsync(LoginViewModel model);
+    Task<bool> LoginAsync(LoginViewModel model);
 
-        Task LogoutAsync();
+    Task LogoutAsync();
 
-        Task<bool> RegisterAsync(RegisterViewModel model);
+    Task<bool> RegisterAsync(RegisterViewModel model);
 
-        Task ChangePasswordAsync(ResetPasswordViewModel model);
+    Task<bool> ResetPasswordAsync(string uid, string token, string newPassword);
 
-        Task SendEmailAsync(string to, string callbackUrl);
+    Task<bool> ConfirmEmailAsync(string uid, string token);
 
-        Task<bool> ConfirmEmailAsync(string uid, string token);
+    Task<User> GetUserByEmail(string email);
 
-        Task<User> GetUserByEmail(string email);
-        Task<User> GetUserById(string id);
+    Task<User> GetUserById(string id);
 
-        Task DeleteUserByEmailAsync(string email);
+    Task DeleteUserByEmailAsync(string email);
 
-        Task<string> GenerateEmailConfirmTokenAsync(User user);
-    }
+    Task<string> GenerateEmailConfirmTokenAsync(User user);
+
+    Task<string> GenerateForgotPaswordTokenAsync(User user);
 }

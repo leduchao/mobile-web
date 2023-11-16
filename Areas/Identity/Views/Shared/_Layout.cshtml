@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site_identity.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MobileWeb.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/fontawesome.min.css" asp-append-version="true"/>
 </head>
 
 <body>
@@ -15,6 +16,13 @@
         <main role="main" class="">
             @RenderBody()
         </main>
+
+        <footer class="footer">
+            <a asp-controller="Home" asp-action="Index" asp-area="" class="text-decoration-none">
+                <i class="fas fa-arrow-left me-2"></i>
+                Quay lại trang chủ
+            </a>
+        </footer>
     </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
