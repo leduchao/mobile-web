@@ -84,7 +84,7 @@ public class ShopController : Controller
         ViewBag.UserFirstName = user.FirstName;
         ViewBag.UserLastName = user.LastName;
         ViewBag.UserAddress = user.Address;
-        ViewBag.PhongNumber = user.PhoneNumber;
+        ViewBag.UserPhoneNumber = user.PhoneNumber;
 
         return View();
     }

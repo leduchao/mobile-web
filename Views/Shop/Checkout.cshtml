@@ -61,13 +61,13 @@
 					</div>
 
 					<div class="col-12 form-floating mb-4">
-						<input asp-for="Address" type="text" class="form-control" placeholder="1234 Main St..." value="@ViewBag.Address" required>
+						<input asp-for="Address" type="text" class="form-control" placeholder="1234 Main St..." value="@ViewBag.UserAddress" required>
 						<label asp-for="Address">Địa chỉ nhận hàng</label>
 						<span asp-validation-for="Address" class="text-danger"></span>
 					</div>
 
 					<div class="col-12 form-floating">
-						<input asp-for="PhoneNumber" type="text" class="form-control" placeholder="01234..." value="@ViewBag.PhoneNumber" required>
+						<input asp-for="PhoneNumber" type="text" class="form-control" placeholder="01234..." value="@ViewBag.UserPhoneNumber" required>
 						<label asp-for="PhoneNumber">Số điện thoại</label>
 						<span asp-validation-for="PhoneNumber" class="text-danger"></span>
 					</div>
