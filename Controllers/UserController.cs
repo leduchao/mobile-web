@@ -34,6 +34,9 @@ public class UserController : Controller
 		if (user is null)
 			return NotFound();
 
+		ViewBag.ProcessingOrderList = await _userService.GetProccessingOrdersAsync(uid);
+		ViewBag.ShippingOrderList = await _userService.GetShippingOrdersAsync(uid);
+		ViewBag.FinishedOrderList = await _userService.GetFinishedOrdersAsync(uid);
 		return View(user);
 	}
 

@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
+using Microsoft.EntityFrameworkCore;
 using MobileWeb.Areas.Admin.Services.ProductService;
 using MobileWeb.Areas.Identity.Services;
 using MobileWeb.Data;
@@ -157,6 +158,20 @@ public class UserService : IUserService
             if (!string.IsNullOrEmpty(user.Avatar))
                 File.Delete(@"wwwroot\img\users\" + user.Avatar);
 
+            var userOrderList = await _dbContext.Orders
+                .Where(o => o.UserId == user.Id)
+                .ToListAsync();
+
+            if (userOrderList is not null && userOrderList.Count != 0)
+            {
+                foreach (var order in userOrderList)
+                {
+                    _dbContext.Orders.Remove(order);
+                }
+
+                await _dbContext.SaveChangesAsync();
+            }
+
             var result = await _userManager.DeleteAsync(user);
             return result.Succeeded;
         }
@@ -170,5 +185,98 @@ public class UserService : IUserService
         token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
         return token;
+    }
+
+    public async Task<List<Order>> GetProccessingOrdersAsync(string uid)
+    {
+        var orders = await _dbContext.Orders
+            .Where(o => o.UserId == uid && o.Status == Status.Processing)
+            .ToListAsync();
+
+        if (orders is not null && orders.Count != 0)
+        {
+            foreach (var order in orders)
+            {
+                var orderItemList = await _dbContext.OrderItems
+                    .Where(oi => oi.OrderId == order.Id).ToListAsync();
+
+                foreach(var item in orderItemList)
+                {
+                    var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
+
+                    if (product is not null)
+                        item.Product = product;
+                } 
+                    
+
+                order.OrderItems = orderItemList;
+            }
+
+            return orders;
+        }
+
+        return new List<Order>();
+    }
+
+    public async Task<List<Order>> GetShippingOrdersAsync(string uid)
+    {
+        var orders = await _dbContext.Orders
+            .Where(o => o.UserId == uid && o.Status == Status.Shipping)
+            .ToListAsync();
+
+        if (orders is not null && orders.Count != 0)
+        {
+            foreach (var order in orders)
+            {
+                var orderItemList = await _dbContext.OrderItems
+                    .Where(oi => oi.OrderId == order.Id).ToListAsync();
+
+                foreach (var item in orderItemList)
+                {
+                    var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
+
+                    if (product is not null)
+                        item.Product = product;
+                }
+
+
+                order.OrderItems = orderItemList;
+            }
+
+            return orders;
+        }
+
+        return new List<Order>();
+    }
+
+    public async Task<List<Order>> GetFinishedOrdersAsync(string uid)
+    {
+        var orders = await _dbContext.Orders
+            .Where(o => o.UserId == uid && o.Status == Status.Finished)
+            .ToListAsync();
+
+        if (orders is not null && orders.Count != 0)
+        {
+            foreach (var order in orders)
+            {
+                var orderItemList = await _dbContext.OrderItems
+                    .Where(oi => oi.OrderId == order.Id).ToListAsync();
+
+                foreach (var item in orderItemList)
+                {
+                    var product = await _dbContext.Products.FirstOrDefaultAsync(p => p.Id == item.ProductId);
+
+                    if (product is not null)
+                        item.Product = product;
+                }
+
+
+                order.OrderItems = orderItemList;
+            }
+
+            return orders;
+        }
+
+        return new List<Order>();
     }
 }

@@ -1,12 +1,26 @@
-﻿@model MobileWeb.Models.Entities.User
+﻿@using MobileWeb.Models.Entities
+@model MobileWeb.Models.Entities.User
 
 @{
 	ViewData["Title"] = "Hồ sơ";
+	var proccessingOrderList = ViewBag.ProcessingOrderList as IEnumerable<Order>;
+	var shippingOrderList = ViewBag.ShippingOrderList as IEnumerable<Order>;
+	var finishedOrderList = ViewBag.FinishedOrderList as IEnumerable<Order>;
 }
+
+<style>
+	.nav-link {
+		color: #59ab6e;
+	}
+
+	.nav-link:hover {
+		color: #198754;
+	}
+</style>
 
 <section style="background-color: #fff;">
 	<div class="container py-3">
-		<h2 class="text-success mb-3">Hồ sơ</h2>
+		<h2 class="text-black fw-bold mb-3">Hồ sơ</h2>
 
 		<div class="row">
 			<div class="col-lg-4">
@@ -20,7 +34,7 @@
 						{
 							<img src="~/img/users/avatar1.png" alt="avatar" class="rounded-circle img-fluid" style="width: 119px; height: 126px">
 						}
-							 
+
 						<h5 class="my-3 fw-bold">@Model.FirstName @Model.LastName</h5>
 
 						<div class="d-flex justify-content-between">
@@ -47,11 +61,11 @@
 							</div>
 							<div class="col-sm-9 d-flex">
 								<p class="text-black fw-bold me-2 mb-0">@Model.Email</p>
-								@if (Model.EmailConfirmed) 
+								@if (Model.EmailConfirmed)
 								{
 									<p class="mb-0 text-success">(Đã xác thực)</p>
 								}
-								else 
+								else
 								{
 									<div class="d-flex justify-content-between w-75">
 										<p class="mb-0 text-warning">(Chưa xác thực)</p>
@@ -84,15 +98,180 @@
 		</div>
 
 		<div class="d-flex flex-row-reverse mb-2">
-			<a asp-controller="User" asp-action="DeleteUser" asp-route-uid="@Model.Id" 
-				class="btn btn-outline-danger fw-bold border border-3 border-danger" 
-				onclick="return confirm('Bạn muốn xóa tài khoản @Model.UserName này?')">
-				Xóa tài khoản
-			</a>
-
-			<a asp-controller="User" asp-action="ChangePassword" asp-route-uid="@Model.Id" 
-				class="btn btn-outline-success fw-bold border border-3 border-success me-4">
+			<a asp-controller="User" asp-action="ChangePassword" asp-route-uid="@Model.Id"
+			   class="btn btn-outline-success fw-bold border border-3 border-success w-25">
 				Đổi mật khẩu
+			</a>
+		</div>
+
+		<nav class="mb-4">
+			<h4 class="text-black fw-bold mb-3">Đơn hàng của bạn</h4>
+			<div class="nav nav-tabs text-success" id="nav-tab" role="tablist">
+				<button class="nav-link fw-bold active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-home" type="button" role="tab" aria-controls="nav-home" aria-selected="true">Đang chờ xử lý (@proccessingOrderList?.Count())</button>
+				<button class="nav-link fw-bold" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Đang giao (@shippingOrderList?.Count())</button>
+				<button class="nav-link fw-bold" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Đã giao (@finishedOrderList?.Count())</button>
+			</div>
+		</nav>
+		<div class="tab-content" id="nav-tabContent">
+			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+				@if (proccessingOrderList is null || proccessingOrderList.Count() == 0)
+				{
+					<p class="mb-4 fst-italic">Không có đơn hàng nào!</p>
+				}
+				else
+				{
+					@foreach (var order in proccessingOrderList)
+					{
+						var totalprice = 0d;
+
+						<div class="card rounded mb-4 shadow-sm">
+							<div class="card-header fw-bold">Đơn hàng</div>
+
+							<div class="card-body">
+								@foreach (var item in order.OrderItems)
+								{
+									<div class="row d-flex justify-content-between align-items-center">
+										<div class="col-md-2 col-lg-2 col-xl-1 ">
+											<img src="~/img/products/@item.Product?.ImgUrl" width="100" height="100" class="img-fluid rounded-3" alt="Cotton T-shirt">
+										</div>
+
+										<div class="col-md-3 col-lg-3 col-xl-4">
+											<p class="lead fw-bold text-black mb-2">@item.Product?.Name</p>
+											<p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p>
+										</div>
+
+										<div class="col-md-2 col-lg-2 col-xl-2">
+											<h5 class="mb-0">Số lượng: @item.Quantity</h5>
+										</div>
+
+										<div class="col-md-2 col-lg-2 col-xl-1">
+											<h5 class="mb-0">$@item.UnitPrice</h5>
+										</div>
+									</div>
+
+									totalprice += item.UnitPrice * item.Quantity;
+
+									<hr />
+								}
+
+								<div class="d-flex ">
+									<h4 class="text-black me-3 fst-italic">Tổng thanh toán: </h4>
+									<h4 class="text-danger">$@totalprice</h4>
+								</div>
+							</div>
+						</div>
+					}
+				}
+			</div>
+
+			<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+				@if (shippingOrderList is null || shippingOrderList.Count() == 0)
+				{
+					<p class="mb-4 fst-italic">Không có đơn hàng nào!</p>
+				}
+				else
+				{
+					@foreach (var order in shippingOrderList)
+					{
+						var totalprice = 0d;
+
+						<div class="card rounded mb-4 shadow-sm">
+							<div class="card-header fw-bold">Đơn hàng</div>
+
+							<div class="card-body">
+								@foreach (var item in order.OrderItems)
+								{
+									<div class="row d-flex justify-content-between align-items-center">
+										<div class="col-md-2 col-lg-2 col-xl-1 ">
+											<img src="~/img/products/@item.Product?.ImgUrl" width="100" height="100" class="img-fluid rounded-3" alt="Cotton T-shirt">
+										</div>
+
+										<div class="col-md-3 col-lg-3 col-xl-4">
+											<p class="lead fw-bold text-black mb-2">@item.Product?.Name</p>
+											<p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p>
+										</div>
+
+										<div class="col-md-2 col-lg-2 col-xl-2">
+											<h5 class="mb-0">Số lượng: @item.Quantity</h5>
+										</div>
+
+										<div class="col-md-2 col-lg-2 col-xl-1">
+											<h5 class="mb-0">$@item.UnitPrice</h5>
+										</div>
+									</div>
+
+									<hr />
+
+									totalprice += item.UnitPrice * item.Quantity;
+								}
+
+								<div class="d-flex">
+									<h4 class="text-black me-3 fst-italic">Tổng thanh toán: </h4>
+									<h4 class="text-danger">$@totalprice</h4>
+								</div>
+							</div>
+						</div>
+					}
+				}
+			</div>
+
+			<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+				@if (finishedOrderList is null || finishedOrderList.Count() == 0)
+				{
+					<p class="mb-4 fst-italic">Không có đơn hàng nào!</p>
+				}
+				else
+				{
+					@foreach (var order in finishedOrderList)
+					{
+						var totalprice = 0d;
+
+						<div class="card rounded mb-4 shadow-sm">
+							<div class="card-header fw-bold">Đơn hàng</div>
+
+							<div class="card-body">
+								@foreach (var item in order.OrderItems)
+								{
+									<div class="row d-flex justify-content-between align-items-center">
+										<div class="col-md-2 col-lg-2 col-xl-1 ">
+											<img src="~/img/products/@item.Product?.ImgUrl" width="100" height="100" class="img-fluid rounded-3" alt="Cotton T-shirt">
+										</div>
+
+										<div class="col-md-3 col-lg-3 col-xl-4">
+											<p class="lead fw-bold text-black mb-2">@item.Product?.Name</p>
+											<p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p>
+										</div>
+
+										<div class="col-md-2 col-lg-2 col-xl-2">
+											<h5 class="mb-0">Số lượng: @item.Quantity</h5>
+										</div>
+
+										<div class="col-md-2 col-lg-2 col-xl-1">
+											<h5 class="mb-0">$@item.UnitPrice</h5>
+										</div>
+									</div>
+
+									<hr />
+
+									totalprice += item.UnitPrice * item.Quantity;
+								}
+
+								<div class="d-flex">
+									<h4 class="text-black me-3 fst-italic">Tổng thanh toán: </h4>
+									<h4 class="text-danger">$@totalprice</h4>
+								</div>
+							</div>
+						</div>
+					}
+				}
+			</div>
+		</div>
+
+		<div class="d-flex flex-row-reverse mb-2">
+			<a asp-controller="User" asp-action="DeleteUser" asp-route-uid="@Model.Id"
+			   class="btn btn-outline-danger fw-bold border border-3 border-danger w-25"
+			   onclick="return confirm('Bạn muốn xóa tài khoản @Model.UserName này?')">
+				Xóa tài khoản
 			</a>
 		</div>
 	</div>

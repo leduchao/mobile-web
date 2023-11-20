@@ -4,5 +4,5 @@ public enum Status
 {
     Processing,
     Shipping,
-    Canceled
+    Finished
 }

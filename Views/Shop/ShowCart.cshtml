@@ -69,7 +69,7 @@ else
 
 
 									<div class="col-md-1 col-lg-1 col-xl-1 text-center">
-										<a asp-controller="Cart" asp-action="RemoveItemById" asp-route-id="@item.Product.Id" class="text-danger"
+										<a asp-controller="Shop" asp-action="RemoveItemById" asp-route-id="@item.Product.Id" class="text-danger"
 								   onclick="return confirm('Bạn muốn xóa sản phẩm @item.Product.Name này?')">
 											<i class="fas fa-trash fa-lg"></i>
 										</a>

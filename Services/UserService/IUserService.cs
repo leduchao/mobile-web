@@ -18,4 +18,8 @@ public interface IUserService
 	Task<bool> DeleteUserAsync(string uid);
 
 	Task<string> GeneratePasswordChangeTokenAsync(User user);
+
+	Task<List<Order>> GetProccessingOrdersAsync(string uid);
+	Task<List<Order>> GetShippingOrdersAsync(string uid);
+	Task<List<Order>> GetFinishedOrdersAsync(string uid);
 }

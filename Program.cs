@@ -30,7 +30,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 	options.Password.RequireDigit = false; // ky tu so
 	options.Password.RequireUppercase = false; // ky tu in hoa
 	options.Password.RequireLowercase = false; // ky tu thuong
-	options.SignIn.RequireConfirmedAccount = true;
+	options.SignIn.RequireConfirmedAccount = false;
 })
 	.AddEntityFrameworkStores<UserDbContext>()
 	.AddDefaultTokenProviders();

@@ -5,7 +5,9 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"]</title>
+
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
 	@*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />*@
 	@*<link rel="stylesheet" href="~/MobileWeb.styles.css" asp-append-version="true" />*@
 
@@ -59,8 +61,16 @@
 						<li class="nav-item">
 							<a class="nav-link fw-bold" asp-controller="Contact" asp-action="Index">Liên hệ</a>
 						</li>
-						@*<li class="nav-item">
-							<a class="nav-link fw-bold" asp-controller="Home" asp-action="SendMail">Gửi mail</a>
+
+						@*<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+								Dropdown
+							</a>
+							<ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDarkDropdownMenuLink">
+								<li><a class="dropdown-item" href="#">Action</a></li>
+								<li><a class="dropdown-item" href="#">Another action</a></li>
+								<li><a class="dropdown-item" href="#">Something else here</a></li>
+							</ul>
 						</li>*@
 					</ul>
 				</div>
@@ -187,13 +197,17 @@
 
 	</footer>
 	<!-- End Footer -->
+	
 	<!-- Start Script -->
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
-	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
+
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/bootstrap.bundle.min.js"></script>
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 	<script src="~/js/jquery-1.11.0.min.js"></script>
 	<script src="~/js/jquery-migrate-1.2.1.min.js"></script>
-	<script src="~/js/bootstrap.bundle.min.js"></script>
+
 	<script src="~/js/templatemo.js"></script>
 	<script src="~/js/custom.js"></script>
 
