@@ -1,4 +1,5 @@
 
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MobileWeb.Areas.Identity.Models.Account;
@@ -381,118 +382,6 @@ public class AccountController : Controller
 	//    return View(model);
 	//} */
 
-	////
-	//// GET: /Account/ForgotPassword
-	//[HttpGet]
-	//[AllowAnonymous]
-	//public IActionResult ForgotPassword()
-	//{
-	//    return View();
-	//}
-
-	///* forgot password
-	//// POST: /Account/ForgotPassword
-	//[HttpPost]
-	//[AllowAnonymous]
-	//[ValidateAntiForgeryToken]
-	//public async Task<IActionResult> ForgotPassword(ForgotPasswordViewModel model)
-	//{
-	//    if (ModelState.IsValid)
-	//    {
-	//        var user = await _userManager.FindByEmailAsync(model.Email);
-	//        if (user == null || !(await _userManager.IsEmailConfirmedAsync(user)))
-	//        {
-	//            // Don't reveal that the user does not exist or is not confirmed
-	//            return View("ForgotPasswordConfirmation");
-	//        }
-	//        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-	//        code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-	//        var callbackUrl = Url.ActionLink(
-	//            action: nameof(ResetPassword),
-	//            values: new { area = "Identity", code },
-	//            protocol: Request.Scheme);
-
-
-	//        await _emailSender.SendEmailAsync(
-	//            model.Email,
-	//            "Reset Password",
-	//            $"Hãy bấm <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>vào đây</a> để đặt lại mật khẩu.");
-
-	//        return RedirectToAction(nameof(ForgotPasswordConfirmation));
-
-
-
-	//    }
-	//    return View(model);
-	//}*/
-
-	//// GET: /Account/ForgotPasswordConfirmation
-	//[HttpGet]
-	//[AllowAnonymous]
-	//public IActionResult ForgotPasswordConfirmation()
-	//{
-	//    return View();
-	//}
-
-	//// GET: /Account/ResetPassword
-	//[HttpGet]
-	//[AllowAnonymous]
-	//public IActionResult ResetPassword(string code = null)
-	//{
-	//    return code == null ? View("Error") : View();
-	//}
-
-	///* reset password
-	//// POST: /Account/ResetPassword
-	//[HttpPost]
-	//[AllowAnonymous]
-	//[ValidateAntiForgeryToken]
-	//public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
-	//{
-	//    if (!ModelState.IsValid)
-	//    {
-	//        return View(model);
-	//    }
-	//    var user = await _userManager.FindByEmailAsync(model.Email);
-	//    if (user == null)
-	//    {
-	//        return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
-	//    }
-	//    var code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(model.Code));
-
-	//    var result = await _userManager.ResetPasswordAsync(user, code, model.Password);
-	//    if (result.Succeeded)
-	//    {
-	//        return RedirectToAction(nameof(AccountController.ResetPasswordConfirmation), "Account");
-	//    }
-	//    ModelState.AddModelError(result);
-	//    return View();
-	//}*/
-
-	//// GET: /Account/ResetPasswordConfirmation
-	//[HttpGet]
-	//[AllowAnonymous]
-	//public IActionResult ResetPasswordConfirmation()
-	//{
-	//    return View();
-	//}
-
-	////
-	//// GET: /Account/SendCode
-	//[HttpGet]
-	//[AllowAnonymous]
-	//public async Task<ActionResult> SendCode(string returnUrl = null, bool rememberMe = false)
-	//{
-	//    var user = await _signInManager.GetTwoFactorAuthenticationUserAsync();
-	//    if (user == null)
-	//    {
-	//        return View("Error");
-	//    }
-	//    var userFactors = await _userManager.GetValidTwoFactorProvidersAsync(user);
-	//    var factorOptions = userFactors.Select(purpose => new SelectListItem { Text = purpose, Value = purpose }).ToList();
-	//    return View(new SendCodeViewModel { Providers = factorOptions, ReturnUrl = returnUrl, RememberMe = rememberMe });
-	//}
-
 	///* send code
 	////POST: /Account/SendCode
 	////[HttpPost]
@@ -671,10 +560,10 @@ public class AccountController : Controller
 	//    }
 	//}
 
-	//[Route("/khongduoctruycap.html")]
-	//[AllowAnonymous]
-	//public IActionResult AccessDenied()
-	//{
-	//    return View();
-	//}
+	[Route("access-denied")]
+	[AllowAnonymous]
+	public IActionResult AccessDenied()
+	{
+		return View();
+	}
 }

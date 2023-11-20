@@ -1,0 +1,99 @@
+﻿@model MobileWeb.Models.Entities.User
+
+@{
+	ViewData["Title"] = "Hồ sơ";
+}
+
+<section style="background-color: #fff;">
+	<div class="container py-3">
+		<h2 class="text-success mb-3">Hồ sơ</h2>
+
+		<div class="row">
+			<div class="col-lg-4">
+				<div class="card mb-4">
+					<div class="card-body text-center shadow p-4">
+						@if (!string.IsNullOrEmpty(Model.Avatar))
+						{
+							<img src="~/img/users/@Model.Avatar" alt="avatar" class="rounded-circle img-fluid" style="width: 119px; height: 126px">
+						}
+						else
+						{
+							<img src="~/img/users/avatar1.png" alt="avatar" class="rounded-circle img-fluid" style="width: 119px; height: 126px">
+						}
+							 
+						<h5 class="my-3 fw-bold">@Model.FirstName @Model.LastName</h5>
+
+						<div class="d-flex justify-content-between">
+							<a asp-controller="User" asp-action="EditProfile" asp-route-uid="@Model.Id" class="border border-3 border-success btn btn-outline-success fw-bold w-100">Cập nhật hồ sơ</a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-8">
+				<div class="card mb-4">
+					<div class="card-body shadow p-4">
+						<div class="row">
+							<div class="col-sm-3">
+								<p class="mb-0">Tên người dùng</p>
+							</div>
+							<div class="col-sm-9">
+								<p class="text-black fw-bold mb-0">@Model.UserName</p>
+							</div>
+						</div>
+						<hr class="h-0">
+						<div class="row">
+							<div class="col-sm-3">
+								<p class="mb-0">Email</p>
+							</div>
+							<div class="col-sm-9 d-flex">
+								<p class="text-black fw-bold me-2 mb-0">@Model.Email</p>
+								@if (Model.EmailConfirmed) 
+								{
+									<p class="mb-0 text-success">(Đã xác thực)</p>
+								}
+								else 
+								{
+									<div class="d-flex justify-content-between w-75">
+										<p class="mb-0 text-warning">(Chưa xác thực)</p>
+										<a asp-controller="User" asp-action="VerifyEmail" asp-route-email="@Model.Email" class="text-decoration-none">Xác thực</a>
+									</div>
+								}
+							</div>
+						</div>
+						<hr />
+						<div class="row">
+							<div class="col-sm-3">
+								<p class="mb-0">Số điện thoại</p>
+							</div>
+							<div class="col-sm-9">
+								<p class="text-black fw-bold mb-0">@Model.PhoneNumber</p>
+							</div>
+						</div>
+						<hr />
+						<div class="row">
+							<div class="col-sm-3">
+								<p class="mb-0">Địa chỉ</p>
+							</div>
+							<div class="col-sm-9">
+								<p class="text-black fw-bold mb-0">@Model.Address</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="d-flex flex-row-reverse mb-2">
+			<a asp-controller="User" asp-action="DeleteUser" asp-route-uid="@Model.Id" 
+				class="btn btn-outline-danger fw-bold border border-3 border-danger" 
+				onclick="return confirm('Bạn muốn xóa tài khoản @Model.UserName này?')">
+				Xóa tài khoản
+			</a>
+
+			<a asp-controller="User" asp-action="ChangePassword" asp-route-uid="@Model.Id" 
+				class="btn btn-outline-success fw-bold border border-3 border-success me-4">
+				Đổi mật khẩu
+			</a>
+		</div>
+	</div>
+</section>

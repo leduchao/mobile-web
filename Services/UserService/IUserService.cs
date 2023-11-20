@@ -6,4 +6,16 @@ namespace MobileWeb.Services.UserService;
 public interface IUserService
 {
 	Task<bool> Order(string uid, OrderDTO orderDTO);
+
+	Task<User> FindUserByIdAsync(string uid);
+
+	Task<User> FindUserByEmailAsync(string email);
+
+    Task<bool> UpdateUserAsync(string uid, UserDTO userDTO);
+
+	Task<bool> VerifyEmailAsync(User user);
+
+	Task<bool> DeleteUserAsync(string uid);
+
+	Task<string> GeneratePasswordChangeTokenAsync(User user);
 }

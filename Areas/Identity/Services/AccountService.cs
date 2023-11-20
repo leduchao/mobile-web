@@ -51,6 +51,7 @@ public class AccountService : IAccountService
             UserName = model.UserName,
             Email = model.Email,
             CreatedAt = DateTime.Now,
+            Avatar = "avatar1.png"
         };
 
         var result = await _userManager.CreateAsync(newUser, model.Password);

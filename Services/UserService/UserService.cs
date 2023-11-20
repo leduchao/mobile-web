@@ -1,26 +1,43 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using MobileWeb.Areas.Admin.Services.ProductService;
 using MobileWeb.Areas.Identity.Services;
 using MobileWeb.Data;
 using MobileWeb.Models.DTOs;
 using MobileWeb.Models.Entities;
 using MobileWeb.Services.CartService;
-using System.Transactions;
+using MobileWeb.Services.EmailService;
+using System.Text;
 
 namespace MobileWeb.Services.UserService;
 
 public class UserService : IUserService
 {
     private readonly WebDbContext _dbContext;
+    private readonly UserDbContext _userDbContext;
     private readonly ICartService _cartService;
     private readonly UserManager<User> _userManager;
+    private readonly IEmailService _emailService;
 
-    public UserService(WebDbContext dbContext, ICartService cartService, UserManager<User> userManager)
+    public UserService(WebDbContext dbContext, UserDbContext userDbContext,
+        ICartService cartService, UserManager<User> userManager, IEmailService emailService)
     {
         _dbContext = dbContext;
+        _userDbContext = userDbContext;
         _cartService = cartService;
         _userManager = userManager;
+        _emailService = emailService;
+    }
+
+    public async Task<User> FindUserByIdAsync(string uid)
+    {
+        return await _userManager.FindByIdAsync(uid);
+    }
+
+    public async Task<User> FindUserByEmailAsync(string email)
+    {
+        return await _userManager.FindByEmailAsync(email);
     }
 
     public async Task<bool> Order(string uid, OrderDTO orderDTO)
@@ -73,5 +90,85 @@ public class UserService : IUserService
         }
 
         return false;
+    }
+
+    public async Task<bool> UpdateUserAsync(string uid, UserDTO userDTO)
+    {
+        var user = await _userManager.FindByIdAsync(uid);
+
+        if (user is null)
+            return false;
+
+        user.UserName = userDTO.UserName;
+        //user.Email = userDTO.Email;
+        user.FirstName = userDTO.FirstName;
+        user.LastName = userDTO.LastName;
+        user.Address = userDTO.Address;
+        user.Birthday = userDTO.Birthday;
+        user.PhoneNumber = userDTO.PhoneNumber;
+        user.Birthday = userDTO.Birthday;
+
+        if (userDTO.Avatar != null)
+        {
+            var oldImg = user.Avatar;
+
+            if (oldImg is not null)
+                File.Delete(@"wwwroot\img\users\" + oldImg);
+
+            user.Avatar = SetFileName(userDTO.Avatar);
+            await UploadImageAssync(userDTO.Avatar);
+        }
+
+        await _userManager.UpdateAsync(user);
+        await _userDbContext.SaveChangesAsync();
+
+        return true;
+    }
+
+    private static string SetFileName(IFormFile file)
+        => $"{DateTime.Now:yyyyMMddhhmmss}_{Path.GetFileName(file.FileName)}";
+
+    private static async Task UploadImageAssync(IFormFile file)
+    {
+        if (file != null)
+        {
+            var filePath = Path.Combine("wwwroot", "img", "users", SetFileName(file));
+
+            using var fileStream = new FileStream(filePath, FileMode.Create);
+            await file.CopyToAsync(fileStream);
+        }
+    }
+
+    public async Task<bool> VerifyEmailAsync(User user)
+    {
+        var token = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+
+        await _emailService.SendMailAsync(user.Email, "Xác thực email", token);
+
+        return true;
+    }
+
+    public async Task<bool> DeleteUserAsync(string uid)
+    {
+        var user = await _userManager.FindByIdAsync(uid);
+
+        if (user is not null)
+        {
+            if (!string.IsNullOrEmpty(user.Avatar))
+                File.Delete(@"wwwroot\img\users\" + user.Avatar);
+
+            var result = await _userManager.DeleteAsync(user);
+            return result.Succeeded;
+        }
+
+        return false;
+    }
+
+    public async Task<string> GeneratePasswordChangeTokenAsync(User user)
+    {
+        var token = await _userManager.GeneratePasswordResetTokenAsync(user);
+        token = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+
+        return token;
     }
 }
