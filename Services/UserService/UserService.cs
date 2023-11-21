@@ -75,6 +75,7 @@ public class UserService : IUserService
                     };
 
                     newOrder.OrderItems.Add(newOrderItem);
+                    newOrder.TotalPayment += newOrderItem.UnitPrice * newOrderItem.Quantity;
                 }
 
                 await _userManager.UpdateAsync(user);
@@ -278,5 +279,15 @@ public class UserService : IUserService
         }
 
         return new List<Order>();
+    }
+
+    public async Task<IList<User>> GetAllUsersAsync()
+    {
+        var userList = await _userManager.GetUsersInRoleAsync("Customer");
+
+        if (userList is not null)
+            return userList;
+
+        return new List<User>();
     }
 }

@@ -1,8 +1,7 @@
-﻿namespace MobileWeb.Models.DTOs
+﻿namespace MobileWeb.Models.DTOs;
+
+public enum PaymentMethods
 {
-	public enum PaymentMethods
-	{
-		Cash,
-		BankTransfer
-	}
+	Cash,
+	PayPal
 }

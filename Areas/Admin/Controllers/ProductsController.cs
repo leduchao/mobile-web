@@ -7,7 +7,7 @@ using MobileWeb.Models.DTOs;
 namespace MobileWeb.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Route("admin/quan-ly-san-pham")]
+    [Route("admin/products")]
     public class ProductsController : Controller
     {
         private readonly IProductService _service;
@@ -57,6 +57,7 @@ namespace MobileWeb.Areas.Admin.Controllers
             };
 
             ViewBag.ProductId = product.Id;
+            ViewBag.ProductImg = product.ImgUrl;
 
             return View(productDTO);
         }

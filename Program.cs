@@ -9,6 +9,7 @@ using MobileWeb.Areas.Identity.Services;
 using MobileWeb.Services.EmailService;
 using MobileWeb.Services.CartService;
 using MobileWeb.Services.UserService;
+using MobileWeb.Areas.Admin.Services.OrderService;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -64,6 +65,7 @@ builder.Services.AddTransient<ICartService, CartService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IProductService, ProductService>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IOrderService, OrderService>();
 
 // mail settings
 builder.Services.AddOptions();

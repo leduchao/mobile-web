@@ -7,6 +7,8 @@ public interface IUserService
 {
 	Task<bool> Order(string uid, OrderDTO orderDTO);
 
+	Task<IList<User>> GetAllUsersAsync();
+
 	Task<User> FindUserByIdAsync(string uid);
 
 	Task<User> FindUserByEmailAsync(string email);
@@ -20,6 +22,8 @@ public interface IUserService
 	Task<string> GeneratePasswordChangeTokenAsync(User user);
 
 	Task<List<Order>> GetProccessingOrdersAsync(string uid);
+
 	Task<List<Order>> GetShippingOrdersAsync(string uid);
+
 	Task<List<Order>> GetFinishedOrdersAsync(string uid);
 }

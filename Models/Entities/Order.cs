@@ -23,5 +23,5 @@ public class Order
 
     public DateTime DeliveryAt { get; set; }
 
-	//public double TotalPayment { get; set; }
+	public double TotalPayment { get; set; }
 }
