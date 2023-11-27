@@ -15,9 +15,16 @@ namespace MobileWeb.Models.DTOs
         [Display(Name = "Mô tả sản phẩm")]
         public string? Description { get; set; }
 
-        [Required(ErrorMessage = "Hãy chọn 1 hình ảnh!")]
-        [Display(Name = "Chọn hình ảnh sản phẩm")]
-        public IFormFile? ImgUrl { get; set; }
+        //[Required(ErrorMessage = "Hãy chọn 1 hình ảnh!")]
+        [Display(Name = "Chọn ảnh đại diện cho sản phẩm")]
+        public IFormFile? Avatar { get; set; }
+
+        //[Required(ErrorMessage = "Hãy chọn 1 hình ảnh!")]
+        [Display(Name = "Chọn ảnh đại diện cho sản phẩm")]
+        public IFormFile? AvatarUpdate { get; set; }
+
+        [Display(Name = "Chọn thêm hình ảnh sản phẩm")]
+        public List<IFormFile> Images { get; set; } = new();
 
         [Required(ErrorMessage = "Phải nhập giá tiền!")]
         [Range(0, double.MaxValue, ErrorMessage = "{0} phải lớn hơn hoặc bằng 0!")]
@@ -56,5 +63,8 @@ namespace MobileWeb.Models.DTOs
         [Required(ErrorMessage = "Hãy nhập hệ điều hành!")]
         [Display(Name = "Hệ điều hành")]
         public string? OperatingSystemVersion { get; set; }
+
+        public Specifications Specifications { get; set; } = new();
+        public List<ProductImage> ImageList { get; set; } = new();
     }
 }

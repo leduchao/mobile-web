@@ -23,4 +23,8 @@ public class WebDbContext : DbContext
     public DbSet<CartItem> Items { get; set; }
 
     public DbSet<OrderItem> OrderItems { get; set; }
+
+    public DbSet<ProductImage> ProductImages { get; set; }
+
+    public DbSet<ProductColor> ProductColors { get; set; }
 }

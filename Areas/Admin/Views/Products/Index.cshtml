@@ -1,19 +1,24 @@
-﻿@model IEnumerable<MobileWeb.Models.Entities.Product>
+﻿@using MobileWeb.Models.Entities
+@using System.Globalization
+
+@model PaginatedList<Product>
 
 @{
 	ViewData["Title"] = "Sản phẩm";
+	int idx = 1;
 }
 
 <div class="d-flex justify-content-between mb-3">
 	<h2 class="text-black fst-italic fw-bold">Danh sách sản phẩm</h2>
 	<div>
-		<a asp-action="Create" class="btn btn-success fw-bold">Tạo sản phẩm mới</a>
+		<a asp-action="Create" class="btn btn-primary fw-bold">Tạo sản phẩm mới</a>
 	</div>
 </div>
 
 <table class="table table-sm table-hover">
 	<thead>
 		<tr class="text-black">
+			<th>#</th>
 			<th>Hình ảnh</th>
 			<th>Tên sản phẩm</th>
 			<th>Giá</th>
@@ -23,12 +28,14 @@
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var item in Model)
+		@foreach (var item in Model.Items)
 		{
 			<tr class="text-black">
+				<th>@idx</th>
 				<td class=""><img src="~/img/products/@item.ImgUrl" width="40" height="40"></td>
+
 				<td>@item.Name</td>
-				<td>@item.Price$</td>
+				<td>@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.Price)) VNĐ</td>
 				<td>@item.Quantity</td>
 				<td>@item.Category?.Name</td>
 
@@ -38,11 +45,39 @@
 					<a asp-action="Details" asp-route-id="@item.Id">Chi tiết</a>
 					<span class="m-2">|</span>
 					<a asp-action="Delete" asp-route-id="@item.Id"
-						onclick="return confirm('Bạn muốn xóa @item.Name?')">
+				   onclick="return confirm('Bạn muốn xóa @item.Name?')">
 						Xóa
 					</a>
 				</td>
 			</tr>
+			{ idx++; }
 		}
 	</tbody>
 </table>
+
+<nav aria-label="Page navigation example" class="my-5">
+	<ul class="pagination justify-content-center">
+		<li class="page-item @(Model.CurrentPage == 1 ? "disabled" : "")">
+			<a class="page-link" asp-route-page="1" tabindex="-1" aria-disabled="true">Trang đầu</a>
+		</li>
+		<li class="page-item @(Model.HasPreviousPage ? "" : "disabled")">
+			<a class="page-link" asp-route-page="@(Model.CurrentPage - 1)" aria-label="Previous">
+				<span aria-hidden="true">&laquo;</span>
+			</a>
+		</li>
+
+		@for (int i = 1; i <= Model.TotalPages; i++)
+		{
+			<li class="page-item @(Model.CurrentPage == i ? "active" : "")"><a class="page-link" asp-route-page="@i">@i</a></li>
+		}
+
+		<li class="page-item @(Model.HasNextPage ? "" : "disabled")">
+			<a class="page-link" asp-route-page="@(Model.CurrentPage + 1)" aria-label="Next">
+				<span aria-hidden="true">&raquo;</span>
+			</a>
+		</li>
+		<li class="page-item @(Model.CurrentPage == Model.TotalPages ? "disabled" : "")">
+			<a class="page-link" asp-route-page="@(Model.TotalPages)" tabindex="-1" aria-disabled="true">Trang cuối</a>
+		</li>
+	</ul>
+</nav>

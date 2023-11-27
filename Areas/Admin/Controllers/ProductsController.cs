@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MobileWeb.Areas.Admin.Services.ProductService;
+using MobileWeb.Models;
 using MobileWeb.Models.DTOs;
+using MobileWeb.Models.Entities;
 
 namespace MobileWeb.Areas.Admin.Controllers
 {
@@ -17,10 +19,16 @@ namespace MobileWeb.Areas.Admin.Controllers
             _service = service;
         }
 
-        [Route("danh-sach-san-pham")]
-        public async Task<IActionResult> Index()
+        //[Route("danh-sach-san-pham")]
+        public async Task<IActionResult> Index(int page)
         {
-            return View(await _service.GetAllAsync());
+            var productList = _service.GetAllAsync();
+            if (page < 1) page = 1;
+            int pageSize = 20;
+
+            var paginatedList = await PaginatedList<Product>.CreateAsync(productList, page, pageSize);
+
+            return View(paginatedList);
         }
 
         [HttpGet]
@@ -33,18 +41,15 @@ namespace MobileWeb.Areas.Admin.Controllers
                 return NotFound();
 
             var specifications = await _service.GetSpecificationsAsync(product.Id);
+            var productImages = await _service.GetAllProductImagesAsync(product);
 
             if (specifications == null)
                 return NotFound();
-
-            //FileAccess.
 
             var productDTO = new ProductDTO
             {
                 Name = product.Name,
                 Description = product.Description,
-                //ImgUrl = ,
-                
                 Price = product.Price,
                 Quantity = product.Quantity,
                 Category = product.Category,
@@ -53,11 +58,14 @@ namespace MobileWeb.Areas.Admin.Controllers
                 ROM = specifications.ROM,
                 NumberOfBehindCamera = specifications.NumberOfBehindCamera,
                 Model = specifications.Model,
-                OperatingSystemVersion = specifications.OperatingSystem
+                OperatingSystemVersion = specifications.OperatingSystem,
+                //Specifications = product.Specifications,
+                //ImageList = productImages,
             };
 
             ViewBag.ProductId = product.Id;
             ViewBag.ProductImg = product.ImgUrl;
+            ViewBag.ProductImages = productImages;
 
             return View(productDTO);
         }
@@ -91,7 +99,7 @@ namespace MobileWeb.Areas.Admin.Controllers
         }
 
         // GET: Admin/Products/Edit/5
-        [Route("chinh-sua-san-pham")]
+        [Route("edit-product")]
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -113,29 +121,31 @@ namespace MobileWeb.Areas.Admin.Controllers
             {
                 Name = product.Name,
                 Description = product.Description,
-                //ImgUrl = product.ImgUrl,
                 Price = product.Price,
                 Quantity = product.Quantity,
                 CategoryId = product.CategoryId,
                 Color = product.Color,
-                RAM = specifications!.RAM,
+                RAM = specifications.RAM,
                 ROM = specifications.ROM,
                 NumberOfBehindCamera = specifications.NumberOfBehindCamera,
                 Model = specifications.Model,
                 OperatingSystemVersion = specifications.OperatingSystem
             };
 
+            var productImages = await _service.GetAllProductImagesAsync(product);
+
             ViewBag.ProductId = product.Id;
             ViewBag.CategoryId = new SelectList(
                 await _service.GetAllCategoriesAsync(), "Id", "Name");
+            ViewBag.ProductImages = productImages;
+            ViewBag.Avatar = product.ImgUrl;
 
             return View(productDTO);
         }
 
         // POST: Admin/Products/Edit/5
         [HttpPost]
-        [Route("chinh-sua-san-pham")]
-        [ValidateAntiForgeryToken]
+        [Route("edit-product")]
         public async Task<IActionResult> Edit(int id, ProductDTO request)
         {
             if (ModelState.IsValid)
@@ -143,13 +153,13 @@ namespace MobileWeb.Areas.Admin.Controllers
                 try
                 {
                     await _service.UpdateAsync(id, request);
+                    return RedirectToAction(nameof(Details), new {id});
                 }
                 catch (DbUpdateConcurrencyException)
                 {
                     throw;
                 }
 
-                return RedirectToAction(nameof(Index));
             }
 
             ViewData["CategoryId"] = new SelectList(
@@ -160,11 +170,39 @@ namespace MobileWeb.Areas.Admin.Controllers
 
         // GET: Admin/Products/Delete/5
         [HttpGet]
-        [Route("xoa-san-pham")]
+        [Route("delete-product")]
         public async Task<IActionResult> Delete(int id)
         {
             await _service.DeleteAsync(id);
             return RedirectToAction(nameof(Index));
         }
+
+        [HttpPost]
+        [Route("delete-product-image")]
+        public async Task<IActionResult> DeleteProductImage(int id)
+        {
+            var result = await _service.DeleteImageAsync(id);
+
+            if (result)
+                return Ok();
+
+            return NotFound();
+        }
+
+        //[HttpPost]
+        //[Route("load-product-image")]
+        //public async Task<IActionResult> LoadProductImages(int id)
+        //{
+        //    var product = await _service.GetByIdAsync(id);
+
+        //    if (product is not null)
+        //    {
+        //        var productImages = await _service.GetAllProductImagesAsync(product);
+
+        //        return Json(new { success = 1, images = productImages });
+        //    }
+
+        //    return Json(new { success = 0, message = "There is no product!" });
+        //}
     }
 }

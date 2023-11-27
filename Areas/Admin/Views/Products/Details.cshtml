@@ -1,7 +1,11 @@
-﻿@model MobileWeb.Models.DTOs.ProductDTO
+﻿@using System.Globalization
+@using MobileWeb.Models.Entities
+
+@model MobileWeb.Models.DTOs.ProductDTO
 
 @{
 	ViewData["Title"] = "Chi tiết sản phẩm";
+	var productImages = ViewBag.ProductImages as IEnumerable<ProductImage>;
 }
 
 <h2 class="text-black fst-italic fw-bold">Chi tiết sản phẩm</h2>
@@ -11,6 +15,35 @@
 	<div class="col-md-4">
 		<div>
 			<img src="~/img/products/@ViewBag.ProductImg" class="img-fluid" width="470"/>
+			<div class="row mt-3 px-3">
+				@if (productImages!.Count() == 0)
+				{
+					<p class="fst-italic text-black">Không còn hình ảnh nào khác!</p>
+				}
+
+				@foreach (var image in productImages!)
+				{
+					<div class="col-4 mb-3">
+						<a href="#">
+							<img class="card-img img-fluid" src="~/img/products/@image.ImageName" width="50" alt="Product Image 1">
+						</a>
+					</div>
+				}
+
+				@*@if (Model.ImageList.Count == 0)
+				{
+					<p class="fst-italic text-black">Không còn hình ảnh nào khác!</p>
+				}
+
+				@foreach (var image in Model.ImageList)
+				{
+					<div class="col-4 mb-3">
+						<a href="#">
+							<img class="card-img img-fluid" src="~/img/products/@image.ImageName" width="100" alt="Product Image 1">
+						</a>
+					</div>
+				}*@
+			</div>
 		</div>
 	</div>
 
@@ -32,7 +65,7 @@
 
 			<div class="col-sm-3 fw-bold p-0">Giá:</div>
 			<div class="col-sm-9 mb-2">
-				@Html.DisplayFor(model => model.Price)
+				@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", Model.Price)) VNĐ
 			</div>
 
 			<hr style="width: 870px; height: 0px" />

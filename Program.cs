@@ -13,6 +13,15 @@ using MobileWeb.Areas.Admin.Services.OrderService;
 
 var builder = WebApplication.CreateBuilder(args);
 
+//builder.Services.AddDbContext<WebDbContext>(options =>
+//{
+//    options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDatabase"));
+//}); 
+//builder.Services.AddDbContext<UserDbContext>(options =>
+//{
+//    options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDatabase"));
+//});
+
 // add database context
 builder.Services.AddDbContext<WebDbContext>(options =>
 {

@@ -1,7 +1,15 @@
-﻿@model MobileWeb.Models.Entities.Product
+﻿@using System.Globalization
+@using MobileWeb.Models.Entities
+
+@model MobileWeb.Models.Entities.Product
 
 @{
 	ViewData["Title"] = Model.Name;
+	var productImages = ViewBag.ProductImages as IEnumerable<ProductImage>;
+	productImages ??= new List<ProductImage>();
+
+	int slides = (int)Math.Ceiling((double)productImages.Count() / 3);
+	int index = 0;
 }
 
 
@@ -22,62 +30,34 @@
 							@*<span class="sr-only">Previous</span>*@
 						</a>
 					</div>
-					<!--End Controls-->
+
 					<!--Start Carousel Wrapper-->
 					<div id="multi-item-example" class="col-10 carousel slide carousel-multi-item" data-bs-ride="carousel">
 
 						<!--Start Slides-->
 						<div class="carousel-inner product-links-wap" role="listbox">
-							<!--First slide-->
-							<div class="carousel-item active">
-								<div class="row">
-										<div class="col-4">
-											<a href="#">
-												<img class="card-img img-fluid" src="~/img/products/@Model.ImgUrl" alt="Product Image 1">
-											</a>
-										</div>
+							@for (int i = 1; i <= slides; i++)
+							{
+								<!--First slide-->
+								<div class="carousel-item @(i == 1 ? "active" : "")">
+									<div class="row">
 
-									<div class="col-4">
-										<a href="#">
-											<img class="card-img img-fluid" src="~/img/products/@Model.ImgUrl" alt="Product Image 2">
-										</a>
-									</div>
+										@for (int j = 0; j < 3; j++)
+										{
+											<div class="col-4 mb-3">
+												<a href="#">
+													<img class="card-img img-fluid" src="~/img/products/@productImages.ElementAt(index).ImageName"
+												 alt="Product Image 1">													
+												</a>
+											</div>
 
-									<div class="col-4">
-										<a href="#">
-											<img class="card-img img-fluid" src="~/img/products/@Model.ImgUrl" alt="Product Image 3">
-										</a>
+											{ if (index < productImages.Count() - 1) index++; }
+										}
 									</div>
 								</div>
-							</div>
-							<!--/.First slide-->
-
-							<!--Second slide-->
-							@*<div class="carousel-item">
-								<div class="row">
-										<div class="col-4">
-											<a href="#">
-												<img class="card-img img-fluid" src="@Url.Content(Model.ImgUrl)" alt="Product Image 1">
-											</a>
-										</div>
-									<div class="col-4">
-										<a href="#">
-											<img class="card-img img-fluid" src="@Url.Content(Model.ImgUrl)" alt="Product Image 4">
-										</a>
-									</div>
-
-									<div class="col-4">
-										<a href="#">
-											<img class="card-img img-fluid" src="@Url.Content(Model.ImgUrl)" alt="Product Image 5">
-										</a>
-									</div>
-								</div>
-							</div>*@
-							<!--/.Second slide-->
+							}
 						</div>
-						<!--End Slides-->
 					</div>
-					<!--End Carousel Wrapper-->
 
 					<!--Start Controls-->
 					<div class="col-1 align-self-center">
@@ -95,12 +75,12 @@
 				<div class="card">
 					<div class="card-body">
 						<h3 class="fw-bold">@Model.Name</h3>
-						<p class="h3 py-2 text-danger">@Model.Price<span> ($)</span></p>
+						<p class="h3 py-2 text-danger">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", Model.Price)) VNĐ</p>
 						<p class="py-2">
 							<i class="fa fa-star text-warning"></i>
 							<i class="fa fa-star text-warning"></i>
 							<i class="fa fa-star text-warning"></i>
-							<i class="fa fa-star text-warning"></i>
+							<i class="fa fa-star text-secondary"></i>
 							<i class="fa fa-star text-secondary"></i>
 							@*<span class="list-inline-item text-dark">Đánh giá 4.8 | 36 Bình luận</span>*@
 						</p>
@@ -135,7 +115,8 @@
 											<h6 class="fst-italic text-success">Màu sắc :</h6>
 										</li>
 										<li class="list-inline-item">
-											<select class="form-control" name="color"> @*asp-for="Color"*@
+											<select class="form-control" name="color">
+												@*asp-for="Color"*@
 												@foreach (string color in Model.Color!.Split(','))
 												{
 													<option>@color</option>
@@ -163,7 +144,6 @@
 	</div>
 </section>
 <!-- Close Content -->
-
 <!-- Start Article -->
 @*<section class="py-5">
 	<div class="container">

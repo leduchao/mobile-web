@@ -5,11 +5,11 @@ namespace MobileWeb.Areas.Admin.Services.ProductService
 {
 	public interface IProductService
 	{
-		Task<List<Product>> GetAllAsync();
+		IQueryable<Product> GetAllAsync();
 
 		Task<Product?> GetByIdAsync(int id);
 
-		Task<Product?> GetByNameAsync(string productName);
+		//Task<Product?> GetByNameAsync(string productName);
 
 		Task CreateAsync(ProductDTO request);
 
@@ -20,5 +20,10 @@ namespace MobileWeb.Areas.Admin.Services.ProductService
 		Task<List<Category>> GetAllCategoriesAsync();
 
 		Task<Specifications?> GetSpecificationsAsync(int id);
-	}
+
+		Task<List<ProductImage>> GetAllProductImagesAsync(Product product);
+
+		Task<bool> DeleteImageAsync(int id);
+
+    }
 }
