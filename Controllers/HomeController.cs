@@ -32,6 +32,8 @@ namespace MobileWeb.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
+        //test git push
+
         //public async Task<IActionResult> SendMail()
         //{
         //    string to = "doantrihung4444@gmail.com";
