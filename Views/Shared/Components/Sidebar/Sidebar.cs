@@ -3,16 +3,11 @@ using MobileWeb.Data;
 
 namespace MobileWeb.Views.Shared.Components.Sidebar;
 
-public class Sidebar : ViewComponent
+public class Sidebar(WebDbContext context) : ViewComponent
 {
-    private readonly WebDbContext _context;
+    private readonly WebDbContext _context = context;
 
-    public Sidebar(WebDbContext context)
-    {
-        _context = context;
-    }
-
-    public IViewComponentResult Invoke()
+	public IViewComponentResult Invoke()
     {
         var categories = _context.Categories.ToList();
         return View(categories);

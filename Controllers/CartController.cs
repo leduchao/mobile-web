@@ -52,7 +52,7 @@ public class CartController : Controller
 
         if (cartitem != null)
 		{
-			if (cartitem.Quantity < 1)
+			if (quantity < 1)
 			{
                 cartitem.Quantity = 1;
             }

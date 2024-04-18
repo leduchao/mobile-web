@@ -7,11 +7,13 @@ public interface IUserService
 {
 	Task<bool> Order(string uid, OrderDTO orderDTO);
 
+	Task<bool> CancelOrder(int oid);
+
 	Task<IList<User>> GetAllUsersAsync();
 
-	Task<User> FindUserByIdAsync(string uid);
+	Task<User?> FindUserByIdAsync(string uid);
 
-	Task<User> FindUserByEmailAsync(string email);
+	Task<User?> FindUserByEmailAsync(string email);
 
     Task<bool> UpdateUserAsync(string uid, UserDTO userDTO);
 

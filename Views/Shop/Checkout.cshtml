@@ -1,5 +1,6 @@
 ﻿@using MobileWeb.Models.DTOs
 @using MobileWeb.Services.CartService
+@using System.Globalization
 
 @inject ICartService cartService
 
@@ -15,8 +16,8 @@
 	<div class="row g-5">
 		<div class="col-md-6 col-lg-6 order-md-last">
 			<div class="d-flex justify-content-between align-items-center mb-2">
-				<h2 class="text-success">Giỏ hàng</h2>
-				<span class="badge bg-success rounded-pill">@cart.Count</span>
+				<h2 class="text-dark fw-bold">Giỏ hàng</h2>
+				<span class="badge bg-dark rounded-pill">@cart.Count</span>
 			</div>
 
 			<ul class="list-group mb-3">
@@ -24,10 +25,10 @@
 				{
 					<li class="list-group-item d-flex justify-content-between lh-sm">
 						<div>
-							<h6 class="my-0">@item.Product.Name</h6>
+							<h6 class="my-0 fw-bold">@item.Product.Name</h6>
 							<small class="text-success">Số lượng: @item.Quantity</small>
 						</div>
-						<span class="text-red">@item.Product.Price ($)</span>
+						<span class="text-red">Đơn giá: <b>@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.Product.Price)) VNĐ</b></span>
 					</li>
 
 					{ totalPrice += @item.TotalPrice; }
@@ -35,13 +36,13 @@
 
 				<li class="list-group-item d-flex justify-content-between">
 					<span>Tổng tiền:</span>
-					<strong class="text-danger">@totalPrice ($)</strong>
+					<strong class="text-danger fw-bold">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", totalPrice)) VNĐ</strong>
 				</li>
 			</ul>
 		</div>
 
 		<div class="col-md-6 col-lg-6">
-			<h2 class="mb-3 text-success">Thông tin khách hàng</h2>
+			<h2 class="mb-3 text-dark fw-bold">Thông tin khách hàng</h2>
 			<form asp-controller="Shop" asp-action="Checkout" class="needs-validation" novalidate>
 				<input type="hidden" value="@ViewBag.UserId" name="uid" />
 
@@ -81,18 +82,18 @@
 
 				<div class="my-3">
 					<div class="form-check">
-						<input asp-for="PaymentMethod" type="radio" value="@Enum.GetName(typeof(PaymentMethods), 0)" class="form-check-input" required>
-						<label asp-for="PaymentMethod" class="form-check-label">Thanh toán khi nhận hàng</label>
+						<input asp-for="PaymentMethod" type="radio" value="@Enum.GetName(typeof(PaymentMethods), 0)" class="form-check-input" required checked>
+						<label  class="form-check-label">Thanh toán khi nhận hàng</label>
 					</div>
 					<div class="form-check">
 						<input asp-for="PaymentMethod" type="radio" value="@Enum.GetName(typeof(PaymentMethods), 1)" class="form-check-input" required>
-						<label asp-for="PaymentMethod" class="form-check-label">Paypal</label>
+						<label  class="form-check-label">Paypal</label>
 					</div>
 				</div>
 
 				<hr class="my-4">
 
-				<button class="w-100 border-3 border-success btn btn-outline-success btn-lg fw-bold" type="submit">Đặt hàng</button>
+				<button class="w-100 btn btn-dark btn-lg fw-bold" type="submit">Đặt hàng</button>
 			</form>
 		</div>
 	</div>

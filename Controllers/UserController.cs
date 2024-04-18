@@ -162,4 +162,18 @@ public class UserController : Controller
 		ModelState.AddModelError("ConfirmFaile", "Không thể đổi mật khẩu!");
 		return View();
 	}
+
+	[Route("cancel-order")]
+	public async Task<IActionResult> CancelOrder(int oid, string uid)
+	{
+		var result = await _userService.CancelOrder(oid);
+
+		if (result is false)
+		{
+			ViewBag.CancelSuccess = false;
+		}
+
+		ViewBag.CancelSuccess = true;
+		return RedirectToAction("Index", new { uid });
+	}
 }

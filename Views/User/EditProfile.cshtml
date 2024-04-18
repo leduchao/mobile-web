@@ -8,7 +8,7 @@
 	<h2 class="text-success mb-3">Cập nhật hồ sơ</h2>
 
 	<form asp-controller="User" asp-action="EditProfile" enctype="multipart/form-data">
-		<input type="hidden" value="@ViewBag.UserId" name="uid"/>
+		<input type="hidden" value="@ViewBag.UserId" name="uid" />
 
 		<div class="row">
 			<div class="col-xl-4">
@@ -17,7 +17,7 @@
 					<div class="card-body text-center shadow">
 						<img id="upload-preview" class="img-account-profile rounded-circle mb-2" width="315" height="315" src="~/img/users/@ViewBag.AvatarUrl" alt="">
 						<div class="fst-italic text-black mb-4">JPG hoặc PNG và không quá 5 MB</div>
-						<input asp-for="Avatar" id="upload-image" class="btn btn-outline-success w-100 form-control" type="file" value="Chọn hình ảnh mới" onchange="previewImage()" />
+						<input asp-for="Avatar" id="upload-image" class="w-100 form-control" type="file" value="Chọn hình ảnh mới" onchange="previewImage()" />
 					</div>
 				</div>
 			</div>
@@ -26,44 +26,47 @@
 				<div class="card mb-4">
 					<div class="card-body shadow">
 						<div class="mb-3">
-							<label class="small mb-1 fw-bold" asp-for="UserName">Tên người dùng (nickname)</label>
+							<label class="mb-1 fw-bold" asp-for="UserName">Tên người dùng (nickname)</label>
 							<input asp-for="UserName" class="form-control" id="inputUsername" type="text" placeholder="Hãy nhập tên người dùng hoặc nickname..." />
 						</div>
 
 						<div class="row gx-3 mb-3">
 							<div class="col-md-6">
-								<label class="small mb-1 fw-bold" asp-for="FirstName">Tên</label>
+								<label class="mb-1 fw-bold" asp-for="FirstName">Tên</label>
 								<input asp-for="FirstName" class="form-control" type="text" placeholder="Nhập tên..." />
 							</div>
 							<div class="col-md-6">
-								<label class="small mb-1 fw-bold" asp-for="LastName">Họ</label>
+								<label class="mb-1 fw-bold" asp-for="LastName">Họ</label>
 								<input asp-for="LastName" class="form-control" type="text" placeholder="Nhập họ..." />
 							</div>
 						</div>
 
 						<div class="mb-3">
-							<label class="small mb-1 fw-bold" asp-for="Email">Email</label>
-							<input asp-for="Email" class="form-control" id="inputEmailAddress" type="email" placeholder="Nhập email..." disabled/>
+							<label class="mb-1 fw-bold" asp-for="Email">Email</label>
+							<input asp-for="Email" class="form-control" id="inputEmailAddress" type="email" placeholder="Nhập email..." disabled />
 						</div>
 
 						<div class="row gx-3 mb-3">
 							<div class="col-md-6">
-								<label class="small mb-1 fw-bold" asp-for="PhoneNumber">Số điện thoại</label>
-								<input asp-for="PhoneNumber" class="form-control" id="inputPhone" type="tel" placeholder="Nhập số điện thoại..."/>
+								<label class="mb-1 fw-bold" asp-for="PhoneNumber">Số điện thoại</label>
+								<input asp-for="PhoneNumber" class="form-control" id="inputPhone" type="tel" placeholder="Nhập số điện thoại..." />
 							</div>
 							<div class="col-md-6">
-								<label class="small mb-1" asp-for="Birthday">Ngày sinh</label>
-								<input asp-for="Birthday" class="form-control" id="inputBirthday" type="text" placeholder="Nhập ngày sinh..."/>
+								<label class="mb-1 fw-bold" asp-for="Birthday">Ngày sinh</label>
+								<input asp-for="Birthday" class="form-control" id="inputBirthday" type="date" placeholder="Nhập ngày sinh..." />
 							</div>
 						</div>
 
-						<div class="mb-3">
-							<label class="small mb-1 fw-bold" asp-for="Address">Địa chỉ</label>
-							<input asp-for="Address" class="form-control" id="inputEmailAddress" type="text" placeholder="Nhập địa chỉ..."/>
+						<div class="mb-4">
+							<label class="mb-1 fw-bold" asp-for="Address">Địa chỉ</label>
+							<input asp-for="Address" class="form-control" id="inputEmailAddress" type="text" placeholder="Nhập địa chỉ..." />
 						</div>
 
 						<!-- Save changes button-->
-						<button class="w-100 border border-success border-3 btn btn-outline-success fw-bold" type="submit">Lưu thay đổi</button>
+						<div class="d-flex justify-content-end">
+							<a class="btn btn-outline-danger fw-bold me-2" asp-action="Index" asp-route-uid="@ViewBag.UserId">Hủy</a>
+							<button class="btn btn-dark fw-bold" type="submit">Lưu thay đổi</button>
+						</div>
 					</div>
 				</div>
 			</div>

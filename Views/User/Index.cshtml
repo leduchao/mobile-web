@@ -1,4 +1,5 @@
 ﻿@using MobileWeb.Models.Entities
+@using System.Globalization
 @model MobileWeb.Models.Entities.User
 
 @{
@@ -9,13 +10,13 @@
 }
 
 <style>
-	.nav-link {
+	/* .nav-link {
 		color: #59ab6e;
 	}
 
 	.nav-link:hover {
 		color: #198754;
-	}
+	} */
 </style>
 
 <section style="background-color: #fff;">
@@ -38,7 +39,7 @@
 						<h5 class="my-3 fw-bold">@Model.FirstName @Model.LastName</h5>
 
 						<div class="d-flex justify-content-between">
-							<a asp-controller="User" asp-action="EditProfile" asp-route-uid="@Model.Id" class="border border-3 border-success btn btn-outline-success fw-bold w-100">Cập nhật hồ sơ</a>
+							<a asp-controller="User" asp-action="EditProfile" asp-route-uid="@Model.Id" class="btn btn-dark fw-bold w-100">Cập nhật hồ sơ</a>
 						</div>
 					</div>
 				</div>
@@ -99,11 +100,12 @@
 
 		<div class="d-flex flex-row-reverse mb-2">
 			<a asp-controller="User" asp-action="ChangePassword" asp-route-uid="@Model.Id"
-			   class="btn btn-outline-success fw-bold border border-3 border-success w-25">
+			   class="btn btn-dark fw-bold w-25">
 				Đổi mật khẩu
 			</a>
 		</div>
 
+		@* don hang *@
 		<nav class="mb-4">
 			<h4 class="text-black fw-bold mb-3">Đơn hàng của bạn</h4>
 			<div class="nav nav-tabs text-success" id="nav-tab" role="tablist">
@@ -112,7 +114,10 @@
 				<button class="nav-link fw-bold" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Đã giao (@finishedOrderList?.Count())</button>
 			</div>
 		</nav>
+
 		<div class="tab-content" id="nav-tabContent">
+
+			@* dang cho xu ly *@
 			<div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 				@if (proccessingOrderList is null || proccessingOrderList.Count() == 0)
 				{
@@ -125,27 +130,32 @@
 						var totalprice = 0d;
 
 						<div class="card rounded mb-4 shadow-sm">
-							<div class="card-header fw-bold">Đơn hàng</div>
+							<div class="card-header fw-bold d-flex justify-content-between">
+								<span class="lh-lg">Đơn hàng</span>
+								<a class="btn btn-outline-danger"	
+									asp-action="CancelOrder" asp-route-oid="@order.Id" asp-route-uid="@Model.Id"
+									onclick="return confirm('Bạn thực sự muốn hủy đơn hàng này?')">Hủy đơn</a>
+							</div>
 
 							<div class="card-body">
 								@foreach (var item in order.OrderItems)
 								{
 									<div class="row d-flex justify-content-between align-items-center">
-										<div class="col-md-2 col-lg-2 col-xl-1 ">
+										<div class="col-sm-6 col-md-6 col-lg-3">
 											<img src="~/img/products/@item.Product?.ImgUrl" width="100" height="100" class="img-fluid rounded-3" alt="Cotton T-shirt">
 										</div>
 
-										<div class="col-md-3 col-lg-3 col-xl-4">
-											<p class="lead fw-bold text-black mb-2">@item.Product?.Name</p>
-											<p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p>
+										<div class="col-sm-6 col-md-6 col-lg-3">
+											<p class="lead fw-bold text-black mb-0">@item.Product?.Name</p>
+											@* <p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p> *@
 										</div>
 
-										<div class="col-md-2 col-lg-2 col-xl-2">
+										<div class="col-sm-6 col-md-6 col-lg-3">
 											<h5 class="mb-0">Số lượng: @item.Quantity</h5>
 										</div>
 
-										<div class="col-md-2 col-lg-2 col-xl-1">
-											<h5 class="mb-0">$@item.UnitPrice</h5>
+										<div class="col-sm-6 col-md-6 col-lg-3">
+											<h5 class="mb-0 text-danger fw-bold">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.UnitPrice)) VNĐ</h5>
 										</div>
 									</div>
 
@@ -156,7 +166,7 @@
 
 								<div class="d-flex ">
 									<h4 class="text-black me-3 fst-italic">Tổng thanh toán: </h4>
-									<h4 class="text-danger">$@totalprice</h4>
+									<h4 class="text-danger fw-bold">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", totalprice)) VNĐ</h4>
 								</div>
 							</div>
 						</div>
@@ -164,6 +174,7 @@
 				}
 			</div>
 
+			@* dang giao *@
 			<div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 				@if (shippingOrderList is null || shippingOrderList.Count() == 0)
 				{
@@ -182,21 +193,21 @@
 								@foreach (var item in order.OrderItems)
 								{
 									<div class="row d-flex justify-content-between align-items-center">
-										<div class="col-md-2 col-lg-2 col-xl-1 ">
+										<div class="col-sm-6 col-md-6 col-lg-3">
 											<img src="~/img/products/@item.Product?.ImgUrl" width="100" height="100" class="img-fluid rounded-3" alt="Cotton T-shirt">
 										</div>
 
-										<div class="col-md-3 col-lg-3 col-xl-4">
-											<p class="lead fw-bold text-black mb-2">@item.Product?.Name</p>
-											<p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p>
+										<div class="col-sm-6 col-md-6 col-lg-3">
+											<p class="lead fw-bold text-black mb-0">@item.Product?.Name</p>
+											@* <p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p> *@
 										</div>
 
-										<div class="col-md-2 col-lg-2 col-xl-2">
+										<div class="col-sm-6 col-md-6 col-lg-3">
 											<h5 class="mb-0">Số lượng: @item.Quantity</h5>
 										</div>
 
-										<div class="col-md-2 col-lg-2 col-xl-1">
-											<h5 class="mb-0">$@item.UnitPrice</h5>
+										<div class="col-sm-6 col-md-6 col-lg-3">
+											<h5 class="mb-0 text-danger fw-bold">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.UnitPrice)) VNĐ</h5>
 										</div>
 									</div>
 
@@ -207,7 +218,7 @@
 
 								<div class="d-flex">
 									<h4 class="text-black me-3 fst-italic">Tổng thanh toán: </h4>
-									<h4 class="text-danger">$@totalprice</h4>
+									<h4 class="text-danger fw-bold">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", totalprice)) VNĐ</h4>
 								</div>
 							</div>
 						</div>
@@ -215,6 +226,7 @@
 				}
 			</div>
 
+			@* da giao thanh cong *@
 			<div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
 				@if (finishedOrderList is null || finishedOrderList.Count() == 0)
 				{
@@ -233,21 +245,21 @@
 								@foreach (var item in order.OrderItems)
 								{
 									<div class="row d-flex justify-content-between align-items-center">
-										<div class="col-md-2 col-lg-2 col-xl-1 ">
+										<div class="col-sm-6 col-md-6 col-lg-3">
 											<img src="~/img/products/@item.Product?.ImgUrl" width="100" height="100" class="img-fluid rounded-3" alt="Cotton T-shirt">
 										</div>
 
-										<div class="col-md-3 col-lg-3 col-xl-4">
-											<p class="lead fw-bold text-black mb-2">@item.Product?.Name</p>
-											<p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p>
+										<div class="col-sm-6 col-md-6 col-lg-3">
+											<p class="lead fw-bold text-black mb-0">@item.Product?.Name</p>
+											@* <p class="m-0"><span class="text-success fst-italic fw-bold">Color: </span>@item.Product?.Color</p> *@
 										</div>
 
-										<div class="col-md-2 col-lg-2 col-xl-2">
+										<div class="col-sm-6 col-md-6 col-lg-3">
 											<h5 class="mb-0">Số lượng: @item.Quantity</h5>
 										</div>
 
-										<div class="col-md-2 col-lg-2 col-xl-1">
-											<h5 class="mb-0">$@item.UnitPrice</h5>
+										<div class="col-sm-6 col-md-6 col-lg-3">
+											<h5 class="mb-0 text-danger fw-bold">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.UnitPrice)) VNĐ</h5>
 										</div>
 									</div>
 
@@ -258,7 +270,7 @@
 
 								<div class="d-flex">
 									<h4 class="text-black me-3 fst-italic">Tổng thanh toán: </h4>
-									<h4 class="text-danger">$@totalprice</h4>
+									<h4 class="text-danger fw-bold">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", totalprice)) VNĐ</h4>
 								</div>
 							</div>
 						</div>
@@ -267,9 +279,11 @@
 			</div>
 		</div>
 
-		<div class="d-flex flex-row-reverse mb-2">
+		<hr />
+
+		<div class="d-flex flex-row-reverse mb-1">
 			<a asp-controller="User" asp-action="DeleteUser" asp-route-uid="@Model.Id"
-			   class="btn btn-outline-danger fw-bold border border-3 border-danger w-25"
+			   class="btn btn-danger fw-bold w-25"
 			   onclick="return confirm('Bạn muốn xóa tài khoản @Model.UserName này?')">
 				Xóa tài khoản
 			</a>

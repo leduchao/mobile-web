@@ -1,36 +1,31 @@
 
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using MobileWeb.Areas.Identity.Models.Account;
 using MobileWeb.Areas.Identity.Services;
-using MobileWeb.Models.Entities;
 using MobileWeb.Services.EmailService;
-using NuGet.Common;
 
 namespace App.Areas.Identity.Controllers;
 
 [Area("Identity")]
 [Route("identity/account")]
-public class AccountController : Controller
+public class AccountController(
+	IAccountService accountService, 
+	IEmailService emailService,
+	ILogger<AccountController> logger) : Controller
 {
-	private readonly IAccountService _accountService;
-	private readonly IEmailService _emailService;
-	private readonly ILogger<AccountController> _logger;
+	private readonly IAccountService _accountService = accountService;
+	private readonly IEmailService _emailService = emailService;
+	private readonly ILogger<AccountController> _logger = logger;
 
-	public AccountController(IAccountService accountService, IEmailService emailService,
-
-        ILogger<AccountController> logger)
-	{
-		_accountService = accountService;
-		_emailService = emailService;
-		_logger = logger;
-	}
+	private static string _returnUrl = "";
 
 	[Route("login")]
-	public async Task<IActionResult> Login()
+	public async Task<IActionResult> Login(string returnUrl)
 	{
+		_returnUrl = returnUrl;
 		await _accountService.LogoutAsync();
+
 		return View();
 	}
 
@@ -45,12 +40,17 @@ public class AccountController : Controller
 
 			if (result)
 			{
+				_returnUrl ??= Url.Content("/");
+
 				_logger.LogInformation("User has logged in!");
-				return RedirectToAction("Index", "Home", new { area = "" });
+				return Redirect(_returnUrl);
 			}
 			else
 			{
-				ModelState.AddModelError("", "Email hoặc mật khẩu không đúng!");
+				ModelState.AddModelError(
+					"", 
+					"Email hoặc mật khẩu không đúng!");
+
 				return View(model);
 			}
 		}
@@ -64,7 +64,10 @@ public class AccountController : Controller
 		await _accountService.LogoutAsync();
 		_logger.LogInformation("User has logged out!");
 
-		return RedirectToAction("Index", "Home", new { area = "" });
+		return RedirectToAction(
+			"Index", 
+			"Home",
+			new { area = "" });
 	}
 	
 	// GET: /Account/Register
@@ -109,7 +112,6 @@ public class AccountController : Controller
 				ModelState.AddModelError("", "Không thể đăng ký tài khoản!");
 				await _accountService.DeleteUserByEmailAsync(model.Email!);
 			}
-
 		}
 
 		return View(model);

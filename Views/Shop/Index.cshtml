@@ -15,7 +15,7 @@
 	}
 </style>
 
-<div class="container py-5">
+<div class="container pt-4">
 	<div class="row">
 
 		@*product categories*@
@@ -26,10 +26,9 @@
 
 		<div class="col-lg-10">
 			<div class="row">
-
 				@*view mode: all, newest, view much*@
-				<div class="col-md-6">
-					<ul class="list-inline shop-top-menu pb-3 pt-1">
+				<div class="col-md-5">
+					<ul class="list-inline pb-3">
 						<li class="list-inline-item">
 							<a class="h6 text-dark text-decoration-none mr-3"
 							   asp-controller="Shop" asp-action="Index">
@@ -48,18 +47,26 @@
 				</div>
 
 				@*filter by price*@
-				<div class="col-md-6 pb-4">
-					<div class="d-flex">
-						<form class="d-flex w-100" asp-controller="Shop" asp-action="Index" method="get">
-							<input type="hidden" name="keyword" value="@ViewBag.keyword"/>
+				<div class="col-md-7">
 
-							<select class="form-control" id="choice" name="price">
+					<div class="d-flex">
+						<form class="input-group me-4">
+							<input class="form-control" name="keyword" placeholder="Search..." />
+							<button class="input-group-text btn btn-dark" type="submit">
+								<i class="bi bi-search"></i>
+							</button>
+						</form>
+
+						<form class="input-group" asp-controller="Shop" asp-action="Index" method="get">
+							<input type="hidden" name="keyword" value="@ViewBag.keyword" />
+
+							<select class="form-select" id="choice" name="price">
 								<option value="all">Tất cả</option>
-								<option value="min-to-max">Thấp - cao</option>	
+								<option value="min-to-max">Thấp - cao</option>
 								<option value="max-to-min">Cao - thấp</option>
 							</select>
-							<button id="filter" type="submit" class="fw-bold btn btn-outline-success ms-3 w-50">
-								Lọc
+							<button id="filter" type="submit" class="input-group-text btn btn-dark">
+								<i class="bi bi-filter"></i>
 							</button>
 						</form>
 					</div>
@@ -77,48 +84,49 @@
 					foreach (var item in Model.Items)
 					{
 						<div class="col-md-3">
-							<div class="card mb-4 product-wap rounded-0">
-								<div class="card rounded-0">
-									<img class="card-img rounded-0 img-fluid" src="~/img/products/@item.ImgUrl">
+							<div class="card mb-4">
+								<a asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id">
+									<img class="card-img-top img-fluid" src="~/img/products/@item.ImgUrl">
+								</a>
 
-									<div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
-										<ul class="list-unstyled">
-											<li>
-												<a class="btn btn-success text-white mt-2"
-										   asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id">
-													<i class="far fa-eye"></i>
-												</a>
-											</li>
+								@* <div class="card-body">
+						<ul class="list-unstyled">
+						<li>
+						<a class="btn btn-success text-white mt-2"
+						asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id">
+						<i class="bi bi-eye"></i>
+						</a>
+						</li>
 
-											<li>
-												<a class="btn btn-success text-white mt-2"
-										   asp-controller="Shop" asp-action="AddToCart" asp-route-pid="@item.Id">
-													<i class="fas fa-cart-plus"></i>
-												</a>
-											</li>
-										</ul>
-									</div>
-								</div>
+						<li>
+						<a class="btn btn-success text-white mt-2"
+						asp-controller="Shop" asp-action="AddToCart" asp-route-pid="@item.Id">
+						<i class="bi bi-cart-plus"></i>
+						</a>
+						</li>
+						</ul>
+						</div>
+						</div> *@
 
-								<div class="card-body p-3">
-									<div style="height: 60px">
+								<div class="card-body p-3 border-top border-1 border-secondary-subtle">
+									<div class="card-title">
 										<a asp-controller="Shop" asp-action="ProductDetails" asp-route-id="@item.Id"
-								   class="text-decoration-none">
-											<p class="h6 fw-weight-bolder">@item.Name</p>
+										   class="text-decoration-none fw-medium text-dark">
+											@item.Name
 										</a>
 									</div>
 
-									<ul class="list-unstyled d-flex justify-content-center mb-1">
+									<ul class="list-unstyled d-flex justify-content-center mb-2">
 										<li>
-											<i class="text-warning fa fa-star"></i>
-											<i class="text-warning fa fa-star"></i>
-											<i class="text-warning fa fa-star"></i>
-											<i class="text-muted fa fa-star"></i>
-											<i class="text-muted fa fa-star"></i>
+											<i class="bi bi-star-fill"></i>
+											<i class="bi bi-star-fill"></i>
+											<i class="bi bi-star-fill"></i>
+											<i class="bi bi-star-fill"></i>
+											<i class="bi bi-star-half"></i>
 										</li>
 									</ul>
 
-									<p class="text-center mb-0">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.Price)) VNĐ</p>
+									<p class="text-danger text-center mb-0">@(string.Format(new CultureInfo("vi-VN"), "{0:#,##0}", item.Price)) VNĐ</p>
 								</div>
 							</div>
 						</div>
@@ -147,7 +155,7 @@
 					{
 						<li class="page-item ">
 							<a class="page-link @(Model.CurrentPage == i ? "active" : "") rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-black"
-						   asp-route-keyword="@ViewBag.Keyword" asp-route-price="@ViewBag.Price" asp-route-page="@i">
+							   asp-route-keyword="@ViewBag.Keyword" asp-route-price="@ViewBag.Price" asp-route-page="@i">
 								@i
 							</a>
 						</li>

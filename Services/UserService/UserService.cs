@@ -31,12 +31,12 @@ public class UserService : IUserService
         _emailService = emailService;
     }
 
-    public async Task<User> FindUserByIdAsync(string uid)
+    public async Task<User?> FindUserByIdAsync(string uid)
     {
         return await _userManager.FindByIdAsync(uid);
     }
 
-    public async Task<User> FindUserByEmailAsync(string email)
+    public async Task<User?> FindUserByEmailAsync(string email)
     {
         return await _userManager.FindByEmailAsync(email);
     }
@@ -290,4 +290,19 @@ public class UserService : IUserService
 
         return new List<User>();
     }
+
+	public async Task<bool> CancelOrder(int oid)
+	{
+        var order = await _dbContext.Orders.FirstOrDefaultAsync(o => o.Id == oid);
+
+        if (order is not null && order.Status is Status.Processing)
+        {
+            _dbContext.Orders.Remove(order);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        return false;
+	}
 }

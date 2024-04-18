@@ -1,23 +1,19 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using MobileWeb.Areas.Admin.Services.ProductService;
 using MobileWeb.Models;
 using MobileWeb.Services.EmailService;
 using System.Diagnostics;
 
 namespace MobileWeb.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController(
+        ILogger<HomeController> logger) : Controller
     {
-        private readonly ILogger<HomeController> _logger;
-        private readonly IEmailService _service;
+        private readonly ILogger<HomeController> _logger = logger;
 
-        public HomeController(ILogger<HomeController> logger, IEmailService service)
+		public IActionResult Index()
         {
-            _logger = logger;
-            _service = service;
-        }
-
-        public IActionResult Index()
-        {
+            _logger.LogInformation("Application init!");
             return View();
         }
 
@@ -31,20 +27,5 @@ namespace MobileWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
-        //test git push
-
-        //public async Task<IActionResult> SendMail()
-        //{
-        //    string to = "doantrihung4444@gmail.com";
-        //    string subject = "TEST";
-        //    string body = "<h1>Xin chào</h1>";
-
-        //    await _service.SendMailAsync(to, subject, body);
-
-        //    _logger.LogInformation("Email sended!");
-
-        //    return NoContent();
-        //}
     }
 }

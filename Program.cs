@@ -13,22 +13,10 @@ using MobileWeb.Areas.Admin.Services.OrderService;
 
 var builder = WebApplication.CreateBuilder(args);
 
-//builder.Services.AddDbContext<WebDbContext>(options =>
-//{
-//    options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDatabase"));
-//}); 
-//builder.Services.AddDbContext<UserDbContext>(options =>
-//{
-//    options.UseSqlite(builder.Configuration.GetConnectionString("SqliteDatabase"));
-//});
-
-// add database context
 builder.Services.AddDbContext<WebDbContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Database"));
 });
-
-// them data context cho identity
 builder.Services.AddDbContext<UserDbContext>(options =>
 {
 	options.UseSqlServer(builder.Configuration.GetConnectionString("Database"));
@@ -40,7 +28,7 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 	options.Password.RequireDigit = false; // ky tu so
 	options.Password.RequireUppercase = false; // ky tu in hoa
 	options.Password.RequireLowercase = false; // ky tu thuong
-	options.SignIn.RequireConfirmedAccount = false;
+	//options.SignIn.RequireConfirmedAccount = false;
 })
 	.AddEntityFrameworkStores<UserDbContext>()
 	.AddDefaultTokenProviders();

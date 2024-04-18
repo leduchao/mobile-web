@@ -1,11 +1,7 @@
-﻿using Azure.Core;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using MobileWeb.Data;
 using MobileWeb.Models.DTOs;
 using MobileWeb.Models.Entities;
-using System.Drawing;
-using System.Net.WebSockets;
-using System.Runtime.Intrinsics.Arm;
 
 namespace MobileWeb.Areas.Admin.Services.ProductService;
 
