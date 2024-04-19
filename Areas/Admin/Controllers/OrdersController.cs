@@ -45,4 +45,17 @@ public class OrdersController : Controller
 
         return View();
     }
+
+    [Route("accept-order")]
+    public async Task<IActionResult> AcceptOrder(int oid)
+    {
+        await _orderService.AcceptOrderAsync(oid);
+
+        //if (result)
+        //{
+        //    return View("Index");
+        //}
+
+        return RedirectToAction("Index");
+    }
 }

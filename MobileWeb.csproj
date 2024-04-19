@@ -64,8 +64,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\img\users\" />
     <Folder Include="wwwroot\img\products\" />
+    <Folder Include="wwwroot\img\users\" />
   </ItemGroup>
 
 </Project>

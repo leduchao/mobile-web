@@ -17,9 +17,19 @@ public class OrderService : IOrderService
         _userManager = userManager;
     }
 
-    public Task<bool> AcceptOrderAsync(int oid)
+    public async Task<bool> AcceptOrderAsync(int oid)
     {
-        throw new NotImplementedException();
+        var order = await _context.Orders.FindAsync(oid);
+
+        if (order is null)
+        {
+            return false;
+        }
+
+        order.Status = Status.Shipping;
+        await _context.SaveChangesAsync();
+
+        return true;
     }
 
     public async Task<bool> DeleteOrderAsync(int oid)

@@ -52,7 +52,7 @@
 				<td>@item.OrderAt.ToString("dd/MM/yyyy")</td>
 
 				<td>
-					<a asp-action="Edit" asp-route-oid="@item.Id">Nhận đơn</a>
+					<a asp-action="AcceptOrder" asp-route-oid="@item.Id">Nhận đơn</a>
 					<span class="m-2">|</span>
 
 					<a asp-action="ShowOrderDetail" asp-route-oid="@item.Id">Chi tiết</a>

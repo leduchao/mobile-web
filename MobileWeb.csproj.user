@@ -20,6 +20,7 @@
     <WebStackScaffolding_IdentityDialogWidth>650.4</WebStackScaffolding_IdentityDialogWidth>
     <ActiveDebugProfile>MobileWeb</ActiveDebugProfile>
     <WebStackScaffolding_LayoutPageFile />
+    <NameOfLastUsedPublishProfile>F:\Learning\Coding\VisualStudio2022\CSharpProjects\Workspace\backup\mobile-web\Properties\PublishProfiles\FolderProfile.pubxml</NameOfLastUsedPublishProfile>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DebuggerFlavor>ProjectDebugger</DebuggerFlavor>

@@ -24,7 +24,7 @@ namespace MobileWeb.Areas.Admin.Controllers
         {
             var productList = _service.GetAllAsync();
             if (page < 1) page = 1;
-            int pageSize = 20;
+            int pageSize = 10;
 
             var paginatedList = await PaginatedList<Product>.CreateAsync(productList, page, pageSize);
 
