@@ -201,6 +201,7 @@ public class AccountController(
 				if (result)
 				{
 					_logger.LogInformation("Password changed successfully!");
+					await _accountService.LogoutAsync();
 					return RedirectToAction(nameof(Login));
 				}
 			}
