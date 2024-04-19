@@ -5,7 +5,7 @@ https://go.microsoft.com/fwlink/?LinkID=208121.
 <Project>
   <PropertyGroup>
     <_PublishTargetUrl>F:\Learning\Coding\VisualStudio2022\CSharpProjects\Workspace\backup\mobile-web\bin\Release\net8.0\publish\</_PublishTargetUrl>
-    <History>True|2024-04-18T16:11:55.9148065Z;True|2024-04-18T22:37:03.9357114+07:00;</History>
+    <History>True|2024-04-19T13:33:07.9717003Z;True|2024-04-18T23:11:55.9148065+07:00;True|2024-04-18T22:37:03.9357114+07:00;</History>
     <LastFailureDetails />
   </PropertyGroup>
 </Project>
