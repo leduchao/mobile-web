@@ -2,4 +2,8 @@
 bin/
 obj/
 .github/
-GitTest/
+wwwroot/img/**/*.png
+!wwwroot/img/
+*.db
+*.db-shm
+*.db-wal

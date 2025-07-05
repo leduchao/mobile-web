@@ -15,11 +15,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddDbContext<WebDbContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("Database"));
+	options.UseSqlite(builder.Configuration.GetConnectionString("Database"));
 });
 builder.Services.AddDbContext<UserDbContext>(options =>
 {
-	options.UseSqlServer(builder.Configuration.GetConnectionString("Database"));
+	options.UseSqlite(builder.Configuration.GetConnectionString("Database"));
 });
 
 builder.Services.AddIdentity<User, IdentityRole>(options =>
