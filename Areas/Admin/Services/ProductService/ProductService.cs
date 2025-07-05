@@ -139,7 +139,8 @@ public class ProductService : IProductService
 			// nếu có chỉnh sửa ảnh đại diện của sản phẩm
 			if (request.AvatarUpdate is not null)
 			{
-				File.Delete(@"wwwroot\img\products\" + existProduct.ImgUrl);
+				if (!string.IsNullOrWhiteSpace(existProduct.ImgUrl))
+					File.Delete(@"wwwroot\img\products\" + existProduct.ImgUrl);
 
 				existProduct.ImgUrl = SetFileName(request.AvatarUpdate);
 				await UploadImageAssync(request.AvatarUpdate);
